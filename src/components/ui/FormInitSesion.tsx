@@ -13,11 +13,17 @@ const Formulario: React.FC = () => {
     contraseña: '',
   });
 
+  const [emailValid, setEmailValid] = useState(true);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
+    if (event.target.name === 'correoElectronico') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setEmailValid(emailRegex.test(event.target.value));
+    }
   };
 
   const handleTogglePassword = () => {
@@ -26,7 +32,11 @@ const Formulario: React.FC = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    console.log('Formulario enviado:', formData);
+    if (emailValid) {
+      console.log('Formulario enviado:', formData);
+    } else {
+      console.log('Correo electrónico no válido. Por favor, corrige el formato.');
+    }
   };
 
   return (
