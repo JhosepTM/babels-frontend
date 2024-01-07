@@ -1,8 +1,8 @@
 import './App.css'
-import { Home } from './pages/Home'
+import { BookingPage } from './pages/BookingPage/BookingPage'
 
 function App() {
-  return <Home />
+  return <BookingPage />
 }
 
 export default App
