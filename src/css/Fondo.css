@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #030712;
+  background: #030712;
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #030712;
+  background: #030712;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Ajusta esto según sea necesario para que ocupe el 100% de la altura de la ventana */
+  color: #ffffff;
+}

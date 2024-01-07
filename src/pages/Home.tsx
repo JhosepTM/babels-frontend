@@ -1,8 +1,12 @@
-import { Button } from "@/components/ui/button"
+import Formulario from "@/components/ui/FormInitSesion";
+import "@/css/Fondo.css";
 
-export const Home = () => {
-    return <>
-        <h1>Holaa</h1>
-        <Button>Click me</Button>
-    </>;
-}
+const Home = () => {
+  return (
+    <div className="center-container">
+      <Formulario />
+    </div>
+  );
+};
+
+export default Home;

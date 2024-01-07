@@ -1,0 +1,35 @@
+.center-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #030712;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #ffffff;
+  
+}
+
+header {
+  width: 100%;
+  background-color: #030712;
+  position: fixed; /* Agregamos position:relative */
+  top:0;
+}
+
+.header-content {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 1%;
+  text-align: center;
+}
+
+header h1 {
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 2rem;
+}
+
+header {
+  border-bottom: 1px solid #ffffff;
+  margin-bottom: 0; /* Ajusta según sea necesario para tu diseño */
+}
