@@ -5,7 +5,7 @@ const Menu = () => {
     <div className="center-container">
       <header>
         <div className="header-content">
-          <h1>HOTEL COCHABAMBA</h1>
+          <h1>buenos dias</h1>
         </div>
       </header>
     </div>

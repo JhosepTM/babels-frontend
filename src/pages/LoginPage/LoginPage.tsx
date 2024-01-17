@@ -1,13 +1,12 @@
 import "@/css/Fondo.css";
+import FormInitSesion from "./FormInitSesion";
 
-const Home = () => {
+const LoginPage = () => {
   return (
     <div className="center-container">
-
-      <p>Buenos dias</p>
-
+    <FormInitSesion />
     </div>
   );
 };
 
-export default Home;
+export default LoginPage;
