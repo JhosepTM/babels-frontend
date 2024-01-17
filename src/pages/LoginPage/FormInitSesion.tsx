@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import "@/css/LoginPage/FormularioSesion.css"
+import ModalError from "./ModalError"
 
 interface FormState {
   correoElectronico: string;
@@ -14,6 +15,7 @@ const Formulario: React.FC = () => {
   });
 
   const [emailValid, setEmailValid] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -32,6 +34,12 @@ const Formulario: React.FC = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+
+    if (!formData.correoElectronico.trim() && !formData.contraseña.trim()) {
+      setShowModal(true);
+      return;
+    }
+
     if (emailValid) {
       console.log('Formulario enviado:', formData);
     } else {
@@ -40,41 +48,48 @@ const Formulario: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-container">
-      <div className="form-group">
-        <label htmlFor="correoElectronico">Correo Electrónico:</label>
-        <input
-          type="text"
-          id="correoElectronico"
-          name="correoElectronico"
-          value={formData.correoElectronico}
-          onChange={handleChange}
-          placeholder=" Ingrese su correo electrónico"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="contraseña">Contraseña:</label>
-        <div className="password-input">
+    <div>
+      <form onSubmit={handleSubmit} className="form-container">
+        <div className="form-group">
+          <label htmlFor="correoElectronico">Correo Electrónico:</label>
           <input
-            type={showPassword ? 'text' : 'password'}
-            id="contraseña"
-            name="contraseña"
-            value={formData.contraseña}
+            type="text"
+            id="correoElectronico"
+            name="correoElectronico"
+            value={formData.correoElectronico}
             onChange={handleChange}
-            placeholder=" Ingrese su contraseña"
+            placeholder=" Ingrese su correo electrónico"
           />
-          <i
-            className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
-            onClick={handleTogglePassword}
-          ></i>
+        </div>
+        <div className="form-group">
+          <label htmlFor="contraseña">Contraseña:</label>
+          <div className="password-input">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              id="contraseña"
+              name="contraseña"
+              value={formData.contraseña}
+              onChange={handleChange}
+              placeholder=" Ingrese su contraseña"
+            />
+            <i
+              className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+              onClick={handleTogglePassword}
+            ></i>
+          </div>
+        </div>
+        <div className='But'>
+          <button className='button' type="submit">
+            Ingresar
+          </button>
+        </div>
+      </form>
+      <div className={`ModalError fixed inset-0 flex items-center justify-center ${showModal ? 'visible' : 'hidden'}`}>
+        <div className="modal-content">
+          {showModal && <ModalError />}
         </div>
       </div>
-      <div className='But'>
-        <button className='button' type="submit">
-          Ingresar
-        </button>
-      </div>
-    </form>
+    </div>
   );
 };
 

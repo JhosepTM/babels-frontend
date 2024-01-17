@@ -1,31 +1,23 @@
-import React, { FC, MouseEvent } from 'react';
+import { Button } from '@/components/ui/button';
+import React, { FC } from 'react';
 
 interface ModalProps {
   onClose: () => void;
 }
 
-const ModalError : FC<ModalProps> = ({ onClose }) =>{
+const ModalError: FC<ModalProps> = ({ onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded shadow-md">
-        <p className="text-red-500 text-lg font-semibold mb-4">Datos incorrectos</p>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
-          onClick={onClose}
-        >
-          OK
-        </button>
+      <div className="bg-gray-600 p-28 rounded shadow-md text-center">
+        <p className="text-white text-xl font-semibold mb-6">Campos vacios</p>
+        <Button onClick={onClose} > Ok </Button>
       </div>
     </div>
   );
 };
 
 const App = () => {
-  const [showModal, setShowModal] = React.useState(false);
-
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
+  const [showModal, setShowModal] = React.useState(true);
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -33,13 +25,6 @@ const App = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <button
-        className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 focus:outline-none"
-        onClick={handleShowModal}
-      >
-        Mostrar Modal
-      </button>
-
       {showModal && <ModalError onClose={handleCloseModal} />}
     </div>
   );
