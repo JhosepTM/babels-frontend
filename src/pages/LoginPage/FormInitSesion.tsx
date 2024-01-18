@@ -15,7 +15,7 @@ const Formulario: React.FC = () => {
   });
 
   const [emailValid, setEmailValid] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -36,7 +36,7 @@ const Formulario: React.FC = () => {
     event.preventDefault();
 
     if (!formData.correoElectronico.trim() && !formData.contraseña.trim()) {
-      setShowModal(true);
+      setModalOpen(true);
       return;
     }
 
@@ -45,6 +45,10 @@ const Formulario: React.FC = () => {
     } else {
       console.log('Correo electrónico no válido. Por favor, corrige el formato.');
     }
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -84,9 +88,9 @@ const Formulario: React.FC = () => {
           </button>
         </div>
       </form>
-      <div className={`ModalError fixed inset-0 flex items-center justify-center ${showModal ? 'visible' : 'hidden'}`}>
+      <div className={`ModalError fixed inset-0 flex items-center justify-center ${modalOpen ? 'visible' : 'hidden'}`} onClick={handleCloseModal}>
         <div className="modal-content">
-          {showModal && <ModalError />}
+          {modalOpen && <ModalError />}
         </div>
       </div>
     </div>
