@@ -1,7 +1,7 @@
 import './App.css';
 import { BookingPage } from './pages/BookingPage/BookingPage';
 import LoginPage from './pages/LoginPage/LoginPage';
-import Menu from './pages/LoginPage/Menu';
+import Menu from "./pages/MenuPage/MenuPage";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {

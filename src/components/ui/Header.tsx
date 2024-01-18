@@ -1,6 +1,6 @@
-import "@/css/Menu.css";
+import "@/css/Header.css";
 
-const Menu = () => {
+const Header = () => {
   return (
     <div className="center-container">
       <header>
@@ -12,4 +12,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default Header;
