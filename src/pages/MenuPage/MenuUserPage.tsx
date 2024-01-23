@@ -15,7 +15,6 @@ const MenuUserPage = () => {
               </a>
             </div>
           </div>
-
         </div>
       </div>
     </div>

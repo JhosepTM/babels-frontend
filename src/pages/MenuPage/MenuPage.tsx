@@ -24,7 +24,7 @@ const MenuPage = () => {
 
           {/* Imagen abajo */}
           <div className="items-center text-center menu-item hover:scale-105" style={{ marginBottom: '50px' }}>
-            <a href="/ruta-de-administracion">
+            <a href="/madmin/rooms">
               <img src=".\src\assets\images\EditAndAddRooms.svg" alt="Imagen 3" style={{ width: '250px', height: '170px', objectFit: 'cover' }} />
               <p className="text-white font-bold mt-1">Administrar Habitaciones</p>
             </a>
