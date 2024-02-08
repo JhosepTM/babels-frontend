@@ -62,7 +62,7 @@ input {
 .password-input i {
   position: absolute;
   top: 50%;
-  left: 125%; /* Ajusta la distancia desde el borde derecho según tus necesidades */
+  left: 105%; /* Ajusta la distancia desde el borde derecho según tus necesidades */
   transform: translateY(-50%);
   cursor: pointer;
   color: #ffffff; /* Color del ícono cuando no está activo */
