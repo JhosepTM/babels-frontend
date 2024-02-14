@@ -59,7 +59,7 @@ const Formulario: React.FC = () => {
           <label htmlFor="username">Username:</label>
           <Input 
             type='username' 
-            placeholder="Ingrese su nombre de usuario" 
+            placeholder="Ingresa tu nombre de usuario" 
             className="border-b border-gray-500 bg-transparent focus:outline-none focus:border-blue-500 w-80"
             onChange={handleChange}
             name="username"
@@ -71,7 +71,7 @@ const Formulario: React.FC = () => {
           <div className="password-input relative w-80">
             <Input 
               type={showPassword ? 'text' : 'password'} 
-              placeholder="Ingrese su contraseña" 
+              placeholder="Ingresa tu contraseña" 
               className="border-b border-gray-500 bg-transparent focus:outline-none focus:border-blue-500 w-full pr-10"
               onChange={handleChange}
               name="contraseña"
@@ -84,7 +84,7 @@ const Formulario: React.FC = () => {
           </div>
         </div>
         <div className='But'>
-          <Button className='button w-full bg-zinc-800'> Ingresar</Button>
+          <Button className='button bg-zinc-800'> Ingresar</Button>
         </div>
       </form>
       <div className={`ModalError fixed inset-0 flex items-center justify-center ${modalOpen ? 'visible' : 'hidden'}`} onClick={handleCloseModal}>

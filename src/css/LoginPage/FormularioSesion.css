@@ -53,6 +53,7 @@ input {
   background-color: #27272A;
   margin-left: 20%; /* Ajusta según tus necesidades */
   border-radius: 8px;
+  width: 70%;
 }
 
 .password-input {
