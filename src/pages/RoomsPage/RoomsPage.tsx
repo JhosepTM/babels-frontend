@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Header from '@/components/ui/Header';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 
 const RoomsPage = () => {
   const imagePaths = [
@@ -33,13 +35,13 @@ const RoomsPage = () => {
                 className="object-cover w-full h-full"
               />
               <button
-                className="absolute top-1/2 left-0 transform -translate-y-1/2 text-white bg-transparent p-2 rounded-full hover:bg-gray-700 focus:outline-none"
+                className="absolute top-1/2 left-0 transform -translate-y-1/2 text-white bg-transparent p-2 rounded-full focus:outline-none"
                 onClick={handlePrevImage}
               >
                 <FontAwesomeIcon icon={faChevronLeft} size="lg" />
               </button>
               <button
-                className="absolute top-1/2 right-0 transform -translate-y-1/2 text-white bg-transparent p-2 rounded-full hover:bg-gray-700 focus:outline-none"
+                className="absolute top-1/2 right-0 transform -translate-y-1/2 text-white bg-transparent p-2 rounded-full focus:outline-none"
                 onClick={handleNextImage}
               >
                 <FontAwesomeIcon icon={faChevronRight} size="lg" />
@@ -49,11 +51,11 @@ const RoomsPage = () => {
             <div className="p-4 flex flex-col justify-between w-full">
               <div>
                 <h2 className="text-white font-bold mb-2 text-lg md:text-xl lg:text-2xl">Cuarto del Amor</h2>
-                <p className="text-white mb-4 text-sm md:text-base lg:text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec massa euismod, accumsan velit vitae, sagittis nibh. Pellentesque aliquam nisl massa, ut lobortis tortor egestas a. Donec laoreet risus a nisl efficitur, a porta ligula egestas.</p>
+                <Label className="text-white mb-4 text-sm md:text-base lg:text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec massa euismod, accumsan velit vitae, sagittis nibh. Pellentesque aliquam nisl massa, ut lobortis tortor egestas a. Donec laoreet risus a nisl efficitur, a porta ligula egestas.</Label>
               </div>
               <div className="flex space-x-2">
-                <button className="bg-gray-950 text-white px-2 py-1 rounded text-xs md:text-sm lg:text-base transition duration-300 ease-in-out transform hover:scale-105">Editar</button>
-                <button className="bg-gray-950 text-white px-2 py-1 rounded text-xs md:text-sm lg:text-base transition duration-300 ease-in-out transform hover:scale-105">Eliminar</button>
+                <Button className="bg-gray-950 text-white px-2 py-1 rounded text-xs md:text-sm lg:text-base transition duration-300 ease-in-out transform hover:scale-105">Editar</Button>
+                <Button className="bg-red-950 text-white px-2 py-1 rounded text-xs md:text-sm lg:text-base transition duration-300 ease-in-out transform hover:scale-105">Eliminar</Button>
               </div>
             </div>
           </div>

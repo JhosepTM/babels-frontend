@@ -4,6 +4,8 @@ import ModalError from "./ModalError";
 import "@/css/LoginPage/FormularioSesion.css";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { SelectLabel } from '@/components/ui/select';
 
 interface FormState {
   username: string;
@@ -56,7 +58,7 @@ const Formulario: React.FC = () => {
     <div className="items-center">
       <form onSubmit={handleSubmit} className="form-container">
         <div className="form-group items-center">
-          <label htmlFor="username">Username:</label>
+          <Label htmlFor="username" style={{ fontSize: '150%' }}>Username:</Label>
           <Input 
             type='username' 
             placeholder="Ingresa tu nombre de usuario" 
@@ -67,7 +69,7 @@ const Formulario: React.FC = () => {
           />
         </div>
         <div className="form-group items-center">
-          <label htmlFor="contraseña">Contraseña:</label>
+          <Label htmlFor="contraseña" style={{ fontSize: '150%' }}>Contraseña:</Label>
           <div className="password-input relative w-80">
             <Input 
               type={showPassword ? 'text' : 'password'} 
