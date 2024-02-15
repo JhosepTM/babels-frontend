@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import Menu from "./pages/MenuPage/MenuPage";
 import MenuUser from "./pages/MenuPage/MenuUserPage"
 import RoomsPage from "./pages/RoomsPage/RoomsPage"
+import { FormPage } from './pages/FormRoomPage/FormPage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/madmin" element={<Menu />} />
         <Route path="/madmin/rooms" element={<RoomsPage />} />
         <Route path="/muser" element={<MenuUser />} />
+        <Route path="/formrooms" element={<FormPage />} />
         <Route path="/" element={<LoginPage />} />
       </Routes>
     </Router>

@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ showBackButton, backRoute, showAddRoomB
   const handleAddRoom = () => {
     console.log('Añadiendo habitación...');
     // Redirige a la ruta "/roomsEdit"
-    window.location.href = "/roomsEdit";
+    window.location.href = "/formrooms";
   };
 
   return (
