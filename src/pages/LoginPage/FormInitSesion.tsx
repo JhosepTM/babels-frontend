@@ -1,11 +1,9 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import axios from 'axios';
 import ModalError from "./ModalError";
-import "@/css/LoginPage/FormularioSesion.css";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { SelectLabel } from '@/components/ui/select';
 
 interface FormState {
   username: string;
@@ -62,7 +60,7 @@ const Formulario: React.FC = () => {
           <Input 
             type='username' 
             placeholder="Ingresa tu nombre de usuario" 
-            className="border-b border-gray-500 bg-transparent focus:outline-none focus:border-blue-500 w-80"
+            className="border-b border-gray-500 bg-transparent focus:outline-none w-80"
             onChange={handleChange}
             name="username"
             value={formData.username}
@@ -74,7 +72,7 @@ const Formulario: React.FC = () => {
             <Input 
               type={showPassword ? 'text' : 'password'} 
               placeholder="Ingresa tu contraseña" 
-              className="border-b border-gray-500 bg-transparent focus:outline-none focus:border-blue-500 w-full pr-10"
+              className="border-b border-gray-500 bg-transparent focus:outline-none w-full pr-10"
               onChange={handleChange}
               name="contraseña"
               value={formData.contraseña}
@@ -85,8 +83,8 @@ const Formulario: React.FC = () => {
             ></i>
           </div>
         </div>
-        <div className='But'>
-          <Button className='button bg-zinc-800'> Ingresar</Button>
+        <div className='But mt-4'>
+          <Button className='bg-zinc-800 w-full h-12 flex items-center justify-center'> Ingresar</Button>
         </div>
       </form>
       <div className={`ModalError fixed inset-0 flex items-center justify-center ${modalOpen ? 'visible' : 'hidden'}`} onClick={handleCloseModal}>

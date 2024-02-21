@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Header from '@/components/ui/Header';
+import { Header } from '@/components/ui/Header';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
@@ -23,10 +23,10 @@ const RoomsPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-950">
-      <Header showBackButton backRoute="/madmin" showAddRoomButton={true} />
+    <div className="flex flex-col h-screen">
+      <Header />
       <div className="flex justify-center items-center mt-8">
-        <div className="flex rounded-lg shadow-lg bg-zinc-800 w-full max-w-screen-md max-h-72 overflow-hidden">
+        <div className="flex rounded-lg shadow-lg bg-zinc-950 w-full max-w-screen-md max-h-72 overflow-hidden">
           <div className="flex">
             <div className="flex-shrink-0 w-2/5 relative">
               <img
@@ -54,8 +54,8 @@ const RoomsPage = () => {
                 <Label className="text-white mb-4 text-sm md:text-base lg:text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec massa euismod, accumsan velit vitae, sagittis nibh. Pellentesque aliquam nisl massa, ut lobortis tortor egestas a. Donec laoreet risus a nisl efficitur, a porta ligula egestas.</Label>
               </div>
               <div className="flex space-x-2">
-                <Button className="bg-gray-950 text-white px-2 py-1 rounded text-xs md:text-sm lg:text-base transition duration-300 ease-in-out transform hover:scale-105">Editar</Button>
-                <Button className="bg-red-950 text-white px-2 py-1 rounded text-xs md:text-sm lg:text-base transition duration-300 ease-in-out transform hover:scale-105">Eliminar</Button>
+                <Button className="bg-slate-950 text-white px-2 py-1 rounded text-xs md:text-sm lg:text-base transition duration-300 ease-in-out transform hover:scale-105">Editar</Button>
+                <Button className="bg-red-700 text-white px-2 py-1 rounded text-xs md:text-sm lg:text-base transition duration-300 ease-in-out transform hover:scale-105">Eliminar</Button>
               </div>
             </div>
           </div>

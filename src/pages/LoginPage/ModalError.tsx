@@ -7,10 +7,10 @@ interface ModalProps {
 
 const ModalError: FC<ModalProps> = ({ onClose }) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-gray-600 p-28 rounded shadow-md text-center">
+    <div className="fixed inset-0 flex items-center justify-center">
+      <div className="bg-zinc-600 opacity-95 p-28 rounded shadow-md text-center">
         <p className="text-white text-xl font-semibold mb-6">Campos vacios</p>
-        <Button onClick={onClose} > OK </Button>
+        <Button onClick={onClose} className='bg-zinc-800'> OK </Button>
       </div>
     </div>
   );
