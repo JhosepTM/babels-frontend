@@ -13,86 +13,73 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-const customInputStyle = {
-  backgroundColor: "transparent",
-  color: "white",
-  border: "1px solid white",
-  borderRadius: "4px",
-  padding: "8px 12px",
-};
-
-const customSelectStyle = {
-  color: "white",
-  backgroundColor: "transparent", // Added this line
-};
 
 export const FormPage = () => {
   return (
-    <div className="bg-gray-950">
+    <div className="ml-4">
       <Header />
       <div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="name" className="text-white font-bold text-xl">
+        <div className="w-full max-w-sm items-center gap-1.5">
+          <Label htmlFor="name" className="font-bold text-xl">
             Nombre de la habitacion
           </Label>
           <Input
             type="name"
             id="name"
             placeholder="Ingrese el nombre de la habitacion"
-            style={customInputStyle}
+            className="border-2 border-black"
           />
         </div>
 
-        <div className="grid w-full max-w-lg items-center gap-1.5">
-          <Label htmlFor="description" className="text-white font-bold text-xl">
+        <div className="w-full max-w-lg items-center gap-1.5">
+          <Label htmlFor="description" className="font-bold text-xl">
             Descripcion
           </Label>
           <Textarea
             placeholder="Ingresa la descripcion de la habitacion"
-            className="text-white"
-            style={customInputStyle}
+            className="border-2 border-black"
           />
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label className="text-white font-bold text-xl">Imagenes</Label>
-          <Input id="pictures" type="file" accept="image/*" multiple style={customInputStyle} />
+        <div className="w-full max-w-sm items-center gap-1.5">
+          <Label className="font-bold text-xl ">Imagenes</Label>
+          <Input id="pictures" className="border-2 border-black" type="file" accept="image/*" multiple />
           <span className="text-sm text-gray-500">
             Selecciona hasta 10 imágenes
           </span>
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label className="text-white font-bold text-xl">Tipo</Label>
+        <div className="w-full max-w-sm items-center gap-1.5">
+          <Label className="font-bold text-xl">Tipo</Label>
           <Select>
-            <SelectTrigger className="w-[180px]" style={customSelectStyle}>
-              <SelectValue placeholder="Seleccionar" style={customSelectStyle} />
+            <SelectTrigger className="w-[180px] border-2 border-black" >
+              <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Tipo de habitacion</SelectLabel>
-                <SelectItem value="apple">Basico</SelectItem>
-                <SelectItem value="banana">Medio</SelectItem>
-                <SelectItem value="blueberry">Gold</SelectItem>
+                <SelectItem value="Basico">Basico</SelectItem>
+                <SelectItem value="Medio">Medio</SelectItem>
+                <SelectItem value="Gold">Gold</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label className="text-white font-bold text-xl">Precio</Label>
+        <div className="w-full max-w-sm items-center gap-1.5">
+          <Label className="font-bold text-xl">Precio</Label>
           <Input
             type="price"
             placeholder="Ingrese el precio por dia de la habitacion"
-            style={customInputStyle}
+            className="border-2 border-black"
           />
         </div>
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label className="text-white font-bold text-xl">Cantidad</Label>
+        <div className="w-full max-w-sm items-center gap-1.5">
+          <Label className="font-bold text-xl">Cantidad</Label>
           <Select>
-            <SelectTrigger className="w-[280px]" style={customSelectStyle}>
-              <SelectValue placeholder="Seleccionar" style={customSelectStyle} />
+            <SelectTrigger className="w-[280px] border-2 border-black" >
+              <SelectValue placeholder="Seleccionar"  />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -108,13 +95,10 @@ export const FormPage = () => {
           </Select>
         </div>
 
-        <div>
-          <Button>Registrar</Button>
+        <div className="mt-4">
+          <Button className="bg-zinc-950">Registrar</Button>
         </div>
       </div>
     </div>
   );
 };
-
-
-

@@ -10,11 +10,15 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 export function Header() {
   const [showAddRoomButton, setShowAddRoomButton] = useState(false);
+  const [showStatsButton, setShowStatsButton] = useState(true); // Mostrar el botón de estadísticas por defecto
   const location = useLocation();
 
-  // Verificar si la ruta actual es RoomsPage
   useEffect(() => {
+    // Verificar si la ruta actual es RoomsPage
     setShowAddRoomButton(location.pathname === "/madmin/rooms");
+
+    // Verificar si la ruta actual no es MenuUserPage, ocultar el botón de estadísticas
+    setShowStatsButton(location.pathname !== "/muser");
   }, [location]);
 
   return (
@@ -28,11 +32,13 @@ export function Header() {
         <MenubarMenu>
           <MenubarTrigger className="py-3 px-6 text-lg">Reservas</MenubarTrigger>
         </MenubarMenu>
+        {showStatsButton && (
         <MenubarMenu>
           <MenubarTrigger className="py-3 px-6 text-lg">
             <Link to="/madmin/rooms">Editar Habitaciones</Link>
           </MenubarTrigger>
         </MenubarMenu>
+         )}
         {showAddRoomButton && (
           <MenubarMenu>
             <MenubarTrigger className="py-3 px-6 text-lg">
@@ -40,9 +46,11 @@ export function Header() {
             </MenubarTrigger>
           </MenubarMenu>
         )}
-        <MenubarMenu>
-          <MenubarTrigger className="py-3 px-6 text-lg">Estadisticas</MenubarTrigger>
-        </MenubarMenu>
+        {showStatsButton && ( // Mostrar el botón de estadísticas solo si showStatsButton es true
+          <MenubarMenu>
+            <MenubarTrigger className="py-3 px-6 text-lg">Estadísticas</MenubarTrigger>
+          </MenubarMenu>
+        )}
         <MenubarMenu>
           <MenubarTrigger className="py-3 px-6 text-lg">
             <FontAwesomeIcon icon={faBars} />
@@ -52,4 +60,3 @@ export function Header() {
     </Menubar>
   );
 }
-
