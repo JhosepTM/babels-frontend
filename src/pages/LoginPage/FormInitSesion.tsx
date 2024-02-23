@@ -7,14 +7,14 @@ import { Label } from '@/components/ui/label';
 
 interface FormState {
   username: string;
-  contraseña: string;
+  password: string;
 }
 
-const Formulario: React.FC = () => {
+const FormInitSesion: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormState>({
     username: '',
-    contraseña: '',
+    password: '',
   });
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -33,7 +33,7 @@ const Formulario: React.FC = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    if (!formData.username.trim() || !formData.contraseña.trim()) {
+    if (!formData.username.trim() || !formData.password.trim()) {
       setModalOpen(true);
       return;
     }
@@ -58,7 +58,7 @@ const Formulario: React.FC = () => {
         <div className="form-group items-center">
           <Label htmlFor="username" style={{ fontSize: '150%' }}>Username:</Label>
           <Input 
-            type='username' 
+            type='text' 
             placeholder="Ingresa tu nombre de usuario" 
             className="border-b border-gray-500 bg-transparent focus:outline-none w-80"
             onChange={handleChange}
@@ -67,15 +67,15 @@ const Formulario: React.FC = () => {
           />
         </div>
         <div className="form-group items-center">
-          <Label htmlFor="contraseña" style={{ fontSize: '150%' }}>Contraseña:</Label>
+          <Label htmlFor="password" style={{ fontSize: '150%' }}>Contraseña:</Label>
           <div className="password-input relative w-80">
             <Input 
               type={showPassword ? 'text' : 'password'} 
               placeholder="Ingresa tu contraseña" 
               className="border-b border-gray-500 bg-transparent focus:outline-none w-full pr-10"
               onChange={handleChange}
-              name="contraseña"
-              value={formData.contraseña}
+              name="password"
+              value={formData.password}
             />
             <i
               className={`absolute right-0 top-1/2 transform -translate-y-1/2 mr-2 fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
@@ -96,5 +96,5 @@ const Formulario: React.FC = () => {
   );
 };
 
-export default Formulario;
+export default FormInitSesion;
 

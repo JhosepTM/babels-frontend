@@ -1,4 +1,6 @@
-import Header from '@/components/ui/Header';
+import {Header} from '@/components/ui/Header';
+
+
 
 const MenuPage = () => {
   return (

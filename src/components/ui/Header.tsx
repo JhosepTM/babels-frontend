@@ -36,7 +36,7 @@ export function Header() {
         {showAddRoomButton && (
           <MenubarMenu>
             <MenubarTrigger className="py-3 px-6 text-lg">
-              <Link to="/formrooms">Añadir Habitación</Link>
+              <Link to="/madmin/rooms/formrooms">Añadir Habitación</Link>
             </MenubarTrigger>
           </MenubarMenu>
         )}

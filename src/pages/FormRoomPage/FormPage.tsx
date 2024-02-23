@@ -1,4 +1,4 @@
-import Header from "@/components/ui/Header";
+import { Header } from "@/components/ui/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -29,7 +29,7 @@ const customSelectStyle = {
 export const FormPage = () => {
   return (
     <div className="bg-gray-950">
-      <Header showBackButton={true} backRoute="/madmin/rooms" />
+      <Header />
       <div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="name" className="text-white font-bold text-xl">

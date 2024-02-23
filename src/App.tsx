@@ -15,7 +15,7 @@ function App() {
         <Route path="/madmin" element={<Menu />} />
         <Route path="/madmin/rooms" element={<RoomsPage />} />
         <Route path="/muser" element={<MenuUser />} />
-        <Route path="/formrooms" element={<FormPage />} />
+        <Route path="/madmin/rooms/formrooms" element={<FormPage />} />
         <Route path="/" element={<LoginPage />} />
       </Routes>
     </Router>
