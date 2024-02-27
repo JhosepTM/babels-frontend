@@ -2,6 +2,7 @@ import { Header } from "@/components/ui/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+
 import {
   Select,
   SelectContent,
@@ -12,7 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-
 
 export const FormPage = () => {
   return (
@@ -43,7 +43,13 @@ export const FormPage = () => {
 
         <div className="w-full max-w-sm items-center gap-1.5">
           <Label className="font-bold text-xl ">Imagenes</Label>
-          <Input id="pictures" className="border-2 border-black" type="file" accept="image/*" multiple />
+          <Input
+            id="pictures"
+            className="border-2 border-black"
+            type="file"
+            accept="image/*"
+            multiple
+          />
           <span className="text-sm text-gray-500">
             Selecciona hasta 10 imágenes
           </span>
@@ -52,7 +58,7 @@ export const FormPage = () => {
         <div className="w-full max-w-sm items-center gap-1.5">
           <Label className="font-bold text-xl">Tipo</Label>
           <Select>
-            <SelectTrigger className="w-[180px] border-2 border-black" >
+            <SelectTrigger className="w-[180px] border-2 border-black">
               <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>
@@ -78,12 +84,14 @@ export const FormPage = () => {
         <div className="w-full max-w-sm items-center gap-1.5">
           <Label className="font-bold text-xl">Cantidad</Label>
           <Select>
-            <SelectTrigger className="w-[280px] border-2 border-black" >
-              <SelectValue placeholder="Seleccionar"  />
+            <SelectTrigger className="w-[280px] border-2 border-black">
+              <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel >Capacidad de personas en la habitacion</SelectLabel>
+                <SelectLabel>
+                  Capacidad de personas en la habitacion
+                </SelectLabel>
                 <SelectItem value="one">1 persona</SelectItem>
                 <SelectItem value="two">2 personas</SelectItem>
                 <SelectItem value="three">3 personas</SelectItem>
