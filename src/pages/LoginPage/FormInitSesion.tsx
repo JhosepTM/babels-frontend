@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
 import ModalError from "./ModalError";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getAuthToken, setAuthHeader } from "@/services/Login/tokenService";
 import { jwtDecode } from "jwt-decode";
-import { CustomJwtPayload } from "@/entities/CustomJwtPayload";
+import { CustomJwtPayload } from "@/entities/customJwtPayload";
 import { useNavigate } from "react-router-dom";
 
 interface FormState {
@@ -99,7 +99,6 @@ const FormInitSesion: React.FC = () => {
           }
         })
         .then((data) => {
-          console.log(data, "----------------------");
           if (data !== null) {
             setAuthHeader(data["token"]);
             if (data["role"] === "ADMIN") {

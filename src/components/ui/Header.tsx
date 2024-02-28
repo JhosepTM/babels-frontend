@@ -1,12 +1,8 @@
-import { Link, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import {
-  Menubar,
-  MenubarMenu,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export function Header() {
   const [showAddRoomButton, setShowAddRoomButton] = useState(false);
@@ -30,15 +26,17 @@ export function Header() {
           </MenubarTrigger>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger className="py-3 px-6 text-lg">Reservas</MenubarTrigger>
-        </MenubarMenu>
-        {showStatsButton && (
-        <MenubarMenu>
           <MenubarTrigger className="py-3 px-6 text-lg">
-            <Link to="/madmin/rooms">Editar Habitaciones</Link>
+            Reservas
           </MenubarTrigger>
         </MenubarMenu>
-         )}
+        {showStatsButton && (
+          <MenubarMenu>
+            <MenubarTrigger className="py-3 px-6 text-lg">
+              <Link to="/madmin/rooms">Editar Habitaciones</Link>
+            </MenubarTrigger>
+          </MenubarMenu>
+        )}
         {showAddRoomButton && (
           <MenubarMenu>
             <MenubarTrigger className="py-3 px-6 text-lg">
@@ -48,12 +46,16 @@ export function Header() {
         )}
         {showStatsButton && ( // Mostrar el botón de estadísticas solo si showStatsButton es true
           <MenubarMenu>
-            <MenubarTrigger className="py-3 px-6 text-lg">Estadísticas</MenubarTrigger>
+            <MenubarTrigger className="py-3 px-6 text-lg">
+              Estadísticas
+            </MenubarTrigger>
           </MenubarMenu>
         )}
         <MenubarMenu>
           <MenubarTrigger className="py-3 px-6 text-lg">
-            <FontAwesomeIcon icon={faBars} />
+            <MenubarTrigger className="text-lg">
+              <Link to="/">Salir</Link>
+            </MenubarTrigger>
           </MenubarTrigger>
         </MenubarMenu>
       </div>
