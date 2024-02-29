@@ -1,5 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import ModalError from "./ModalError";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +15,7 @@ interface FormState {
 
 const FormInitSesion: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState<FormState>({
+  const [] = useState<FormState>({
     username: "",
     password: "",
   });
@@ -25,42 +24,15 @@ const FormInitSesion: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
-  };
-
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-
-    if (!formData.username.trim() || !formData.password.trim()) {
-      setModalOpen(true);
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8081/login",
-        formData
-      );
-      const token = response.data.token;
-      localStorage.setItem("token", token);
-    } catch (error) {
-      console.error("Error de inicio de sesión:", error);
-    }
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
   };
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   const mAdmin = () => {
@@ -99,6 +71,7 @@ const FormInitSesion: React.FC = () => {
           }
         })
         .then((data) => {
+          console.log(data, "----------------------");
           if (data !== null) {
             setAuthHeader(data["token"]);
             if (data["role"] === "ADMIN") {
