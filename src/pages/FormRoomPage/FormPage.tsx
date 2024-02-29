@@ -104,7 +104,7 @@ export const FormPage = () => {
         </div>
 
         <div className="mt-4">
-          <Button className="bg-zinc-950">Registrar</Button>
+          <Button className="bg-zinc-950 hover:bg-zinc-700">Registrar</Button>
         </div>
       </div>
     </div>

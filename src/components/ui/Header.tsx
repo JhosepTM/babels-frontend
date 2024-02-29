@@ -19,38 +19,38 @@ export function Header() {
     <Menubar className="w-full h-16 flex justify-end py-4">
       <div className="flex">
         <MenubarMenu>
-          <MenubarTrigger className="py-3 px-6 text-lg">
+          <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
             <Link to="/madmin">Inicio</Link>
           </MenubarTrigger>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger className="py-3 px-6 text-lg">
-            Reservas
+          <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+            <Link to="">Reservas</Link>
           </MenubarTrigger>
         </MenubarMenu>
         {showStatsButton && (
           <MenubarMenu>
-            <MenubarTrigger className="py-3 px-6 text-lg">
+            <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
               <Link to="/madmin/rooms">Editar Habitaciones</Link>
             </MenubarTrigger>
           </MenubarMenu>
         )}
         {showAddRoomButton && (
           <MenubarMenu>
-            <MenubarTrigger className="py-3 px-6 text-lg">
+            <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
               <Link to="/madmin/rooms/formrooms">Añadir Habitación</Link>
             </MenubarTrigger>
           </MenubarMenu>
         )}
         {showStatsButton && ( // Mostrar el botón de estadísticas solo si showStatsButton es true
           <MenubarMenu>
-            <MenubarTrigger className="py-3 px-6 text-lg">
-              Estadísticas
+            <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+              <Link to="">Estadísticas</Link>
             </MenubarTrigger>
           </MenubarMenu>
         )}
         <MenubarMenu>
-          <MenubarTrigger className="py-3 px-6 text-lg">
+          <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
             <MenubarTrigger className="text-lg">
               <Link to="/">Salir</Link>
             </MenubarTrigger>
