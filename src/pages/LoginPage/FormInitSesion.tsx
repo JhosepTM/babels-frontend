@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ModalError from "./ModalError";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,91 +7,63 @@ import { jwtDecode } from "jwt-decode";
 import { CustomJwtPayload } from "@/entities/customJwtPayload";
 import { useNavigate } from "react-router-dom";
 
-interface FormState {
-  username: string;
-  password: string;
-}
-
 const FormInitSesion: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [] = useState<FormState>({
-    username: "",
-    password: "",
-  });
-
-  const [modalOpen, setModalOpen] = useState(false);
-
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-
-  const [, setIsAuthenticated] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  const mAdmin = () => {
-    let token = getAuthToken();
-    if (token !== null) {
-      setIsAuthenticated(true);
-      const decoded = jwtDecode<CustomJwtPayload>(token);
-      console.log(decoded.role);
-      if (decoded.role?.includes("ADMIN")) {
-        setIsAdmin(true);
-      } else {
-        setIsAdmin(false);
-      }
-    } else {
-      setIsAuthenticated(false);
-    }
-  };
-
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log(JSON.stringify({ login: login, password: password }));
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!login.trim()) {
+      setUsernameError("Usuario vacío");
+    } else {
+      setUsernameError("");
+    }
+
+    if (!password.trim()) {
+      setPasswordError("Contraseña vacía");
+    } else {
+      setPasswordError("");
+    }
+
+    if (!login.trim() || !password.trim()) {
+      return;
+    }
+
     try {
-      fetch("http://localhost:8081/login", {
+      const response = await fetch("http://localhost:8081/login", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ login: login, password: password }),
-      })
-        .then((response) => {
-          if (response.status == 200) {
-            return response.json();
-          } else {
-            return null;
-          }
-        })
-        .then((data) => {
-          console.log(data, "----------------------");
-          if (data !== null) {
-            setAuthHeader(data["token"]);
-            if (data["role"] === "ADMIN") {
-              navigate("/madmin", { replace: true });
-            } else {
-              navigate("/muser", { replace: true });
-            }
-          } else {
-            setAuthHeader(null);
-          }
-        })
-        .finally(() => {
-          setTimeout(() => {
-            mAdmin();
-          }, 2000);
-        });
-    } catch (e) {
-      console.log(e);
-    }
+      });
 
-    console.log(isAdmin, "Adm");
+      if (response.status === 200) {
+        const data = await response.json();
+        setAuthHeader(data.token);
+        const decoded = jwtDecode<CustomJwtPayload>(data.token);
+        if (decoded.role === "ADMIN") {
+          navigate("/madmin", { replace: true });
+        } else {
+          navigate("/muser", { replace: true });
+        }
+      } else {
+        setAuthHeader(null);
+        setUsernameError("Credenciales incorrectas");
+        setPasswordError("Credenciales incorrectas");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setUsernameError("Error al iniciar sesión");
+      setPasswordError("Error al iniciar sesión");
+    }
   };
 
   return (
@@ -110,6 +81,7 @@ const FormInitSesion: React.FC = () => {
             name="username"
             value={login}
           />
+          {usernameError && <p className="text-red-500">{usernameError}</p>}
         </div>
         <div className="form-group items-center">
           <Label htmlFor="password" style={{ fontSize: "150%" }}>
@@ -131,6 +103,7 @@ const FormInitSesion: React.FC = () => {
               onClick={handleTogglePassword}
             ></i>
           </div>
+          {passwordError && <p className="text-red-500">{passwordError}</p>}
         </div>
         <div className="But mt-4">
           <Button
@@ -142,14 +115,6 @@ const FormInitSesion: React.FC = () => {
           </Button>
         </div>
       </form>
-      <div
-        className={`ModalError fixed inset-0 flex items-center justify-center ${
-          modalOpen ? "visible" : "hidden"
-        }`}
-        onClick={handleCloseModal}
-      >
-        <div className="modal-content">{modalOpen && <ModalError />}</div>
-      </div>
     </div>
   );
 };
