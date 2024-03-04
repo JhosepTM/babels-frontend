@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Header } from "@/components/ui/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -15,20 +16,59 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 export const FormPage = () => {
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
+
+  const handleChange = (event: { target: { value: string } }) => {
+    setName(event.target.value);
+    event.target.value = event.target.value.replace(/[^a-zA-Z ]/g, "");
+
+    if (event.target.value.length > 100) {
+      event.target.value = event.target.value.substring(0, 100);
+    }
+  };
+
+  const handleDescriptionChange = (event: { target: { value: string } }) => {
+    event.target.value = event.target.value.replace(/[^a-zA-Z0-9 ]/g, "");
+
+    if (event.target.value.length > 200) {
+      event.target.value = event.target.value.substring(0, 200);
+    }
+  };
+
+  const handlePriceChange = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    const onlyNumbersAndCurrency = value.replace(/[^0-9$Bs]/g, "");
+    event.target.value = onlyNumbersAndCurrency;
+  };
+
+  const handleRegister = () => {
+    if (name.trim() === "") {
+      setNameError(
+        "¡El campo del nombre de la habitación no puede estar vacío!"
+      );
+    } else {
+      setNameError("");
+      // Aquí puedes agregar la lógica para enviar el formulario
+    }
+  };
+
   return (
     <div className="ml-4">
       <Header />
       <div>
         <div className="w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="name" className="font-bold text-xl">
-            Nombre de la habitacion
+            Nombre de la habitación
           </Label>
           <Input
-            type="name"
+            type="text"
             id="name"
-            placeholder="Ingrese el nombre de la habitacion"
+            placeholder="Ingrese el nombre de la habitación"
             className="border-2 border-black"
+            onChange={handleChange}
           />
+          {nameError && <p className="text-red-500">{nameError}</p>}
         </div>
 
         <div className="w-full max-w-lg items-center gap-1.5">
@@ -38,6 +78,7 @@ export const FormPage = () => {
           <Textarea
             placeholder="Ingresa la descripcion de la habitacion"
             className="border-2 border-black"
+            onChange={handleDescriptionChange}
           />
         </div>
 
@@ -50,9 +91,9 @@ export const FormPage = () => {
             accept="image/*"
             multiple
           />
-          <span className="text-sm text-gray-500">
+          <Label className="text-sm text-gray-500">
             Selecciona hasta 10 imágenes
-          </span>
+          </Label>
         </div>
 
         <div className="w-full max-w-sm items-center gap-1.5">
@@ -62,7 +103,7 @@ export const FormPage = () => {
               <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup>
+              <SelectGroup className="hover:bg-black hover:text-white">
                 <SelectLabel>Tipo de habitacion</SelectLabel>
                 <SelectItem value="Basico">Basico</SelectItem>
                 <SelectItem value="Medio">Medio</SelectItem>
@@ -72,12 +113,16 @@ export const FormPage = () => {
           </Select>
         </div>
 
-        <div className="w-full max-w-sm items-center gap-1.5">
-          <Label className="font-bold text-xl">Precio</Label>
+        <div className="items-center gap-1.5">
+          <Label className="font-bold text-xl" htmlFor="price">
+            Precio
+          </Label>
           <Input
-            type="price"
-            placeholder="Ingrese el precio por dia de la habitacion"
-            className="border-2 border-black"
+            type="text"
+            id="price"
+            placeholder="Ingrese el precio por día de la habitación"
+            className="border-2 border-black w-72"
+            onChange={handlePriceChange} // Manejar el cambio de valor
           />
         </div>
 
@@ -88,7 +133,7 @@ export const FormPage = () => {
               <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup>
+              <SelectGroup className="hover:bg-black hover:text-white">
                 <SelectLabel>
                   Capacidad de personas en la habitacion
                 </SelectLabel>
@@ -104,7 +149,12 @@ export const FormPage = () => {
         </div>
 
         <div className="mt-4">
-          <Button className="bg-zinc-950 hover:bg-zinc-700">Registrar</Button>
+          <Button
+            className="bg-zinc-950 hover:bg-zinc-700"
+            onClick={handleRegister}
+          >
+            Registrar
+          </Button>
         </div>
       </div>
     </div>

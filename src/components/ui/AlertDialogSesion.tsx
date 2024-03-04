@@ -10,14 +10,20 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { MenubarTrigger } from "@radix-ui/react-menubar";
+import { logoutUser } from "@/services/Login/Logout"; // Importa la función para cerrar sesión
+import { Link } from "react-router-dom";
 
 export function AlertDialogSesion() {
+  const handleLogout = () => {
+    logoutUser(); // Llama a la función para cerrar sesión
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <MenubarTrigger>Salir</MenubarTrigger>
       </AlertDialogTrigger>
-      <AlertDialogContent className="flex items-center justify-center">
+      <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
             ¿Estás seguro de que quieres salir?
@@ -26,9 +32,16 @@ export function AlertDialogSesion() {
             Esta acción cerrará tu sesión actual.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="justify-center">
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction>Salir</AlertDialogAction>
+        <AlertDialogFooter>
+          <AlertDialogCancel className="bg-blue-700 text-white hover:bg-blue-500">
+            Cancelar
+          </AlertDialogCancel>
+          <AlertDialogAction
+            className="bg-red-700 text-white hover:bg-red-500"
+            onClick={handleLogout} // Llama a la función handleLogout al hacer clic
+          >
+            <Link to={"/"}>Salir</Link>
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
