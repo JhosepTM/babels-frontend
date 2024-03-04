@@ -13,7 +13,7 @@ const LoginPage = () => {
       <Card className="border-zinc-800">
         <CardHeader className="w-80">
           <CardTitle>BIENVENIDO</CardTitle>
-          <CardDescription>
+          <CardDescription className="font-bold">
             Inicia sesión con los datos proporcionados por sus distribuidores
             del sistema para acceder a la plataforma
           </CardDescription>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getAuthToken, setAuthHeader } from "@/services/Login/tokenService";
+import { setAuthHeader } from "@/services/Login/tokenService";
 import { jwtDecode } from "jwt-decode";
 import { CustomJwtPayload } from "@/entities/customJwtPayload";
 import { useNavigate } from "react-router-dom";
@@ -81,7 +81,9 @@ const FormInitSesion: React.FC = () => {
             name="username"
             value={login}
           />
-          {usernameError && <p className="text-red-500">{usernameError}</p>}
+          {usernameError && (
+            <Label className="text-red-600 font-bold">{usernameError}</Label>
+          )}
         </div>
         <div className="form-group items-center">
           <Label htmlFor="password" style={{ fontSize: "150%" }}>
@@ -103,7 +105,9 @@ const FormInitSesion: React.FC = () => {
               onClick={handleTogglePassword}
             ></i>
           </div>
-          {passwordError && <p className="text-red-500">{passwordError}</p>}
+          {passwordError && (
+            <Label className="text-red-600 font-bold">{passwordError}</Label>
+          )}
         </div>
         <div className="But mt-4">
           <Button

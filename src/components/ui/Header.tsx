@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
+import { AlertDialogSesion } from "@/components/ui/alertdialogsesion";
 
 export function Header() {
   const [showAddRoomButton, setShowAddRoomButton] = useState(false);
@@ -51,9 +52,7 @@ export function Header() {
         )}
         <MenubarMenu>
           <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
-            <MenubarTrigger className="text-lg">
-              <Link to="/">Salir</Link>
-            </MenubarTrigger>
+            <AlertDialogSesion></AlertDialogSesion>
           </MenubarTrigger>
         </MenubarMenu>
       </div>
