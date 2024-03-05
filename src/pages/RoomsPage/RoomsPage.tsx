@@ -33,7 +33,7 @@ const RoomsPage = () => {
     <div className="flex flex-col h-screen">
       <Header />
       <div className="flex justify-center items-center mt-8">
-        <div className="flex rounded-lg shadow-lg bg-zinc-950 w-full max-w-screen-md max-h-72 overflow-hidden border-2 border-slate-950">
+        <div className="flex rounded-lg shadow-lg bg-zinc-900 w-full max-w-screen-md max-h-72 overflow-hidden border-2 border-slate-950">
           <div className="flex">
             <div className="flex-shrink-0 w-2/5 relative">
               <img

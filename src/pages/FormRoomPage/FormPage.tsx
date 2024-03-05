@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -18,6 +18,12 @@ import { Textarea } from "@/components/ui/textarea";
 export const FormPage = () => {
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
+  const [description, setDescription] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+  const [images, setImages] = useState<File[]>([]);
+  const [imagesError, setImagesError] = useState("");
+  const [price, setPrice] = useState("");
+  const [priceError, setPriceError] = useState("");
 
   const handleChange = (event: { target: { value: string } }) => {
     setName(event.target.value);
@@ -29,6 +35,7 @@ export const FormPage = () => {
   };
 
   const handleDescriptionChange = (event: { target: { value: string } }) => {
+    setDescription(event.target.value);
     event.target.value = event.target.value.replace(/[^a-zA-Z0-9 ]/g, "");
 
     if (event.target.value.length > 200) {
@@ -36,10 +43,18 @@ export const FormPage = () => {
     }
   };
 
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedImages = event.target.files;
+    if (selectedImages) {
+      const imagesArray = Array.from(selectedImages) as File[];
+      setImages(imagesArray);
+    }
+  };
+
   const handlePriceChange = (event: { target: { value: any } }) => {
     const { value } = event.target;
     const onlyNumbersAndCurrency = value.replace(/[^0-9$Bs]/g, "");
-    event.target.value = onlyNumbersAndCurrency;
+    setPrice(onlyNumbersAndCurrency);
   };
 
   const handleRegister = () => {
@@ -49,8 +64,35 @@ export const FormPage = () => {
       );
     } else {
       setNameError("");
-      // Aquí puedes agregar la lógica para enviar el formulario
     }
+
+    if (description.trim() === "") {
+      setDescriptionError(
+        "¡El campo de descripción de la habitación no puede estar vacío!"
+      );
+    } else {
+      setDescriptionError("");
+    }
+
+    if (images.length === 0) {
+      setImagesError(
+        "¡Debes seleccionar al menos una imagen para la habitación!"
+      );
+    } else {
+      setImagesError("");
+    }
+
+    if (price.trim() === "") {
+      setPriceError(
+        "¡El campo de precio de la habitación no puede estar vacío!"
+      );
+    } else {
+      setPriceError("");
+    }
+
+    // Aquí puedes agregar más validaciones si es necesario
+
+    // Lógica para enviar el formulario si todas las validaciones son exitosas
   };
 
   return (
@@ -71,7 +113,7 @@ export const FormPage = () => {
           {nameError && <p className="text-red-500">{nameError}</p>}
         </div>
 
-        <div className="w-full max-w-lg items-center gap-1.5">
+        <div className="w-full max-w-lg items-center gap-1.5 mt-2">
           <Label htmlFor="description" className="text-xl">
             Descripcion
           </Label>
@@ -80,9 +122,12 @@ export const FormPage = () => {
             className="border-b border-gray-500 bg-transparent focus:outline-none w-full pr-10"
             onChange={handleDescriptionChange}
           />
+          {descriptionError && (
+            <p className="text-red-500">{descriptionError}</p>
+          )}
         </div>
 
-        <div className="w-full max-w-sm items-center gap-1.5">
+        <div className="w-full max-w-sm items-center gap-1.5 mt-2">
           <Label className="text-xl ">Imagenes</Label>
           <Input
             id="pictures"
@@ -90,17 +135,19 @@ export const FormPage = () => {
             type="file"
             accept="image/*"
             multiple
+            onChange={handleImageChange}
           />
           <Label className="text-sm text-gray-500">
             Selecciona hasta 10 imágenes
           </Label>
+          {imagesError && <p className="text-red-500">{imagesError}</p>}
         </div>
 
         <div className="w-full max-w-sm items-center gap-1.5">
           <Label className="text-xl">Tipo</Label>
           <Select>
             <SelectTrigger className="w-[180px] border-b border-gray-500 bg-transparent focus:outline-none">
-              <SelectValue placeholder="Seleccionar" />
+              <SelectValue placeholder="Basico" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup className="hover:bg-black hover:text-white">
@@ -113,7 +160,7 @@ export const FormPage = () => {
           </Select>
         </div>
 
-        <div className="items-center gap-1.5">
+        <div className="items-center gap-1.5 mt-2">
           <Label className="text-xl" htmlFor="price">
             Precio
           </Label>
@@ -124,13 +171,14 @@ export const FormPage = () => {
             className="border-b border-gray-500 bg-transparent focus:outline-none pr-10 w-72"
             onChange={handlePriceChange} // Manejar el cambio de valor
           />
+          {priceError && <p className="text-red-500">{priceError}</p>}
         </div>
 
-        <div className="w-full max-w-sm items-center gap-1.5">
+        <div className="w-full max-w-sm items-center gap-1.5 mt-2">
           <Label className="text-xl">Cantidad</Label>
           <Select>
             <SelectTrigger className="w-[280px] border-b border-gray-500 bg-transparent focus:outline-none">
-              <SelectValue placeholder="Seleccionar" />
+              <SelectValue placeholder="1 persona" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup className="hover:bg-black hover:text-white">
@@ -149,10 +197,7 @@ export const FormPage = () => {
         </div>
 
         <div className="mt-4">
-          <Button
-            className="bg-zinc-950 hover:bg-zinc-700"
-            onClick={handleRegister}
-          >
+          <Button className="" onClick={handleRegister}>
             Registrar
           </Button>
         </div>
