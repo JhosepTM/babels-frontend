@@ -33,11 +33,11 @@ export function AlertDialogSesion() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="bg-blue-700 text-white hover:bg-blue-500">
+          <AlertDialogCancel className="bg-gray-400 hover:bg-gray-300">
             Cancelar
           </AlertDialogCancel>
           <AlertDialogAction
-            className="bg-red-700 text-white hover:bg-red-500"
+            className=""
             onClick={handleLogout} // Llama a la función handleLogout al hacer clic
           >
             <Link to={"/"}>Salir</Link>

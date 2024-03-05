@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Header } from "@/components/ui/Header";
+import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -58,35 +58,35 @@ export const FormPage = () => {
       <Header />
       <div>
         <div className="w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="name" className="font-bold text-xl">
+          <Label htmlFor="name" className="text-xl">
             Nombre de la habitación
           </Label>
           <Input
             type="text"
             id="name"
             placeholder="Ingrese el nombre de la habitación"
-            className="border-2 border-black"
+            className="border-b border-gray-500 bg-transparent focus:outline-none w-full pr-10"
             onChange={handleChange}
           />
           {nameError && <p className="text-red-500">{nameError}</p>}
         </div>
 
         <div className="w-full max-w-lg items-center gap-1.5">
-          <Label htmlFor="description" className="font-bold text-xl">
+          <Label htmlFor="description" className="text-xl">
             Descripcion
           </Label>
           <Textarea
             placeholder="Ingresa la descripcion de la habitacion"
-            className="border-2 border-black"
+            className="border-b border-gray-500 bg-transparent focus:outline-none w-full pr-10"
             onChange={handleDescriptionChange}
           />
         </div>
 
         <div className="w-full max-w-sm items-center gap-1.5">
-          <Label className="font-bold text-xl ">Imagenes</Label>
+          <Label className="text-xl ">Imagenes</Label>
           <Input
             id="pictures"
-            className="border-2 border-black"
+            className="border-b border-gray-500 bg-transparent focus:outline-none w-full pr-10"
             type="file"
             accept="image/*"
             multiple
@@ -97,9 +97,9 @@ export const FormPage = () => {
         </div>
 
         <div className="w-full max-w-sm items-center gap-1.5">
-          <Label className="font-bold text-xl">Tipo</Label>
+          <Label className="text-xl">Tipo</Label>
           <Select>
-            <SelectTrigger className="w-[180px] border-2 border-black">
+            <SelectTrigger className="w-[180px] border-b border-gray-500 bg-transparent focus:outline-none">
               <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>
@@ -114,22 +114,22 @@ export const FormPage = () => {
         </div>
 
         <div className="items-center gap-1.5">
-          <Label className="font-bold text-xl" htmlFor="price">
+          <Label className="text-xl" htmlFor="price">
             Precio
           </Label>
           <Input
             type="text"
             id="price"
             placeholder="Ingrese el precio por día de la habitación"
-            className="border-2 border-black w-72"
+            className="border-b border-gray-500 bg-transparent focus:outline-none pr-10 w-72"
             onChange={handlePriceChange} // Manejar el cambio de valor
           />
         </div>
 
         <div className="w-full max-w-sm items-center gap-1.5">
-          <Label className="font-bold text-xl">Cantidad</Label>
+          <Label className="text-xl">Cantidad</Label>
           <Select>
-            <SelectTrigger className="w-[280px] border-2 border-black">
+            <SelectTrigger className="w-[280px] border-b border-gray-500 bg-transparent focus:outline-none">
               <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>

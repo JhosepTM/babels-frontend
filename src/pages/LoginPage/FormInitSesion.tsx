@@ -69,7 +69,7 @@ const FormInitSesion: React.FC = () => {
   return (
     <div className="items-center">
       <form onSubmit={onSubmit} className="form-container">
-        <div className="form-group items-center">
+        <div className="form-group">
           <Label htmlFor="username" style={{ fontSize: "150%" }}>
             Username:
           </Label>
@@ -85,7 +85,7 @@ const FormInitSesion: React.FC = () => {
             <Label className="text-red-600 font-bold">{usernameError}</Label>
           )}
         </div>
-        <div className="form-group items-center">
+        <div className="form-group mt-2">
           <Label htmlFor="password" style={{ fontSize: "150%" }}>
             Contraseña:
           </Label>

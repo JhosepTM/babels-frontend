@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
-import { AlertDialogSesion } from "@/components/ui/AlertDialogSesion";
+import { AlertDialogSesion } from "@/components/AlertDialogSesion";
 
 export function Header() {
   const [showAddRoomButton, setShowAddRoomButton] = useState(false);

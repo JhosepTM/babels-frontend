@@ -4,7 +4,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { Header } from "@/components/ui/Header";
+import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
@@ -68,10 +68,8 @@ const RoomsPage = () => {
                 </Label>
               </div>
               <div className="flex space-x-2">
-                <Button className="flex-grow bg-blue-700 text-white px-2 py-1 hover:bg-blue-500">
-                  Editar
-                </Button>
-                <Button className="flex-grow bg-red-700 text-white px-2 py-1 hover:bg-red-500">
+                <Button className="flex-grow hover:bg-slate-800">Editar</Button>
+                <Button className="flex-grow bg-gray-400 text-black hover:bg-gray-300">
                   Eliminar
                 </Button>
               </div>
