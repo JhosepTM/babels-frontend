@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
 import { AlertDialogSesion } from "@/components/AlertDialogSesion";
+import { Label } from "@/components/ui/label";
 
 export function Header() {
   const [showAddRoomButton, setShowAddRoomButton] = useState(false);
@@ -16,9 +17,25 @@ export function Header() {
     setShowStatsButton(location.pathname !== "/muser");
   }, [location]);
 
+  const getHeaderText = () => {
+    switch (location.pathname) {
+      case "/madmin":
+        return "Pagina Principal";
+      case "/madmin/rooms":
+        return "Editar Habitaciones";
+      case "/madmin/rooms/formrooms":
+        return "Añadir Habitación";
+      default:
+        return "Pagina Principal";
+    }
+  };
+
   return (
-    <Menubar className="w-full h-16 flex justify-end py-4">
-      <div className="flex">
+    <div className="lg:relative">
+      <Menubar className="w-full lg:w-auto h-16 flex lg:flex-wrap lg:justify-end py-1">
+        <div className="flex items-center lg:items-start lg:flex-col lg:py-6 lg:px-2 lg:absolute lg:inset-y-0 lg:left-4">
+          <Label className="text-xl">{getHeaderText()}</Label>
+        </div>
         <MenubarMenu>
           <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
             <Link to="/madmin">Inicio</Link>
@@ -43,7 +60,7 @@ export function Header() {
             </MenubarTrigger>
           </MenubarMenu>
         )}
-        {showStatsButton && ( // Mostrar el botón de estadísticas solo si showStatsButton es true
+        {showStatsButton && (
           <MenubarMenu>
             <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
               <Link to="">Estadísticas</Link>
@@ -55,7 +72,7 @@ export function Header() {
             <AlertDialogSesion />
           </MenubarTrigger>
         </MenubarMenu>
-      </div>
-    </Menubar>
+      </Menubar>
+    </div>
   );
 }

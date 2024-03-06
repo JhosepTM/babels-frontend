@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, SetStateAction, useState } from "react";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -22,6 +22,8 @@ export const FormPage = () => {
   const [descriptionError, setDescriptionError] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [imagesError, setImagesError] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
   const [price, setPrice] = useState("");
   const [priceError, setPriceError] = useState("");
 
@@ -49,6 +51,12 @@ export const FormPage = () => {
       const imagesArray = Array.from(selectedImages) as File[];
       setImages(imagesArray);
     }
+  };
+
+  const handleSelectChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setSelectedValue(e.target.value);
   };
 
   const handlePriceChange = (event: { target: { value: any } }) => {
@@ -80,6 +88,12 @@ export const FormPage = () => {
       );
     } else {
       setImagesError("");
+    }
+
+    if (selectedValue === "Seleccionar") {
+      setShowAlert(true);
+    } else {
+      setShowAlert(false);
     }
 
     if (price.trim() === "") {
@@ -147,7 +161,7 @@ export const FormPage = () => {
           <Label className="text-xl">Tipo</Label>
           <Select>
             <SelectTrigger className="w-[180px] border-b border-gray-500 bg-transparent focus:outline-none">
-              <SelectValue placeholder="Basico" />
+              <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup className="hover:bg-black hover:text-white">
@@ -158,6 +172,9 @@ export const FormPage = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
+          {showAlert && (
+            <div style={{ color: "red" }}>Por favor seleccione un tipo</div>
+          )}
         </div>
 
         <div className="items-center gap-1.5 mt-2">
@@ -178,7 +195,7 @@ export const FormPage = () => {
           <Label className="text-xl">Cantidad</Label>
           <Select>
             <SelectTrigger className="w-[280px] border-b border-gray-500 bg-transparent focus:outline-none">
-              <SelectValue placeholder="1 persona" />
+              <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup className="hover:bg-black hover:text-white">
