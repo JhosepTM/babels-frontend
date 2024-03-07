@@ -110,9 +110,9 @@ export const FormPage = () => {
   };
 
   return (
-    <div className="ml-4">
+    <div className="flex flex-col h-screen">
       <Header />
-      <div>
+      <div className="ml-4">
         <div className="w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="name" className="text-xl">
             Nombre de la habitación

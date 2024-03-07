@@ -32,47 +32,51 @@ export function Header() {
 
   return (
     <div className="lg:relative">
-      <Menubar className="w-full lg:w-auto h-16 flex lg:flex-wrap lg:justify-end py-1">
-        <div className="flex items-center lg:items-start lg:flex-col lg:py-6 lg:px-2 lg:absolute lg:inset-y-0 lg:left-4">
-          <Label className="text-xl">{getHeaderText()}</Label>
-        </div>
-        <MenubarMenu>
-          <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
-            <Link to="/madmin">Inicio</Link>
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu>
-          <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
-            <Link to="">Reservas</Link>
-          </MenubarTrigger>
-        </MenubarMenu>
-        {showStatsButton && (
+      <div className="shadow-lg">
+        {" "}
+        {/* Agrega sombreado al menú */}
+        <Menubar className="w-full lg:w-auto h-16 flex lg:flex-wrap lg:justify-end py-1">
+          <div className="flex items-center lg:items-start lg:flex-col lg:py-6 lg:px-2 lg:absolute lg:inset-y-0 lg:left-4">
+            <Label className="text-xl">{getHeaderText()}</Label>
+          </div>
           <MenubarMenu>
             <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
-              <Link to="/madmin/rooms">Editar Habitaciones</Link>
+              <Link to="/madmin">Inicio</Link>
             </MenubarTrigger>
           </MenubarMenu>
-        )}
-        {showAddRoomButton && (
           <MenubarMenu>
             <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
-              <Link to="/madmin/rooms/formrooms">Añadir Habitación</Link>
+              <Link to="">Reservas</Link>
             </MenubarTrigger>
           </MenubarMenu>
-        )}
-        {showStatsButton && (
+          {showStatsButton && (
+            <MenubarMenu>
+              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+                <Link to="/madmin/rooms">Editar Habitaciones</Link>
+              </MenubarTrigger>
+            </MenubarMenu>
+          )}
+          {showAddRoomButton && (
+            <MenubarMenu>
+              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+                <Link to="/madmin/rooms/formrooms">Añadir Habitación</Link>
+              </MenubarTrigger>
+            </MenubarMenu>
+          )}
+          {showStatsButton && (
+            <MenubarMenu>
+              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+                <Link to="">Estadísticas</Link>
+              </MenubarTrigger>
+            </MenubarMenu>
+          )}
           <MenubarMenu>
             <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
-              <Link to="">Estadísticas</Link>
+              <AlertDialogSesion />
             </MenubarTrigger>
           </MenubarMenu>
-        )}
-        <MenubarMenu>
-          <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
-            <AlertDialogSesion />
-          </MenubarTrigger>
-        </MenubarMenu>
-      </Menubar>
+        </Menubar>
+      </div>
     </div>
   );
 }

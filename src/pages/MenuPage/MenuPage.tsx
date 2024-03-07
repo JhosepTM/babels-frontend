@@ -15,15 +15,15 @@ import {
 
 const MenuPage = () => {
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col overflow-hidden">
       <Header />
-      <div className="flex-grow flex items-center justify-center">
+      <div className="flex-grow flex items-center justify-center overflow-hidden">
         <div className="max-w-lg">
           <Carousel className="w-full">
             <CarouselContent>
               <CarouselItem>
-                <div className="p-1">
-                  <Card>
+                <div className="p-1 h-screen">
+                  <Card className="border-zinc-300 bg-white rounded-lg shadow-xl h-5/6">
                     <div className="flex flex-col items-center justify-center">
                       <CardTitle className="items-center justify-center p-6">
                         Estadisticas
@@ -40,15 +40,15 @@ const MenuPage = () => {
                       <img
                         src=".\src\assets\images\Estadisticas.svg"
                         alt="Imagen 1"
-                        className="w-full h-full mt-[-30px]"
+                        className="w-5/6 h-5/6 mt-[-100px]"
                       />
                     </CardContent>
                   </Card>
                 </div>
               </CarouselItem>
               <CarouselItem>
-                <div className="p-1">
-                  <Card>
+                <div className="p-1 h-screen">
+                  <Card className="border-zinc-300 bg-white rounded-lg shadow-xl h-5/6">
                     <div className="flex flex-col items-center justify-center">
                       <CardTitle className="items-center justify-center p-6">
                         Editar Habitaciones
@@ -65,15 +65,15 @@ const MenuPage = () => {
                       <img
                         src=".\src\assets\images\EditAndAddRooms.svg"
                         alt="Imagen 2"
-                        className="w-full h-full mt-[-30px]" // Ajusta el valor de mt según sea necesario
+                        className="w-5/6 h-5/6 mt-[-100px]" // Ajusta el valor de mt según sea necesario
                       />
                     </CardContent>
                   </Card>
                 </div>
               </CarouselItem>
               <CarouselItem>
-                <div className="p-1">
-                  <Card>
+                <div className="p-1 h-screen">
+                  <Card className="border-zinc-300 bg-white rounded-lg shadow-xl h-5/6">
                     <div className="flex flex-col items-center justify-center">
                       <CardTitle className="items-center justify-center p-6">
                         Reservas
@@ -94,7 +94,7 @@ const MenuPage = () => {
                       <img
                         src=".\src\assets\images\Reservas.svg"
                         alt="Imagen 3"
-                        className="w-full h-full mt-[-30px]" // Ajusta el valor de mt según sea necesario
+                        className="w-full h-full mt-[-100px]" // Ajusta el valor de mt según sea necesario
                       />
                     </CardContent>
                   </Card>
