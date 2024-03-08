@@ -11,12 +11,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { MenubarTrigger } from "@radix-ui/react-menubar";
 import { logoutUser } from "@/services/Login/Logout"; // Importa la función para cerrar sesión
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function AlertDialogSesion() {
   const handleLogout = () => {
     logoutUser(); // Llama a la función para cerrar sesión
   };
+  const navigate = useNavigate();
 
   return (
     <AlertDialog>
@@ -38,9 +39,12 @@ export function AlertDialogSesion() {
           </AlertDialogCancel>
           <AlertDialogAction
             className=""
-            onClick={handleLogout} // Llama a la función handleLogout al hacer clic
+            onClick={() => {
+              navigate("/", { replace: true });
+              window.localStorage.removeItem("auth_token");
+            }}
           >
-            <Link to={"/"}>Salir</Link>
+            Salir
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

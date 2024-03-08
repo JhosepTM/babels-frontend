@@ -22,8 +22,8 @@ export const FormPage = () => {
   const [descriptionError, setDescriptionError] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [imagesError, setImagesError] = useState("");
-  const [selectedValue, setSelectedValue] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("");
   const [price, setPrice] = useState("");
   const [priceError, setPriceError] = useState("");
 
@@ -53,10 +53,9 @@ export const FormPage = () => {
     }
   };
 
-  const handleSelectChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setSelectedValue(e.target.value);
+  const handleSelectChange = (e: SetStateAction<string>) => {
+    setSelectedValue(e);
+    setShowAlert(e === "");
   };
 
   const handlePriceChange = (event: { target: { value: any } }) => {
@@ -66,6 +65,8 @@ export const FormPage = () => {
   };
 
   const handleRegister = () => {
+    console.log(selectedValue);
+
     if (name.trim() === "") {
       setNameError(
         "¡El campo del nombre de la habitación no puede estar vacío!"
@@ -90,7 +91,7 @@ export const FormPage = () => {
       setImagesError("");
     }
 
-    if (selectedValue === "Seleccionar") {
+    if (selectedValue) {
       setShowAlert(true);
     } else {
       setShowAlert(false);
@@ -159,7 +160,7 @@ export const FormPage = () => {
 
         <div className="w-full max-w-sm items-center gap-1.5">
           <Label className="text-xl">Tipo</Label>
-          <Select>
+          <Select onValueChange={handleSelectChange}>
             <SelectTrigger className="w-[180px] border-b border-gray-500 bg-transparent focus:outline-none">
               <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
@@ -173,7 +174,7 @@ export const FormPage = () => {
             </SelectContent>
           </Select>
           {showAlert && (
-            <div style={{ color: "red" }}>Por favor seleccione un tipo</div>
+            <p className="text-red-500">¡Debes seleccionar un tipo!</p>
           )}
         </div>
 
