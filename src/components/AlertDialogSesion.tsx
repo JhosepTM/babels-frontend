@@ -10,13 +10,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { MenubarTrigger } from "@radix-ui/react-menubar";
-import { logoutUser } from "@/services/Login/Logout"; // Importa la función para cerrar sesión
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export function AlertDialogSesion() {
-  const handleLogout = () => {
-    logoutUser(); // Llama a la función para cerrar sesión
-  };
   const navigate = useNavigate();
 
   return (
