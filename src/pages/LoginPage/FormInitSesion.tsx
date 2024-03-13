@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { setAuthHeader } from "@/services/Login/tokenService";
 import { jwtDecode } from "jwt-decode";
 import { CustomJwtPayload } from "@/entities/customJwtPayload";
-import { useNavigate } from "react-router-dom";
 
 const FormInitSesion: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +12,6 @@ const FormInitSesion: React.FC = () => {
   const [passwordError, setPasswordError] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -50,9 +48,9 @@ const FormInitSesion: React.FC = () => {
         setAuthHeader(data.token);
         const decoded = jwtDecode<CustomJwtPayload>(data.token);
         if (decoded.role === "ADMIN") {
-          navigate("/madmin", { replace: true });
+          window.location.href = "/madmin";
         } else {
-          navigate("/muser", { replace: true });
+          window.location.href = "/muser";
         }
       } else {
         setAuthHeader(null);

@@ -45,8 +45,8 @@ function App() {
         {isAuthenticated && !isAdmin && (
           <Route path="/muser" element={<MenuUser />} />
         )}
+        {!isAuthenticated && <Route path="/" element={<LoginPage />} />}
         <Route path="/reservas" element={<BookingPage />} />
-        <Route path="/" element={<LoginPage />} />
       </Routes>
     </Router>
   );

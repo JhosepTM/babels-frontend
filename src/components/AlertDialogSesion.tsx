@@ -10,11 +10,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { MenubarTrigger } from "@radix-ui/react-menubar";
-import { useNavigate } from "react-router-dom";
 
 export function AlertDialogSesion() {
-  const navigate = useNavigate();
-
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -36,7 +33,7 @@ export function AlertDialogSesion() {
           <AlertDialogAction
             className=""
             onClick={() => {
-              navigate("/", { replace: true });
+              window.location.href = "/";
               window.localStorage.removeItem("auth_token");
             }}
           >

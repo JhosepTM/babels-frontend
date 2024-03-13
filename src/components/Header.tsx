@@ -60,10 +60,10 @@ export function Header() {
           )}
           <MenubarMenu>
             <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
-              <Link to="/muser/reservas">
+              <Link to="/madmin/reservas">
                 <FaBook />
               </Link>
-              <Link to="/muser/reservas">Reservas</Link>
+              <Link to="/madmin/reservas">Reservas</Link>
             </MenubarTrigger>
           </MenubarMenu>
           {showStatsButton && (
