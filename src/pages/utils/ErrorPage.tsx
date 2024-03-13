@@ -17,9 +17,9 @@ export default function NotFound() {
     <div className="flex items-center justify-center h-screen bg-gray-900">
       <Card className="w-[420px] shadow-2xl">
         <CardHeader className="text-center">
-          <CardTitle className="lg:text-7xl text-4xl">404</CardTitle>
-          <CardDescription>
-            The page you’re looking for doesn’t exist.
+          <CardTitle className="lg:text-7xl text-4xl">401</CardTitle>
+          <CardDescription className="text-lg mt-4">
+            Lo siento, no tienes permiso para acceder a esta página.
           </CardDescription>
         </CardHeader>
         <CardFooter className="flex justify-center">
