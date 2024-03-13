@@ -50,7 +50,7 @@ export function Header() {
           {/* Renderiza el botón de inicio solo si no se encuentra en la página de usuario */}
           {location.pathname !== "/muser" && (
             <MenubarMenu>
-              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
                 <Link to="/madmin">
                   <FaHome />
                 </Link>
@@ -59,7 +59,7 @@ export function Header() {
             </MenubarMenu>
           )}
           <MenubarMenu>
-            <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+            <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
               <Link to="/madmin/reservas">
                 <FaBook />
               </Link>
@@ -68,7 +68,7 @@ export function Header() {
           </MenubarMenu>
           {showStatsButton && (
             <MenubarMenu>
-              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
                 <Link to="/madmin/rooms">
                   <FaEdit />
                 </Link>
@@ -78,7 +78,7 @@ export function Header() {
           )}
           {showAddRoomButton && (
             <MenubarMenu>
-              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
                 <Link to="/madmin/rooms/formrooms">
                   <FaPlus />
                 </Link>
@@ -88,7 +88,7 @@ export function Header() {
           )}
           {showStatsButton && (
             <MenubarMenu>
-              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
                 <Link to="">
                   <FaChartBar />
                 </Link>
@@ -97,7 +97,7 @@ export function Header() {
             </MenubarMenu>
           )}
           <MenubarMenu>
-            <MenubarTrigger className="py-3 px-6 text-lg hover:bg-black hover:text-white">
+            <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
               <Link to="">
                 <FaSignOutAlt />
               </Link>

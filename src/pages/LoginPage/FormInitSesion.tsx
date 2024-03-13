@@ -109,7 +109,7 @@ const FormInitSesion: React.FC = () => {
         </div>
         <div className="But mt-4">
           <Button
-            className="bg-zinc-800 w-full h-12 flex items-center justify-center"
+            className="bg-gray-900 w-full h-12 flex items-center justify-center"
             type="submit"
           >
             {" "}

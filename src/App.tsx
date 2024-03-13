@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { getAuthToken } from "./services/Login/tokenService";
 import { jwtDecode } from "jwt-decode";
 import { CustomJwtPayload } from "./entities/customJwtPayload";
+import ErrorPage from "./pages/utils/ErrorPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -35,17 +36,21 @@ function App() {
   return (
     <Router>
       <Routes>
-        {isAuthenticated && isAdmin && (
+        {isAuthenticated && isAdmin ? (
           <>
             <Route path="/madmin" element={<Menu />} />
             <Route path="/madmin/rooms" element={<RoomsPage />} />
             <Route path="/madmin/rooms/formrooms" element={<FormPage />} />
           </>
-        )}
-        {isAuthenticated && !isAdmin && (
+        ) : null}
+        {isAuthenticated && !isAdmin ? (
           <Route path="/muser" element={<MenuUser />} />
+        ) : null}
+        {!isAuthenticated ? (
+          <Route path="/" element={<LoginPage />} />
+        ) : (
+          <Route path="*" element={<ErrorPage />} />
         )}
-        {!isAuthenticated && <Route path="/" element={<LoginPage />} />}
         <Route path="/reservas" element={<BookingPage />} />
       </Routes>
     </Router>
