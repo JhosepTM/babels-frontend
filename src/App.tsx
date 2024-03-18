@@ -11,6 +11,7 @@ import { getAuthToken } from "./services/Login/tokenService";
 import { jwtDecode } from "jwt-decode";
 import { CustomJwtPayload } from "./entities/customJwtPayload";
 import ErrorPage from "./pages/utils/ErrorPage";
+import RegisterRoomPage from "./pages/FormRoomPage/RegisterRoomPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -52,6 +53,7 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
         )}
         <Route path="/reservas" element={<BookingPage />} />
+        <Route path="/prueba" element={<RegisterRoomPage />} />
       </Routes>
     </Router>
   );

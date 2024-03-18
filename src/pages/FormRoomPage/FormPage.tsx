@@ -14,6 +14,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Description } from "@radix-ui/react-dialog";
+import { getAuthToken } from "@/services/Login/tokenService";
 
 export const FormPage = () => {
   const [name, setName] = useState("");
@@ -26,6 +28,7 @@ export const FormPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const [price, setPrice] = useState("");
   const [priceError, setPriceError] = useState("");
+  const [capacity, setCapacity] = useState("");
 
   const handleChange = (event: { target: { value: string } }) => {
     setName(event.target.value);
@@ -64,7 +67,11 @@ export const FormPage = () => {
     setPrice(onlyNumbersAndCurrency);
   };
 
-  const handleRegister = () => {
+  const handleSelectCapacity = (e: SetStateAction<string>) => {
+    setCapacity(e);
+  };
+
+  const handleRegister = async () => {
     console.log(selectedValue);
 
     if (name.trim() === "") {
@@ -105,9 +112,27 @@ export const FormPage = () => {
       setPriceError("");
     }
 
-    // Aquí puedes agregar más validaciones si es necesario
+    const newRoom = {
+      nameRoom: name,
+      description: Description,
+      state: "Disponible",
+      capacity: capacity,
+      price: price,
+      roomType: selectedValue,
+      hotel_Id: "4",
+    };
+    console.log(newRoom);
 
-    // Lógica para enviar el formulario si todas las validaciones son exitosas
+    try {
+      await fetch("http://localhost:8081/v1/rooms", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Authorization: "Bearer" + getAuthToken(),
+        },
+        body: JSON.stringify({ newRoom }),
+      });
+    } catch {}
   };
 
   return (
@@ -194,7 +219,7 @@ export const FormPage = () => {
 
         <div className="w-full max-w-sm items-center gap-1.5 mt-2">
           <Label className="text-xl">Cantidad</Label>
-          <Select>
+          <Select onValueChange={handleSelectCapacity}>
             <SelectTrigger className="w-[280px] border-b border-gray-500 bg-transparent focus:outline-none">
               <SelectValue placeholder="Seleccionar" />
             </SelectTrigger>
@@ -203,12 +228,12 @@ export const FormPage = () => {
                 <SelectLabel>
                   Capacidad de personas en la habitacion
                 </SelectLabel>
-                <SelectItem value="one">1 persona</SelectItem>
-                <SelectItem value="two">2 personas</SelectItem>
-                <SelectItem value="three">3 personas</SelectItem>
-                <SelectItem value="four">4 personas</SelectItem>
-                <SelectItem value="five">5 personas</SelectItem>
-                <SelectItem value="six">6 personas</SelectItem>
+                <SelectItem value="1">1 persona</SelectItem>
+                <SelectItem value="2">2 personas</SelectItem>
+                <SelectItem value="3">3 personas</SelectItem>
+                <SelectItem value="4">4 personas</SelectItem>
+                <SelectItem value="5">5 personas</SelectItem>
+                <SelectItem value="6">6 personas</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
