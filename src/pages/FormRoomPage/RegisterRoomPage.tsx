@@ -20,14 +20,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-const MAX_FILE_SIZE = 500000;
-const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
-
 const formSchema = z.object({
   roomName: z
     .string()
@@ -41,39 +33,41 @@ const formSchema = z.object({
 
   roomImages: z
     .any()
-    .refine((files) => files?.length == 1, "Image is required.")
     .refine(
-      (files) => files?.[0]?.size <= MAX_FILE_SIZE,
-      `Max file size is 5MB.`
+      (file) => file?.length <= 10,
+      "Por favor, asegúrese de cargar no más de 10 imágenes."
     )
     .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      ".jpg, .jpeg, .png and .webp files are accepted."
+      (file) => file[0]?.size <= 5000000,
+      `Asegúrese de cargar al menos una imagen con un tamaño máximo de 5MB.`
     ),
 
   roomCapacity: z.enum(["1", "2", "3", "4", "5", "6"], {
-    required_error: "El campo es requerido",
+    required_error: "Seleccione una opcion",
   }),
 
-  roomPrice: z.coerce
-    .number({ required_error: "" })
-    .min(1, { message: "El precio esta vacio o es muy pequeño" })
-    .max(100000, { message: "El precio es muy elevado" })
-    .positive({ message: "El precio debe ser mayor a 0" }),
+  roomPrice: z
+    .string({ required_error: "Ingrese un valor" })
+    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
+      message: "Ingrese un precio",
+    }),
 
-  roomType: z.enum(["Basico", "Medio", "Gold"]),
-
-  emailAddress: z.string().email(),
+  roomType: z.enum(["Basico", "Medio", "Gold"], {
+    required_error: "Seleccione una opcion",
+  }),
 });
+
 export default function Home() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       roomName: "",
       roomDescription: "",
-      roomImages: "",
+      roomImages: undefined,
     },
   });
+
+  const fileRef = form.register("roomImages", { required: true });
 
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     console.log({ values });
@@ -126,12 +120,12 @@ export default function Home() {
           <FormField
             control={form.control}
             name="roomImages"
-            render={({ field }) => {
+            render={({}) => {
               return (
                 <FormItem>
                   <FormLabel>Imagenes</FormLabel>
                   <FormControl>
-                    <Input type="file" accept="image/*" multiple {...field} />
+                    <Input type="file" accept="image/*" multiple {...fileRef} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -174,8 +168,19 @@ export default function Home() {
                   <FormLabel>Precio de la habitacion</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
+                      type="text"
                       placeholder="Ingrese el precio de la habitacion"
+                      onKeyDown={(event) => {
+                        // Evita que se ingresen caracteres no numéricos
+                        if (
+                          !(
+                            event.key === "Backspace" || event.key === "Delete"
+                          ) &&
+                          !/\d/.test(event.key)
+                        ) {
+                          event.preventDefault();
+                        }
+                      }}
                       {...field}
                     />
                   </FormControl>
