@@ -90,6 +90,7 @@ export default function Home() {
                   <FormControl>
                     <Input
                       placeholder="Ingrese el nombre de la habitacion"
+                      className="border-b border-gray-500 bg-transparent"
                       type="name"
                       {...field}
                     />
@@ -109,6 +110,7 @@ export default function Home() {
                   <FormControl>
                     <Textarea
                       placeholder="Ingrese la descripcion de la habitacion"
+                      className="border-b border-gray-500 bg-transparent"
                       {...field}
                     />
                   </FormControl>
@@ -125,7 +127,13 @@ export default function Home() {
                 <FormItem>
                   <FormLabel>Imagenes</FormLabel>
                   <FormControl>
-                    <Input type="file" accept="image/*" multiple {...fileRef} />
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      {...fileRef}
+                      className="border-b border-gray-500 bg-transparent"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -141,11 +149,11 @@ export default function Home() {
                   <FormLabel>Cantidad de personas</FormLabel>
                   <Select onValueChange={field.onChange}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="border-b border-gray-500 bg-transparent">
                         <SelectValue placeholder="Seleccione la capacidad de la habitacion" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="hover:bg-gray-500 hover:text-black">
                       <SelectItem value="1">1 persona</SelectItem>
                       <SelectItem value="2">2 personas</SelectItem>
                       <SelectItem value="3">3 personas</SelectItem>
@@ -170,6 +178,7 @@ export default function Home() {
                     <Input
                       type="text"
                       placeholder="Ingrese el precio de la habitacion"
+                      className="border-b border-gray-500 bg-transparent"
                       onKeyDown={(event) => {
                         // Evita que se ingresen caracteres no numéricos
                         if (
@@ -198,11 +207,11 @@ export default function Home() {
                   <FormLabel>Tipo de Habitaciom</FormLabel>
                   <Select onValueChange={field.onChange}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="border-b border-gray-500 bg-transparent">
                         <SelectValue placeholder="Seleccione la capacidad de la habitacion" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="hover:bg-gray-500 hover:text-black">
                       <SelectItem value="Basico">Basico</SelectItem>
                       <SelectItem value="Medio">Medio</SelectItem>
                       <SelectItem value="Gold">Gold</SelectItem>
@@ -215,7 +224,7 @@ export default function Home() {
           />
 
           <Button type="submit" className="w-full">
-            Submit
+            Registrar
           </Button>
         </form>
       </Form>

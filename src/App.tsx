@@ -11,7 +11,8 @@ import { getAuthToken } from "./services/Login/tokenService";
 import { jwtDecode } from "jwt-decode";
 import { CustomJwtPayload } from "./entities/customJwtPayload";
 import ErrorPage from "./pages/utils/ErrorPage";
-import RegisterRoomPage from "./pages/FormRoomPage/RegisterRoomPage";
+import AddRoomPage from "./pages/FormRoomPage/AddRoomPage";
+import PageWithButton from "./pages/FormRoomPage/PageWithButton";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -41,7 +42,7 @@ function App() {
           <>
             <Route path="/madmin" element={<Menu />} />
             <Route path="/madmin/rooms" element={<RoomsPage />} />
-            <Route path="/madmin/rooms/formrooms" element={<FormPage />} />
+            <Route path="/madmin/rooms/addroom" element={<AddRoomPage />} />
           </>
         ) : null}
         {isAuthenticated && !isAdmin ? (
@@ -53,7 +54,8 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
         )}
         <Route path="/reservas" element={<BookingPage />} />
-        <Route path="/prueba" element={<RegisterRoomPage />} />
+        <Route path="/room" element={<FormPage />} />
+        <Route path="/boton" element={<PageWithButton />} />
       </Routes>
     </Router>
   );
