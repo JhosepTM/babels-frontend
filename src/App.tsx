@@ -49,7 +49,7 @@ function App() {
           <Route path="/muser" element={<MenuUser />} />
         ) : null}
         {!isAuthenticated ? (
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
         ) : (
           <Route path="*" element={<ErrorPage />} />
         )}

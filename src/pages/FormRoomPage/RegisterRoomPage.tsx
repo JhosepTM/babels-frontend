@@ -1,4 +1,5 @@
 import * as z from "zod";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -69,7 +70,24 @@ export default function Home() {
 
   const fileRef = form.register("roomImages", { required: true });
 
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const token = localStorage.getItem("token"); // Obtener el token JWT del almacenamiento local
+      const response = await axios.post(
+        "http://localhost:8081/v1/rooms",
+        values,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Agregar el token JWT al encabezado de autorización
+          },
+        }
+      );
+      console.log("Habitación creada:", response.data);
+      // Aquí puedes hacer cualquier otra acción después de que se haya creado la habitación
+    } catch (error) {
+      console.error("Error al crear la habitación:", error);
+      // Aquí puedes manejar cualquier error que ocurra durante la creación de la habitación
+    }
     console.log({ values });
   };
 
