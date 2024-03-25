@@ -33,7 +33,7 @@ export function AlertDialogSesion() {
           <AlertDialogAction
             className=""
             onClick={() => {
-              window.location.href = "/";
+              window.location.href = "/login";
               window.localStorage.removeItem("auth_token");
             }}
           >

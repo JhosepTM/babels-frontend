@@ -15,15 +15,20 @@ import {
 
 const MenuPage = () => {
   return (
-    <div className="flex flex-col overflow-hidden">
+    <div
+      className="flex flex-col overflow-hidden"
+      style={{ height: "100vh", overflowY: "hidden" }}
+    >
       <Header />
-      <div className="flex-grow flex items-center justify-center overflow-hidden">
+      <div className="flex-grow flex items-center justify-center overflow-hidden mt-8 relative">
+        {" "}
+        {/* Añadimos la clase relative aquí */}
         <div className="max-w-lg">
           <Carousel className="w-full">
             <CarouselContent>
               <CarouselItem>
-                <div className="p-1 h-screen">
-                  <Card className="border-zinc-300 bg-white rounded-lg shadow-xl h-5/6">
+                <div className="p-14 h-screen">
+                  <Card className="border-none rounded-lg h-5/6">
                     <div className="flex flex-col items-center justify-center">
                       <CardTitle className="items-center justify-center p-6">
                         Estadisticas
@@ -47,8 +52,8 @@ const MenuPage = () => {
                 </div>
               </CarouselItem>
               <CarouselItem>
-                <div className="p-1 h-screen">
-                  <Card className="border-zinc-300 bg-white rounded-lg shadow-xl h-5/6">
+                <div className="p-14 h-screen">
+                  <Card className="border-none rounded-lg h-5/6">
                     <div className="flex flex-col items-center justify-center">
                       <CardTitle className="items-center justify-center p-6">
                         Editar Habitaciones
@@ -72,8 +77,8 @@ const MenuPage = () => {
                 </div>
               </CarouselItem>
               <CarouselItem>
-                <div className="p-1 h-screen">
-                  <Card className="border-zinc-300 bg-white rounded-lg shadow-xl h-5/6">
+                <div className="p-14 h-screen">
+                  <Card className="border-none rounded-lg h-5/6">
                     <div className="flex flex-col items-center justify-center">
                       <CardTitle className="items-center justify-center p-6">
                         Reservas
@@ -104,6 +109,18 @@ const MenuPage = () => {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
+          {/* Imagen a la izquierda del Carousel */}
+          <img
+            src=".\src\assets\images\Estadisticas.svg"
+            alt="Imagen izquierda"
+            className="absolute top-8 left-0 opacity-50 h-1/50 z-0"
+          />
+          {/* Imagen a la derecha del Carousel */}
+          <img
+            src=".\src\assets\images\Estadisticas.svg"
+            alt="Imagen derecha"
+            className="absolute top-8 right-0 opacity-50 h-1/50 z-0"
+          />
         </div>
       </div>
     </div>

@@ -22,17 +22,17 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
-  roomName: z
+  nameRoom: z
     .string()
     .min(5, { message: "El nombre esta vacio o es muy corto" })
     .max(50, { message: "El nombre es muy grande" }),
 
-  roomDescription: z
+  description: z
     .string()
     .min(20, { message: "La descripcion esta vacia o es muy corta" })
     .max(200, { message: "La descripcion es muy grande" }),
 
-  roomImages: z
+  imageFile: z
     .any()
     .refine(
       (file) => file?.length <= 10,
@@ -43,11 +43,11 @@ const formSchema = z.object({
       `Asegúrese de cargar al menos una imagen con un tamaño máximo de 5MB.`
     ),
 
-  roomCapacity: z.enum(["1", "2", "3", "4", "5", "6"], {
+  capacity: z.enum(["1", "2", "3", "4", "5", "6"], {
     required_error: "Seleccione una opcion",
   }),
 
-  roomPrice: z
+  price: z
     .string({ required_error: "Ingrese un valor" })
     .refine((val) => !Number.isNaN(parseInt(val, 10)), {
       message: "Ingrese un precio",
@@ -62,17 +62,17 @@ export default function Home() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      roomName: "",
-      roomDescription: "",
-      roomImages: undefined,
+      nameRoom: "",
+      description: "",
+      imageFile: undefined,
     },
   });
 
-  const fileRef = form.register("roomImages", { required: true });
+  const fileRef = form.register("imageFile", { required: true });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const token = localStorage.getItem("token"); // Obtener el token JWT del almacenamiento local
+      const token = localStorage.getItem("auth_token"); // Obtener el token JWT del almacenamiento local
       const response = await axios.post(
         "http://localhost:8081/v1/rooms",
         values,
@@ -100,7 +100,7 @@ export default function Home() {
         >
           <FormField
             control={form.control}
-            name="roomName"
+            name="nameRoom"
             render={({ field }) => {
               return (
                 <FormItem>
@@ -120,7 +120,7 @@ export default function Home() {
           />
           <FormField
             control={form.control}
-            name="roomDescription"
+            name="description"
             render={({ field }) => {
               return (
                 <FormItem>
@@ -139,7 +139,7 @@ export default function Home() {
           />
           <FormField
             control={form.control}
-            name="roomImages"
+            name="imageFile"
             render={({}) => {
               return (
                 <FormItem>
@@ -160,7 +160,7 @@ export default function Home() {
           />
           <FormField
             control={form.control}
-            name="roomCapacity"
+            name="capacity"
             render={({ field }) => {
               return (
                 <FormItem>
@@ -187,7 +187,7 @@ export default function Home() {
           />
           <FormField
             control={form.control}
-            name="roomPrice"
+            name="price"
             render={({ field }) => {
               return (
                 <FormItem>
