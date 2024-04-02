@@ -48,6 +48,7 @@ function App() {
         {isAuthenticated && !isAdmin ? (
           <Route path="/muser" element={<MenuUser />} />
         ) : null}
+
         {!isAuthenticated ? (
           <Route path="/login" element={<LoginPage />} />
         ) : (

@@ -32,7 +32,7 @@ const formSchema = z.object({
     .min(20, { message: "La descripcion esta vacia o es muy corta" })
     .max(200, { message: "La descripcion es muy grande" }),
 
-  imageFile: z
+  image: z
     .any()
     .refine(
       (file) => file?.length <= 10,
@@ -64,18 +64,24 @@ export default function Home() {
     defaultValues: {
       nameRoom: "",
       description: "",
-      imageFile: undefined,
     },
   });
 
-  const fileRef = form.register("imageFile", { required: true });
+  const fileRef = form.register("image", { required: true });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const token = localStorage.getItem("auth_token"); // Obtener el token JWT del almacenamiento local
+      const body = new FormData();
+      body.append("nameRoom", values.nameRoom);
+      body.append("description", values.description);
+      body.append("capacity", values.capacity);
+      body.append("roomType", values.roomType);
+      body.append("price", values.price);
+      body.append("image", values.image);
       const response = await axios.post(
         "http://localhost:8081/v1/rooms",
-        values,
+        body,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Agregar el token JWT al encabezado de autorización
@@ -84,6 +90,8 @@ export default function Home() {
       );
       console.log("Habitación creada:", response.data);
       // Aquí puedes hacer cualquier otra acción después de que se haya creado la habitación
+
+      console.log(body.get("image"));
     } catch (error) {
       console.error("Error al crear la habitación:", error);
       // Aquí puedes manejar cualquier error que ocurra durante la creación de la habitación
@@ -139,7 +147,7 @@ export default function Home() {
           />
           <FormField
             control={form.control}
-            name="imageFile"
+            name="image"
             render={({}) => {
               return (
                 <FormItem>

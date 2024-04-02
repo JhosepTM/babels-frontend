@@ -16,13 +16,20 @@ const AddRoomPage = () => {
         <div>
           <Card className="border-none">
             <CardHeader>
-              <CardTitle>Crea tus habitaciones</CardTitle>
-              <CardDescription className="font-bold">
-                Inicia sesión con los datos proporcionados por sus
-                distribuidores del sistema para acceder a la plataforma
+              <CardTitle className="flex justify-center items-center">
+                Crea Nuevas Habitaciones
+              </CardTitle>
+              <CardDescription className="font-bold text-center px-48">
+                Descubre nuestra herramienta de creación de habitaciones,
+                diseñada para simplificar el proceso de configuración de nuevos
+                espacios en tu hotel. Con esta función, puedes rápidamente
+                agregar habitaciones a tu inventario sin complicaciones.
+                Simplemente introduce los detalles básicos como nombre,
+                descripción, precio, imágenes, capacidad y tipo de habitación, y
+                listo.
               </CardDescription>
             </CardHeader>
-            <CardContent className=" bg-white rounded-lg -mt-20">
+            <CardContent className=" bg-white rounded-lg -mt-24">
               <RegisterRoomPage />
             </CardContent>
           </Card>
