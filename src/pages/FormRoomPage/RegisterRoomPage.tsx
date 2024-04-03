@@ -32,7 +32,7 @@ const formSchema = z.object({
     .min(20, { message: "La descripcion esta vacia o es muy corta" })
     .max(200, { message: "La descripcion es muy grande" }),
 
-  image: z
+  files: z
     .any()
     .refine(
       (file) => file?.length <= 10,
@@ -67,36 +67,49 @@ export default function Home() {
     },
   });
 
-  const fileRef = form.register("image", { required: true });
+  const fileRef = form.register("files", { required: true });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const token = localStorage.getItem("auth_token"); // Obtener el token JWT del almacenamiento local
-      const body = new FormData();
-      body.append("nameRoom", values.nameRoom);
-      body.append("description", values.description);
-      body.append("capacity", values.capacity);
-      body.append("roomType", values.roomType);
-      body.append("price", values.price);
-      body.append("image", values.image);
-      const response = await axios.post(
+      const token = localStorage.getItem("auth_token");
+      const responseRoom = await axios.post(
         "http://localhost:8081/v1/rooms",
-        body,
+        values,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Agregar el token JWT al encabezado de autorización
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log("Habitación creada:", response.data);
-      // Aquí puedes hacer cualquier otra acción después de que se haya creado la habitación
 
-      console.log(body.get("image"));
+      // Obtener el ID de la sala creada
+      const idRoom = responseRoom.data["idRoom"];
+
+      // Crear un objeto FormData y agregar el ID de la sala
+      const formData = new FormData();
+      formData.append("roomId", idRoom);
+
+      // Agregar las imágenes al objeto FormData
+      for (let i = 0; i < values.files.length; i++) {
+        formData.append("files", values.files[i]);
+      }
+
+      // Realizar la solicitud POST para cargar las imágenes
+      const responseImage = await axios.post(
+        "http://localhost:8081/api/images/upload",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Imágenes cargadas exitosamente:", responseImage.data);
     } catch (error) {
-      console.error("Error al crear la habitación:", error);
-      // Aquí puedes manejar cualquier error que ocurra durante la creación de la habitación
+      console.error("Error al crear la sala o cargar imágenes:", error);
     }
-    console.log({ values });
   };
 
   return (
@@ -147,7 +160,7 @@ export default function Home() {
           />
           <FormField
             control={form.control}
-            name="image"
+            name="files"
             render={({}) => {
               return (
                 <FormItem>
