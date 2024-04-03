@@ -29,13 +29,13 @@ const formSchema = z.object({
 
   description: z
     .string()
-    .min(20, { message: "La descripcion esta vacia o es muy corta" })
+    .min(10, { message: "La descripcion esta vacia o es muy corta" })
     .max(200, { message: "La descripcion es muy grande" }),
 
   files: z
     .any()
     .refine(
-      (file) => file?.length <= 10,
+      (file) => file?.length <= 7,
       "Por favor, asegúrese de cargar no más de 10 imágenes."
     )
     .refine(

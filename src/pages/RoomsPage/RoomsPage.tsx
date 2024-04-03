@@ -58,15 +58,34 @@ const RoomsPage = () => {
 
             <div className="p-4 flex flex-col justify-between w-2/3">
               <div>
-                <h2 className="text-white font-bold mb-2 text-lg md:text-xl lg:text-2xl">
-                  Cuarto del Amor
-                </h2>
-                <Label className="text-white mb-4 text-sm md:text-base lg:text-lg">
+                <div>
+                  <Label className="text-white font-bold mb-2 text-lg md:text-xl lg:text-2xl">
+                    Cuarto del Amor
+                  </Label>
+                </div>
+                <Label className="text-white mb-2 text-xs md:text-sm lg:text-base">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                  nec massa euismod, accumsan velit vitae, sagittis nibh.
-                  Pellentesque aliquam nisl massa, ut lobortis tortor egestas a.
-                  Donec laoreet risus a nisl efficitur, a porta ligula egestas.
+                  nec massa euismod, accumsan velit vitae, sagittis nibh. asdasd
+                  asdasd a asdasd dasdasdasd dasdasdasdasdasdsadasdasdas
+                  asdasdddsadaasdasds
                 </Label>
+                {/* Subtítulos */}
+                <div className="mb-1">
+                  <Label className="text-white font-bold">
+                    Cantidad de personas:
+                  </Label>{" "}
+                  <Label className="text-white">X</Label>
+                </div>
+                <div className="mb-1">
+                  <Label className="text-white font-bold">Precio:</Label>{" "}
+                  <Label className="text-white">X Bs</Label>
+                </div>
+                <div className="mb-1">
+                  <Label className="text-white font-bold">
+                    Tipo de habitacion:
+                  </Label>{" "}
+                  <Label className="text-white">Tipo X</Label>
+                </div>
               </div>
               <div className="flex space-x-2">
                 <Button className="flex-grow hover:bg-slate-800">Editar</Button>
@@ -103,15 +122,32 @@ const RoomsPage = () => {
 
             <div className="p-4 flex flex-col justify-between w-2/3">
               <div>
-                <h2 className="text-white font-bold mb-2 text-lg md:text-xl lg:text-2xl">
-                  Cuarto del Amor
-                </h2>
-                <Label className="text-white mb-4 text-sm md:text-base lg:text-lg">
+                <div>
+                  <Label className="text-white font-bold mb-2 text-lg md:text-xl lg:text-2xl">
+                    Cuarto del Amor
+                  </Label>
+                </div>
+                <Label className="text-white mb-2 text-xs md:text-sm lg:text-base">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
                   nec massa euismod, accumsan velit vitae, sagittis nibh.
-                  Pellentesque aliquam nisl massa, ut lobortis tortor egestas a.
-                  Donec laoreet risus a nisl efficitur, a porta ligula egestas.
                 </Label>
+                {/* Subtítulos */}
+                <div className="mb-1">
+                  <Label className="text-white font-bold">
+                    Cantidad de personas:
+                  </Label>{" "}
+                  <Label className="text-white">X</Label>
+                </div>
+                <div className="mb-1">
+                  <Label className="text-white font-bold">Precio:</Label>{" "}
+                  <Label className="text-white">X Bs</Label>
+                </div>
+                <div className="mb-1">
+                  <Label className="text-white font-bold">
+                    Tipo de habitacion:
+                  </Label>{" "}
+                  <Label className="text-white">Tipo X</Label>
+                </div>
               </div>
               <div className="flex space-x-2">
                 <Button className="flex-grow hover:bg-slate-800">Editar</Button>
