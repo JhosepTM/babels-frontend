@@ -107,6 +107,13 @@ export default function Home() {
       );
 
       console.log("Imágenes cargadas exitosamente:", responseImage.data);
+      if (
+        (responseImage.data === "Imágenes cargadas exitosamente:",
+        responseImage.data)
+      ) {
+        // Redirigir a la página "/madmin/rooms"
+        window.location.href = "/madmin/rooms";
+      }
     } catch (error) {
       console.error("Error al crear la sala o cargar imágenes:", error);
     }
@@ -261,7 +268,6 @@ export default function Home() {
               );
             }}
           />
-
           <Button type="submit" className="w-full">
             Registrar
           </Button>
