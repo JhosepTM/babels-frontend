@@ -61,6 +61,7 @@ export const FormPage = () => {
     setShowAlert(e === "");
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handlePriceChange = (event: { target: { value: any } }) => {
     const { value } = event.target;
     const onlyNumbersAndCurrency = value.replace(/[^0-9$Bs]/g, "");
@@ -132,7 +133,7 @@ export const FormPage = () => {
         },
         body: JSON.stringify({ newRoom }),
       });
-    } catch {}
+    } catch { /* empty */ }
   };
 
   return (

@@ -168,6 +168,7 @@ export default function Home() {
           <FormField
             control={form.control}
             name="files"
+            // eslint-disable-next-line no-empty-pattern
             render={({}) => {
               return (
                 <FormItem>
