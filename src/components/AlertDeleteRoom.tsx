@@ -11,29 +11,10 @@ import {
   } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
 // Import Axios for HTTP requests (or use fetch API)
-import axios from 'axios';
 
 // Define the props type
-interface AlertDeleteRoomProps {
-    idRoom: number; // Assuming roomId is a number
-}
-export function AlertDeleteRoom({ idRoom }: AlertDeleteRoomProps) {
+export function AlertDeleteRoom() {
     // Function to handle the delete action
-    const handleDelete = async () => {
-        try {
-            // Perform the DELETE request
-            const response = await axios.delete(`/v1/rooms/${idRoom}`);
-            if (response.status === 204) {
-                // Handle successful deletion, e.g., notify user, refresh list, redirect, etc.
-                alert('Habitación eliminada con éxito');
-                // Optionally, redirect or re-fetch data
-            }
-        } catch (error) {
-            // Handle errors, e.g., show an error message
-            console.error('Error al eliminar la habitación:', error);
-            alert('Error al eliminar la habitación');
-        }
-    };
 
     return (
         <AlertDialog>
@@ -53,7 +34,7 @@ export function AlertDeleteRoom({ idRoom }: AlertDeleteRoomProps) {
                     <AlertDialogCancel className="bg-gray-400 hover:bg-gray-300">
                         Cancelar
                     </AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDelete}>
+                    <AlertDialogAction>
                         Eliminar
                     </AlertDialogAction>
                 </AlertDialogFooter>

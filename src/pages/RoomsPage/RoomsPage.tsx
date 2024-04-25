@@ -8,7 +8,7 @@ import { AlertDeleteRoom } from "@/components/AlertDeleteRoom";
 const RoomsPage = () => {
   interface Room {
     idRoom: number;
-    name: string;
+    nameRoom: string;
     description: string;
     capacity: number;
     price: number;
@@ -18,7 +18,6 @@ const RoomsPage = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
 
   useEffect(() => {
-    // Función para obtener la lista de habitaciones desde el backend
     const fetchRooms = async () => {
       try {
         const response = await fetch("http://localhost:8081/v1/rooms");
@@ -31,7 +30,7 @@ const RoomsPage = () => {
 
     fetchRooms();
   }, []);
-  
+
 
   return (
     <div className="flex flex-col h-screen">
@@ -46,7 +45,7 @@ const RoomsPage = () => {
               <div>
                 <div>
                   <Label className="text-white font-bold mb-2 text-lg md:text-xl lg:text-2xl">
-                    {room.name}
+                    {room.nameRoom}
                   </Label>
                 </div>
                 <Label className="text-white mb-2 text-xs md:text-sm lg:text-base">
@@ -72,7 +71,7 @@ const RoomsPage = () => {
               </div>
               <div className="flex space-x-2">
                 <Button className="flex-grow hover:bg-slate-800">Editar</Button>
-                <AlertDeleteRoom idRoom={room.idRoom} />
+                <AlertDeleteRoom />
               </div>
             </div>
           </div>

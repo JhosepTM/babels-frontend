@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-pattern */
 import * as z from "zod";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -168,7 +169,6 @@ export default function Home() {
           <FormField
             control={form.control}
             name="files"
-            // eslint-disable-next-line no-empty-pattern
             render={({}) => {
               return (
                 <FormItem>
