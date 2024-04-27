@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - actions
+  workflows_dispatch:
+    inputs:
+      run_sonar:
+        description: 'Run SonarQube analysis? yes/no'
+        required: false
+        default: 'no'  
 
 jobs:
   build:
@@ -44,6 +50,7 @@ jobs:
           path: /tmp/grype-report.txt
 
       - name: Analyze with SonarQube
+        if: ${{ github.event.inputs.run_sonar == 'yes' }}
         uses: SonarSource/sonarqube-scan-action@v2.0.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
