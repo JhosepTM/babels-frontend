@@ -5,7 +5,6 @@ import "@/css/LoginPage/FormularioSesion.css";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { SelectLabel } from '@/components/ui/select';
 
 interface FormState {
   username: string;
