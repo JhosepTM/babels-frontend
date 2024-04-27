@@ -140,11 +140,11 @@ export const GraphicsMain = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex justify-between w-[90%] 2xl:h-auto xl:h-[420px] lg:h-[380px] md:h-[280px] items-start">
+      <div className="flex justify-between w-[95%] 2xl:h-[540px] xl:h-[420px] lg:h-[380px] md:h-[280px] items-start">
         <div className="flex flex-col justify-center items-center">
           <Card className="shadow-slate-300 p-5">
             <AreaChart
-              className="2xl:w-[850px] 2xl:h-[432px] xl:w-[700px] xl:h-[400px] lg:w-[600px] lg:h-[370px] md:w-[530px] md:h-[275px]"
+              className="2xl:w-[1040px] 2xl:h-[480px] xl:w-[680px] xl:h-[360px] lg:w-[580px] lg:h-[330px] md:w-[460px] md:h-[235px]"
               data={chartdata}
               index="date"
               categories={["SemiAnalysis", "The Pragmatic Engineer"]}

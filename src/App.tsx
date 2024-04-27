@@ -6,7 +6,7 @@ import Menu from "./pages/Menu";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { BarChartPage } from "./pages/BarChartPage";
 
-import { TableReservation } from "./components/table/TableReservation";
+import { TableReservation } from "./components/table/SimpleTable";
 
 function App() {
   return (

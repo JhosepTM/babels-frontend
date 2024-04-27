@@ -20,7 +20,7 @@ import {
   BarChartOfRoomType,
 } from "@/components/charts/BarChartGraphic";
 
-import { TableReservation } from "@/components/table/TableReservation";
+import { SimpleTable } from "@/components/table/SimpleTable";
 
 import { TbBrandCashapp } from "react-icons/tb";
 import { MdPersonAddAlt } from "react-icons/md";
@@ -29,7 +29,7 @@ import { SimpleChartBoard } from "../components/charts/SimpleChartBoard";
 import {
   TableComparativeReservation,
   TableItemReservation,
-} from "@/interfaces/TableReservation";
+} from "@/interfaces/SimpleTable";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
@@ -140,6 +140,12 @@ const dataTable: TableItemReservation[] = [
     month: "December",
     numberReservations: 130,
     revenue: 13000,
+  },
+  {
+    id: "13",
+    month: "January",
+    numberReservations: 20,
+    revenue: 2000,
   },
 ];
 
@@ -500,7 +506,7 @@ export const BarChartPage = () => {
 
   return (
     <div className="flex justify-center items-center m-10">
-      <Card className="2xl:w-[1335px] xl:w-[1150px] md:w-[800px] 2xl:h-[720px] xl:h-[690px] lg:h-[1400px] md:h-[1350px] shadow-lg p-10">
+      <Card className="2xl:w-[1640px] xl:w-[1150px] lg:w-[1000px] md:w-[800px] 2xl:h-[870px] xl:h-[700px] lg:h-[1400px] md:h-[1350px] shadow-lg 2xl:p-16 xl:p-10 lg:p-10 md:p-10">
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-3xl font-semibold">Bar Chart</h1>
           <div className="flex gap-3">
@@ -616,12 +622,12 @@ export const BarChartPage = () => {
           </TabsList>
           <TabsContent value="reservations-month">
             <SimpleChartBoard cardsInfo={cardsInfo}>
-              <Card className="2xl:w-[55%] xl:w-[49%] lg:w-[100%] md:w-[100%] 2xl:h-[380px] xl:h-[370px] pr-10 pt-5 pb-5">
+              <Card className="2xl:w-[55%] xl:w-[49%] lg:w-[100%] md:w-[100%] 2xl:h-[450px] xl:h-[370px] pr-10 pt-5 pb-5">
                 <BarChartGraphic />
               </Card>
-              <ScrollArea className="2xl:w-[43%] xl:w-[49%] lg-w[100%]">
-                <div className="2xl:w-[100%] xl:w-[100%] 2xl:h-[380px] xl:h-[370px]">
-                  <TableReservation<TableItemReservation>
+              <ScrollArea className="2xl:w-[43%] xl:w-[49%] lg:w-[100%] md:w-[100%] rounded-md border">
+                <div className="2xl:w-[100%] xl:w-[100%] 2xl:h-[450px] xl:h-[370px] lg:h-[680px] md:h-[680px]">
+                  <SimpleTable<TableItemReservation>
                     columns={columnsTable}
                     data={dataTable}
                   />
@@ -632,15 +638,12 @@ export const BarChartPage = () => {
           </TabsContent>
           <TabsContent value="reservations-room-type">
             <SimpleChartBoard cardsInfo={cardsInfo}>
-              <Card className="2xl:w-[55%] xl:w-[53%] lg:w-[100%] md:w-[100%] 2xl:h-[380px] xl:h-[370px] pr-10 pt-5 pb-5">
+              <Card className="2xl:w-[55%] xl:w-[53%] lg:w-[100%] md:w-[100%] 2xl:h-[450px] xl:h-[370px] pr-10 pt-5 pb-5">
                 <BarChartOfRoomType />
               </Card>
-              <ScrollArea className="2xl:w-[43%] xl:w-[45%] lg-w[100%]">
-                <div className="2xl:w-[100%] xl:w-[100%] 2xl:h-[380px] xl:h-[370px]">
-                  <TableReservation<any>
-                    columns={columnsTable2}
-                    data={dataTable2}
-                  />
+              <ScrollArea className="2xl:w-[43%] xl:w-[45%] lg:w-[100%] md:w-[100%] rounded-md border">
+                <div className="2xl:w-[100%] xl:w-[100%] 2xl:h-[450px] xl:h-[370px] lg:h-[680px] md:h-[680px]">
+                  <SimpleTable<any> columns={columnsTable2} data={dataTable2} />
                 </div>
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
@@ -648,12 +651,12 @@ export const BarChartPage = () => {
           </TabsContent>
           <TabsContent value="comparative-year">
             <SimpleChartBoard cardsInfo={cardsInfo}>
-              <Card className="2xl:w-[55%] xl:w-[46%] lg:w-[100%] md:w-[100%] 2xl:h-[380px] xl:h-[370px] pr-10 pt-5 pb-5">
+              <Card className="2xl:w-[55%] xl:w-[46%] lg:w-[100%] md:w-[100%] 2xl:h-[450px] xl:h-[370px] pr-10 pt-5 pb-5">
                 <BarChartComparative />
               </Card>
-              <ScrollArea className="2xl:w-[43%] xl:w-[52%] lg-w[100%]">
-                <div className="2xl:w-[100%] xl:w-[100%] 2xl:h-[380px] xl:h-[370px]">
-                  <TableReservation<TableComparativeReservation>
+              <ScrollArea className="2xl:w-[43%] xl:w-[52%] lg:w-[100%] md:w-[100%] rounded-md border">
+                <div className="2xl:w-[100%] xl:w-[100%] 2xl:h-[450px] xl:h-[370px] lg:h-[680px] md:h-[680px]">
+                  <SimpleTable<TableComparativeReservation>
                     columns={columnsTable3}
                     data={dataTable3}
                   />

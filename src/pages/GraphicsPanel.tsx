@@ -17,7 +17,7 @@ const GraphicsPanel = () => {
         </TabsList>
         <div className="flex justify-center items-center">
           <TabsContent value="graphics">
-            <Card className="2xl:w-[1335px] 2xl:h-[720px] xl:w-[1150px] xl:h-[690px] lg:w-[1000px] lg:h-[650px] md:w-[800px] md:h-[550px] shadow-lg">
+            <Card className="2xl:w-[1640px] xl:w-[1150px] lg:w-[1000px] md:w-[800px] 2xl:h-[870px] xl:h-[720px] lg:h-[700px] md:h-[590px] shadow-lg p-10">
               <CardHeader>
                 <CardTitle>Create project</CardTitle>
                 <CardDescription>
@@ -28,7 +28,7 @@ const GraphicsPanel = () => {
             </Card>
           </TabsContent>
           <TabsContent value="report">
-            <Card className="2xl:w-[1335px] 2xl:h-[720px] xl:w-[1150px] xl:h-[690px] lg:w-[1000px] lg:h-[650px] md:w-[800px] md:h-[550px] shadow-lg">
+            <Card className="2xl:w-[1640px] xl:w-[1150px] lg:w-[1000px] md:w-[800px] 2xl:h-[870px] xl:h-[720px] lg:h-[700px] md:h-[590px] shadow-lg p-10">
               <h1 className="p-20">Report</h1>
             </Card>
           </TabsContent>

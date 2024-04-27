@@ -151,7 +151,7 @@ export const GraphicsBar: React.FC<GraphicsBarProps> = ({
         </Sidebar>
       </div>
       {/* center-> w-full 2xl:h-auto h-screen z-0 */}
-      <div className="w-full h-screen">
+      <div className="w-full h-screen bg-slate-100">
         <ScrollArea className="w-full h-full">{child}</ScrollArea>
       </div>
     </div>
