@@ -8,7 +8,7 @@ on:
     inputs:
       run_sonar:
         description: 'Run SonarQube analysis? yes/no'
-        required: false
+        required: true
         default: 'no'  
 
 jobs:
