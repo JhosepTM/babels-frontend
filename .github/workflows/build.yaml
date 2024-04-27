@@ -11,13 +11,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-      
+        uses: actions/checkout@v4
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-        
+          node-version: "20"
+
       - name: Install dependencies
         run: npm install
 
@@ -42,3 +42,9 @@ jobs:
         with:
           name: grype-report
           path: /tmp/grype-report.txt
+
+      - name: Analyze with SonarQube
+        uses: SonarSource/sonarqube-scan-action@v2.0.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
