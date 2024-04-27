@@ -1,9 +1,6 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - actions
   workflow_dispatch:
     inputs:
       run_sonar:
