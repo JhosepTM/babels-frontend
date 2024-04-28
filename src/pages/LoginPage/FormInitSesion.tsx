@@ -5,7 +5,6 @@ import "@/css/LoginPage/FormularioSesion.css";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { SelectLabel } from '@/components/ui/select';
 
 interface FormState {
   username: string;
@@ -41,7 +40,7 @@ const Formulario: React.FC = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8081/login', formData);
+      const response = await axios.post('http://192.168.0.6:8081/login', formData);
       const token = response.data.token;
       localStorage.setItem('token', token);
 
