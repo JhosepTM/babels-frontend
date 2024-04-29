@@ -13,12 +13,14 @@ import { CustomJwtPayload } from "./entities/customJwtPayload";
 import ErrorPage from "./pages/utils/ErrorPage";
 import AddRoomPage from "./pages/FormRoomPage/AddRoomPage";
 import PageWithButton from "./pages/FormRoomPage/PageWithButton";
+import EditRoomPage from "./pages/FormRoomPage/EditRoomPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line prefer-const
     let token = getAuthToken();
     if (token !== null) {
       setIsAuthenticated(true);
@@ -43,6 +45,7 @@ function App() {
             <Route path="/madmin" element={<Menu />} />
             <Route path="/madmin/rooms" element={<RoomsPage />} />
             <Route path="/madmin/rooms/addroom" element={<AddRoomPage />} />
+            <Route path="/madmin/rooms/editroom" element={<EditRoomPage />} />           
           </>
         ) : null}
         {isAuthenticated && !isAdmin ? (

@@ -1,4 +1,3 @@
-/* eslint-disable no-empty-pattern */
 import * as z from "zod";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -59,12 +58,46 @@ const formSchema = z.object({
   }),
 });
 
-export default function Home() {
+enum RoomCapacity {
+    One = "1",
+    Two = "2",
+    Three = "3",
+    Four = "4",
+    Five = "5",
+    Six = "6",
+  }
+
+enum RoomType {
+    Basico = "Basico",
+    Medio = "Medio",
+    Gold = "Gold",
+
+ }
+
+interface Room {
+    idRoom: number;
+    nameRoom: string;
+    description: string;
+    capacity: RoomCapacity;
+    price: number;
+    roomType: RoomType;
+    images: string[];
+  }
+
+export interface EditFormPageProps{
+    room: Room;
+}
+
+
+export default function EditForm({room}: EditFormPageProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nameRoom: "",
-      description: "",
+      nameRoom: room.nameRoom,
+      description: room.description,
+      capacity: `${room.capacity}`,
+      price: `${room.price}`,
+      roomType: `${room.roomType}`,
     },
   });
 
@@ -169,7 +202,7 @@ export default function Home() {
           <FormField
             control={form.control}
             name="files"
-            render={({}) => {
+            render={() => {
               return (
                 <FormItem>
                   <FormLabel>Imagenes</FormLabel>

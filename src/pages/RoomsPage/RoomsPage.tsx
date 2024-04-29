@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { AlertDeleteRoom } from "@/components/AlertDeleteRoom";
+import { Link } from "react-router-dom";
 
 const RoomsPage = () => {
   interface Room {
@@ -86,7 +87,11 @@ const RoomsPage = () => {
                 </div>
               </div>
               <div className="flex space-x-2">
-                <Button className="flex-grow hover:bg-slate-800">Editar</Button>
+              <Link to="/madmin/rooms/editroom" className="flex-grow">
+                  <Button className="flex-grow hover:bg-slate-800 w-full text-center">
+                    Editar
+                  </Button>
+              </Link>
                 <AlertDeleteRoom onDelete={() => handleDeleteRoom(room.idRoom)}/>
               </div>
             </div>
