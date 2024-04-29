@@ -17,6 +17,7 @@ const RoomsPage = () => {
   }
   const [rooms, setRooms] = useState<Room[]>([]);
 
+
   useEffect(() => {
     const fetchRooms = async () => {
       try {
@@ -30,6 +31,21 @@ const RoomsPage = () => {
 
     fetchRooms();
   }, []);
+
+  const handleDeleteRoom = async (roomId: number) => {
+    try {
+      const response = await fetch(`http://localhost:8081/v1/rooms/${roomId}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        setRooms(rooms.filter(room => room.idRoom !== roomId));
+      } else {
+        console.error('Error al eliminar la habitación');
+      }
+    } catch (error) {
+      console.error('Error al eliminar la habitación:', error);
+    }
+  };
 
 
   return (
@@ -71,7 +87,7 @@ const RoomsPage = () => {
               </div>
               <div className="flex space-x-2">
                 <Button className="flex-grow hover:bg-slate-800">Editar</Button>
-                <AlertDeleteRoom />
+                <AlertDeleteRoom onDelete={() => handleDeleteRoom(room.idRoom)}/>
               </div>
             </div>
           </div>

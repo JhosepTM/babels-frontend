@@ -10,11 +10,17 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
-// Import Axios for HTTP requests (or use fetch API)
+
+interface Props {
+    onDelete: () => void; // Especifica el tipo de la prop onDelete
+  }
 
 // Define the props type
-export function AlertDeleteRoom() {
-    // Function to handle the delete action
+export function AlertDeleteRoom({ onDelete }: Props) {
+
+    const handleDeleteConfirmed = async () => {
+        await onDelete();
+      };
 
     return (
         <AlertDialog>
@@ -34,7 +40,7 @@ export function AlertDeleteRoom() {
                     <AlertDialogCancel className="bg-gray-400 hover:bg-gray-300">
                         Cancelar
                     </AlertDialogCancel>
-                    <AlertDialogAction>
+                    <AlertDialogAction onClick={handleDeleteConfirmed}>
                         Eliminar
                     </AlertDialogAction>
                 </AlertDialogFooter>
@@ -42,3 +48,4 @@ export function AlertDeleteRoom() {
         </AlertDialog>
     );
 }
+
