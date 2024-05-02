@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as z from "zod";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -82,7 +83,7 @@ interface Room {
     price: number;
     roomType: RoomType;
     images: string[];
-  }
+}
 
 export interface EditFormPageProps{
     room: Room;
@@ -95,19 +96,25 @@ export default function EditForm({room}: EditFormPageProps) {
     defaultValues: {
       nameRoom: room.nameRoom,
       description: room.description,
-      capacity: `${room.capacity}`,
+      capacity: room.capacity,
       price: `${room.price}`,
       roomType: `${room.roomType}`,
     },
   });
+
+  const idRoom = new URLSearchParams(location.search).get('idRoom');
+
+  console.log(room);
+
+  console.log(idRoom);
 
   const fileRef = form.register("files", { required: true });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const token = localStorage.getItem("auth_token");
-      const responseRoom = await axios.post(
-        "http://localhost:8081/v1/rooms",
+      const responseRoom = await axios.put(
+        `http://localhost:8081/v1/rooms/${idRoom}`,
         values,
         {
           headers: {
@@ -116,38 +123,36 @@ export default function EditForm({room}: EditFormPageProps) {
         }
       );
 
-      // Obtener el ID de la sala creada
-      const idRoom = responseRoom.data["idRoom"];
 
-      // Crear un objeto FormData y agregar el ID de la sala
-      const formData = new FormData();
-      formData.append("roomId", idRoom);
+      // // Crear un objeto FormData y agregar el ID de la sala
+      // const formData = new FormData();
+      // formData.append("roomId", idRoom);
 
-      // Agregar las imágenes al objeto FormData
-      for (let i = 0; i < values.files.length; i++) {
-        formData.append("files", values.files[i]);
-      }
+      // // Agregar las imágenes al objeto FormData
+      // for (let i = 0; i < values.files.length; i++) {
+      //   formData.append("files", values.files[i]);
+      // }
 
-      // Realizar la solicitud POST para cargar las imágenes
-      const responseImage = await axios.post(
-        "http://localhost:8081/api/images/upload",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      // // Realizar la solicitud POST para cargar las imágenes
+      // const responseImage = await axios.post(
+      //   "http://localhost:8081/api/images/upload",
+      //   formData,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
 
-      console.log("Imágenes cargadas exitosamente:", responseImage.data);
-      if (
-        (responseImage.data === "Imágenes cargadas exitosamente:",
-        responseImage.data)
-      ) {
-        // Redirigir a la página "/madmin/rooms"
-        window.location.href = "/madmin/rooms";
-      }
+      // console.log("Imágenes cargadas exitosamente:", responseImage.data);
+      // if (
+      //   (responseImage.data === "Imágenes cargadas exitosamente:",
+      //   responseImage.data)
+      // ) {
+      //   // Redirigir a la página "/madmin/rooms"
+      //   window.location.href = "/madmin/rooms";
+      // }
     } catch (error) {
       console.error("Error al crear la sala o cargar imágenes:", error);
     }

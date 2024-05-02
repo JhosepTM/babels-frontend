@@ -87,7 +87,7 @@ const RoomsPage = () => {
                 </div>
               </div>
               <div className="flex space-x-2">
-              <Link to="/madmin/rooms/editroom" className="flex-grow">
+              <Link to={`/madmin/rooms/editroom?idRoom=${room.idRoom}`} className="flex-grow">
                   <Button className="flex-grow hover:bg-slate-800 w-full text-center">
                     Editar
                   </Button>

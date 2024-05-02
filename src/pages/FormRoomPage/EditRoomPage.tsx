@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Header } from "@/components/Header";
 import {
   Card,
@@ -6,8 +7,66 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import EditForm from "./EditForm";
+
+enum RoomCapacity {
+  One = "1",
+  Two = "2",
+  Three = "3",
+  Four = "4",
+  Five = "5",
+  Six = "6",
+}
+
+enum RoomType {
+  Basico = "Basico",
+  Medio = "Medio",
+  Gold = "Gold",
+
+}
+
+interface Room {
+  idRoom: number;
+  nameRoom: string;
+  description: string;
+  capacity: RoomCapacity;
+  price: number;
+  roomType: RoomType;
+  images: string[];
+}
+
 
 const EditRoomPage = () => {
+  const [room, setRoom] = useState<Room>();
+
+  const idRoom = new URLSearchParams(location.search).get('idRoom');
+  console.log(idRoom);
+
+  useEffect(() => {
+    const getRooms = async () => {
+      try {
+        const token = localStorage.getItem("auth_token");
+        const responseRoom = await axios.get(
+          `http://localhost:8081/v1/rooms/${idRoom}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setRoom(responseRoom.data);
+      } catch (error) {
+        console.error("Error al obtener la habitación:", error);
+      }
+    };
+
+    if (idRoom) {
+      getRooms();
+    }
+  }, [idRoom]);
+
   return (
     <div>
       <Header />
@@ -28,6 +87,7 @@ const EditRoomPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className=" bg-white rounded-lg -mt-24">
+              {room?<EditForm room={room}/>:<p>Cargando</p>}
             </CardContent>
           </Card>
         </div>

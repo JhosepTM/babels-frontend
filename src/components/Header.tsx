@@ -72,7 +72,7 @@ export function Header() {
                 <Link to="/madmin/rooms">
                   <FaEdit />
                 </Link>
-                <Link to="/madmin/rooms">Editar Habitaciones</Link>
+                <Link to="/madmin/rooms">Habitaciones</Link>
               </MenubarTrigger>
             </MenubarMenu>
           )}
