@@ -232,10 +232,10 @@ export default function EditForm({ room }: EditFormPageProps) {
               return (
                 <FormItem>
                   <FormLabel>Cantidad de personas</FormLabel>
-                  <Select defaultValue={room.capacity} onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="border-b border-gray-500 bg-transparent">
-                      <SelectValue>{room.capacity}</SelectValue>
+                      <SelectValue>{field.value}</SelectValue>
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="hover:bg-gray-500 hover:text-black">
@@ -290,10 +290,10 @@ export default function EditForm({ room }: EditFormPageProps) {
               return (
                 <FormItem>
                   <FormLabel>Tipo de Habitacion</FormLabel>
-                  <Select defaultValue={room.roomType} onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="border-b border-gray-500 bg-transparent">
-                      <SelectValue>{room.roomType}</SelectValue>
+                      <SelectValue>{field.value}</SelectValue>
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="hover:bg-gray-500 hover:text-black">

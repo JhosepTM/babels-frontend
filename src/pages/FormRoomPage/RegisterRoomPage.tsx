@@ -97,14 +97,6 @@ const formSchema = z.object({
             formData.append("multipartFiles", files[i]);
         }
 
-        // formData.append("multipartFiles", fileList);
-        // console.log("--------------------------");
-        // console.log(values.multipartFiles.length);
-
-        // for (const [clave, valor] of formData.entries()) {
-        //   console.log(`Clave: ${clave}, Valor: ${valor}`);
-        // }
-
   
         const responseImage = await axios.post(
           "http://localhost:8081/v1/imagen-room",
