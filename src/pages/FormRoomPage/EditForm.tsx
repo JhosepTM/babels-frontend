@@ -60,45 +60,45 @@ const formSchema = z.object({
 });
 
 enum RoomCapacity {
-    One = "1",
-    Two = "2",
-    Three = "3",
-    Four = "4",
-    Five = "5",
-    Six = "6",
-  }
+  One = "1",
+  Two = "2",
+  Three = "3",
+  Four = "4",
+  Five = "5",
+  Six = "6",
+}
 
 enum RoomType {
-    Basico = "Basico",
-    Medio = "Medio",
-    Gold = "Gold",
+  Basico = "Basico",
+  Medio = "Medio",
+  Gold = "Gold",
 
- }
+}
 
 interface Room {
-    idRoom: number;
-    nameRoom: string;
-    description: string;
-    capacity: RoomCapacity;
-    price: number;
-    roomType: RoomType;
-    images: string[];
+  idRoom: number;
+  nameRoom: string;
+  description: string;
+  capacity: RoomCapacity;
+  price: number;
+  roomType: RoomType;
+  images: string[];
 }
 
-export interface EditFormPageProps{
-    room: Room;
+export interface EditFormPageProps {
+  room: Room;
 }
 
 
-export default function EditForm({room}: EditFormPageProps) {
+export default function EditForm({ room }: EditFormPageProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nameRoom: room.nameRoom,
       description: room.description,
-      capacity: room.capacity,
+      capacity: room.capacity as RoomCapacity,
       price: `${room.price}`,
-      roomType: `${room.roomType}`,
+      roomType: room.roomType as RoomType,
     },
   });
 
@@ -232,10 +232,10 @@ export default function EditForm({room}: EditFormPageProps) {
               return (
                 <FormItem>
                   <FormLabel>Cantidad de personas</FormLabel>
-                  <Select onValueChange={field.onChange}>
+                  <Select defaultValue={room.capacity} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="border-b border-gray-500 bg-transparent">
-                        <SelectValue placeholder="Seleccione la capacidad de la habitacion" />
+                      <SelectValue>{room.capacity}</SelectValue>
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="hover:bg-gray-500 hover:text-black">
@@ -290,10 +290,10 @@ export default function EditForm({room}: EditFormPageProps) {
               return (
                 <FormItem>
                   <FormLabel>Tipo de Habitacion</FormLabel>
-                  <Select onValueChange={field.onChange}>
+                  <Select defaultValue={room.roomType} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="border-b border-gray-500 bg-transparent">
-                        <SelectValue placeholder="Seleccione la capacidad de la habitacion" />
+                      <SelectValue>{room.roomType}</SelectValue>
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="hover:bg-gray-500 hover:text-black">
@@ -307,9 +307,11 @@ export default function EditForm({room}: EditFormPageProps) {
               );
             }}
           />
-          <Button type="submit" className="w-full">
-            Registrar
-          </Button>
+          <div className="flex">
+            <Button type="submit" className="flex-1 mr-2 ">
+              Guardar
+            </Button>
+          </div>
         </form>
       </Form>
     </main>
