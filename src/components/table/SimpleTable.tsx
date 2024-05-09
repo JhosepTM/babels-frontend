@@ -1,96 +1,68 @@
-import { useState } from "react";
-import {
-  ColumnDef,
-  SortingState,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SimpleTableRowItem } from "@/interfaces/Table";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface SimpleDataTableProps {
+  caption?: string;
+  columns: SimpleTableRowItem[];
+  rows: SimpleTableRowItem[][];
 }
 
-export function DataTable<TData, TValue>({
+const badgeColor = (type: string) => {
+  if (type === "rounded") {
+    return "h-2.5 w-2.5 shrink-0 rounded-sm";
+  } else if (type === "line") {
+    return "w-1 shrink-0 rounded";
+  }
+  return "";
+};
+
+export const SimpleTable = ({
+  caption,
   columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    state: {
-      sorting,
-    },
-  });
-
+  rows,
+}: SimpleDataTableProps) => {
   return (
-    <div className="">
-      <Table className="">
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id} className="text-center">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
+    <Table>
+      {caption && <TableCaption>{caption}</TableCaption>}
+      <TableHeader>
+        <TableRow>
+          {columns.map((column, index) => (
+            <TableHead className={column.className} key={index}>
+              {column.value}
+            </TableHead>
           ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="text-center">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+        </TableRow>
+      </TableHeader>
+
+      <TableBody>
+        {rows.map((row) => (
+          <TableRow key={row[0].value}>
+            {row.map((cell, index) => (
+              <TableCell className={cell.className} key={index}>
+                <div className={cell.color ? "flex space-x-3" : ""}>
+                  {cell.color && (
+                    <span
+                      className={`${cell.color} ${badgeColor(
+                        cell.badgeType || "line"
+                      )}`}
+                      aria-hidden={true}
+                    />
+                  )}
+                  <span>{cell.value}</span>
+                </div>
               </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
-}
-
-interface SimpleTableProps<T> {
-  columns: ColumnDef<T>[];
-  data: T[];
-}
-
-export const SimpleTable = <T,>({ columns, data }: SimpleTableProps<T>) => {
-  return <DataTable columns={columns} data={data} />;
 };

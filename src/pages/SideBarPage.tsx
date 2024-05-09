@@ -1,7 +1,7 @@
 import { Sidebar } from "../components/Sidebar";
 import { SidebarItem } from "../components/SidebarItem";
 import { useSidebarStore } from "../stores/useSidebarStore";
-import { BarChartPage } from "./BarChartPage";
+import { BarChartPage } from "./ReservationChartPage";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   LifeBuoy,
@@ -13,9 +13,14 @@ import {
   LayoutDashboard,
   Settings,
   CircleDollarSign,
+  TicketPercent,
+  CalendarRange,
+  TrendingUp,
 } from "lucide-react";
 import { RevenueChartPage } from "./RevenueChartPage";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { OccupancyRatePage } from "./OccupancyRatePage";
 
 interface SidebarItem {
   value: string;
@@ -28,6 +33,27 @@ interface SidebarItem {
 
 const sidebarItems: SidebarItem[][] = [
   [
+    {
+      value: "occ",
+      icon: <TicketPercent size={20} />,
+      text: "OCC",
+      alert: false,
+      child: <OccupancyRatePage />,
+    },
+    {
+      value: "adr",
+      icon: <CalendarRange size={20} />,
+      text: "ADR",
+      alert: false,
+      child: <h1>Average Daily Rate</h1>,
+    },
+    {
+      value: "revpar",
+      icon: <TrendingUp size={20} />,
+      text: "RevPAR",
+      alert: false,
+      child: <h1>Revenue Per Available Room</h1>,
+    },
     {
       value: "bookings",
       icon: <BarChart3 size={20} />,
@@ -86,20 +112,6 @@ const sidebarItems: SidebarItem[][] = [
       alert: false,
       child: <h1>Billings</h1>,
     },
-    {
-      value: "settings",
-      icon: <Settings size={20} />,
-      text: "Settings",
-      alert: false,
-      child: <h1>Settings</h1>,
-    },
-    {
-      value: "help",
-      icon: <LifeBuoy size={20} />,
-      text: "Help",
-      alert: false,
-      child: <h1>Help</h1>,
-    },
   ],
 ];
 
@@ -121,6 +133,7 @@ export const GraphicsBar: React.FC<GraphicsBarProps> = ({
   const [selectedItem, setSelectedItem] = useState<string>(itemActive);
   const [child, setChild] = useState<React.ReactNode>(searchChild(itemActive));
   const { isExpanded } = useSidebarStore();
+  const navigate = useNavigate();
 
   return (
     <div className="flex">
@@ -134,6 +147,7 @@ export const GraphicsBar: React.FC<GraphicsBarProps> = ({
                   onClick={() => {
                     setSelectedItem(item.value);
                     setChild(item.child);
+                    navigate(`/${item.value}`);
                   }}
                 >
                   <SidebarItem

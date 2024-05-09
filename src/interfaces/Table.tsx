@@ -13,3 +13,10 @@ export interface TableComparativeReservation {
   reservationsSecondYear: number;
   revenueSecondYear: number;
 }
+
+export interface SimpleTableRowItem {
+  value: string | number;
+  color?: string;
+  badgeType?: "rounded" | "line";
+  className?: string;
+}

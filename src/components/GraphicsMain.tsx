@@ -113,7 +113,7 @@ export const GraphicsMain = () => {
       title: "Bar Chart",
       img: FaChartBar,
       onClick: () => {
-        navigate("/graphics/bar");
+        navigate("/bookings");
       },
     },
     {

@@ -14,13 +14,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  BarChartComparative,
-  BarChartGraphic,
-  BarChartOfRoomType,
-} from "@/components/charts/BarChartGraphic";
 
-import { SimpleTable } from "@/components/table/SimpleTable";
+import { SimpleDataTable } from "@/components/table/SimpleDataTable";
 
 import { TbBrandCashapp } from "react-icons/tb";
 import { MdPersonAddAlt } from "react-icons/md";
@@ -29,11 +24,166 @@ import { SimpleChartBoard } from "../components/charts/SimpleChartBoard";
 import {
   TableComparativeReservation,
   TableItemReservation,
-} from "@/interfaces/SimpleTable";
+} from "@/interfaces/Table";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
+import { ArrowUpDown, ChevronDown, SquareArrowOutUpRight } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { GeneralBarChart } from "@/components/charts/GeneralBarChart";
+import { TooltipDialog } from "@/components/TooltipDialog";
+
+const chartData = [
+  { date: "Jan 22", "Number of room reservations": 54 },
+  { date: "Feb 22", "Number of room reservations": 45 },
+  { date: "Mar 22", "Number of room reservations": 65 },
+  { date: "Apr 22", "Number of room reservations": 32 },
+  { date: "May 22", "Number of room reservations": 67 },
+  { date: "Jun 22", "Number of room reservations": 76 },
+  { date: "Jul 22", "Number of room reservations": 70 },
+  { date: "Aug 22", "Number of room reservations": 80 },
+  { date: "Sep 22", "Number of room reservations": 90 },
+  { date: "Oct 22", "Number of room reservations": 100 },
+  { date: "Nov 22", "Number of room reservations": 110 },
+  { date: "Dec 22", "Number of room reservations": 120 },
+];
+
+const charDataRoomType = [
+  {
+    date: "Jan",
+    Basico: 20,
+    Medio: 10,
+    Gold: 5,
+    Platinum: 4,
+    Diamond: 3,
+    Silver: 2,
+    Bronze: 1,
+  },
+  {
+    date: "Feb",
+    Basico: 15,
+    Medio: 12,
+    Gold: 6,
+    Platinum: 5,
+    Diamond: 4,
+    Silver: 3,
+    Bronze: 2,
+  },
+  {
+    date: "Mar",
+    Basico: 25,
+    Medio: 8,
+    Gold: 7,
+    Platinum: 6,
+    Diamond: 5,
+    Silver: 4,
+    Bronze: 3,
+  },
+  {
+    date: "Apr",
+    Basico: 10,
+    Medio: 15,
+    Gold: 7,
+    Platinum: 6,
+    Diamond: 5,
+    Silver: 4,
+    Bronze: 3,
+  },
+  {
+    date: "May",
+    Basico: 30,
+    Medio: 10,
+    Gold: 7,
+    Platinum: 6,
+    Diamond: 5,
+    Silver: 4,
+    Bronze: 3,
+  },
+  {
+    date: "Jun",
+    Basico: 35,
+    Medio: 15,
+    Gold: 7,
+    Platinum: 6,
+    Diamond: 5,
+    Silver: 4,
+    Bronze: 3,
+  },
+  {
+    date: "Jul",
+    Basico: 40,
+    Medio: 20,
+    Gold: 10,
+    Platinum: 6,
+    Diamond: 5,
+    Silver: 4,
+    Bronze: 3,
+  },
+  {
+    date: "Aug",
+    Basico: 45,
+    Medio: 25,
+    Gold: 10,
+    Platinum: 6,
+    Diamond: 5,
+    Silver: 4,
+    Bronze: 3,
+  },
+  {
+    date: "Sep",
+    Basico: 50,
+    Medio: 30,
+    Gold: 15,
+    Platinum: 6,
+    Diamond: 5,
+    Silver: 4,
+    Bronze: 3,
+  },
+  {
+    date: "Oct",
+    Basico: 55,
+    Medio: 35,
+    Gold: 15,
+    Platinum: 6,
+    Diamond: 5,
+    Silver: 4,
+    Bronze: 3,
+  },
+  {
+    date: "Nov",
+    Basico: 60,
+    Medio: 40,
+    Gold: 20,
+    Platinum: 6,
+    Diamond: 5,
+    Silver: 4,
+    Bronze: 3,
+  },
+  {
+    date: "Dec",
+    Basico: 65,
+    Medio: 45,
+    Gold: 20,
+    Platinum: 6,
+    Diamond: 5,
+    Silver: 4,
+    Bronze: 3,
+  },
+];
+
+const charDataComparative = [
+  { date: "Jan", "2022": 45, "2023": 30 },
+  { date: "Feb", "2022": 50, "2023": 35 },
+  { date: "Mar", "2022": 55, "2023": 40 },
+  { date: "Apr", "2022": 60, "2023": 45 },
+  { date: "May", "2022": 65, "2023": 50 },
+  { date: "Jun", "2022": 70, "2023": 55 },
+  { date: "Jul", "2022": 75, "2023": 60 },
+  { date: "Aug", "2022": 80, "2023": 65 },
+  { date: "Sep", "2022": 85, "2023": 70 },
+  { date: "Oct", "2022": 90, "2023": null },
+  { date: "Nov", "2022": 95, "2023": null },
+  { date: "Dec", "2022": 100, "2023": null },
+];
 
 const cardsInfo: CardInfoItem[] = [
   {
@@ -162,7 +312,7 @@ const columnsTable: ColumnDef<TableItemReservation>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Number of Reservations
+          Reservations
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -506,7 +656,7 @@ export const BarChartPage = () => {
 
   return (
     <div className="flex justify-center items-center m-10">
-      <Card className="2xl:w-[1640px] xl:w-[1150px] lg:w-[1000px] md:w-[800px] 2xl:h-[870px] xl:h-[700px] lg:h-[1400px] md:h-[1350px] shadow-lg 2xl:p-16 xl:p-10 lg:p-10 md:p-10">
+      <Card className="2xl:w-[1640px] xl:w-[1150px] lg:w-[1000px] md:w-[800px] h-auto shadow-lg 2xl:p-16 xl:p-10 lg:p-10 md:p-10">
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-3xl font-semibold">Bar Chart</h1>
           <div className="flex gap-3">
@@ -620,49 +770,129 @@ export const BarChartPage = () => {
               Comparative reservations per year
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="reservations-month">
+          <TabsContent value="reservations-month" className="mt-3">
             <SimpleChartBoard cardsInfo={cardsInfo}>
-              <Card className="2xl:w-[55%] xl:w-[49%] lg:w-[100%] md:w-[100%] 2xl:h-[450px] xl:h-[370px] pr-10 pt-5 pb-5">
-                <BarChartGraphic />
+              <Card className="2xl:w-[63%] xl:w-[58%] lg:w-[100%] md:w-[100%] 2xl:h-[500px] xl:h-[370px] lg:h-[370px] md:h-[370px] pr-10 pt-5 pb-5">
+                <GeneralBarChart
+                  data={chartData}
+                  index="date"
+                  categories={["Number of room reservations"]}
+                  colors={["blue"]}
+                />
               </Card>
-              <ScrollArea className="2xl:w-[43%] xl:w-[49%] lg:w-[100%] md:w-[100%] rounded-md border">
-                <div className="2xl:w-[100%] xl:w-[100%] 2xl:h-[450px] xl:h-[370px] lg:h-[680px] md:h-[680px]">
-                  <SimpleTable<TableItemReservation>
-                    columns={columnsTable}
-                    data={dataTable}
-                  />
-                </div>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
+              <TooltipDialog
+                tooltipContent={<SquareArrowOutUpRight size={17} />}
+                tooltipTrigger={
+                  <ScrollArea className="2xl:w-[35%] xl:w-[40%] lg:w-[100%] md:w-[100%] 2xl:h-[500px] xl:h-[370px] lg:h-[680px] md:h-[680px] rounded-md border">
+                    <SimpleDataTable<TableItemReservation>
+                      columns={columnsTable}
+                      data={dataTable}
+                    />
+                    <ScrollBar orientation="horizontal" />
+                  </ScrollArea>
+                }
+                tooltipOverlay
+                dialogTitle="Revenue Data"
+                dialogDescription="This is the revenue data for the year 2022"
+                dialogContent={
+                  <ScrollArea className="h-[70vh] px-5">
+                    <SimpleDataTable<TableItemReservation>
+                      columns={columnsTable}
+                      data={dataTable}
+                    />
+                  </ScrollArea>
+                }
+                dialogCloseText="Close"
+              />
             </SimpleChartBoard>
           </TabsContent>
-          <TabsContent value="reservations-room-type">
+          <TabsContent value="reservations-room-type" className="mt-3">
             <SimpleChartBoard cardsInfo={cardsInfo}>
-              <Card className="2xl:w-[55%] xl:w-[53%] lg:w-[100%] md:w-[100%] 2xl:h-[450px] xl:h-[370px] pr-10 pt-5 pb-5">
-                <BarChartOfRoomType />
+              <Card className="2xl:w-[63%] xl:w-[58%] lg:w-[100%] md:w-[100%] 2xl:h-[500px] xl:h-[370px] lg:h-[370px] md:h-[370px] pr-10 pt-5 pb-5">
+                <GeneralBarChart
+                  data={charDataRoomType}
+                  index="date"
+                  categories={[
+                    "Basico",
+                    "Medio",
+                    "Gold",
+                    "Platinum",
+                    "Diamond",
+                    "Silver",
+                    "Bronze",
+                  ]}
+                  colors={[
+                    "blue",
+                    "green",
+                    "red",
+                    "purple",
+                    "yellow",
+                    "gray",
+                    "orange",
+                  ]}
+                />
               </Card>
-              <ScrollArea className="2xl:w-[43%] xl:w-[45%] lg:w-[100%] md:w-[100%] rounded-md border">
-                <div className="2xl:w-[100%] xl:w-[100%] 2xl:h-[450px] xl:h-[370px] lg:h-[680px] md:h-[680px]">
-                  <SimpleTable<any> columns={columnsTable2} data={dataTable2} />
-                </div>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
+              <TooltipDialog
+                tooltipContent={<SquareArrowOutUpRight size={17} />}
+                tooltipTrigger={
+                  <ScrollArea className="2xl:w-[35%] xl:w-[40%] lg:w-[100%] md:w-[100%] 2xl:h-[500px] xl:h-[370px] lg:h-[680px] md:h-[680px] rounded-md border">
+                    <SimpleDataTable<any>
+                      columns={columnsTable2}
+                      data={dataTable2}
+                    />
+                    <ScrollBar orientation="horizontal" />
+                  </ScrollArea>
+                }
+                tooltipOverlay
+                dialogTitle="Revenue Data"
+                dialogDescription="This is the revenue data for the year 2022"
+                dialogContent={
+                  <ScrollArea className="h-[70vh] px-5">
+                    <SimpleDataTable<any>
+                      columns={columnsTable2}
+                      data={dataTable2}
+                    />
+                  </ScrollArea>
+                }
+                dialogCloseText="Close"
+              />
             </SimpleChartBoard>
           </TabsContent>
-          <TabsContent value="comparative-year">
+          <TabsContent value="comparative-year" className="mt-3">
             <SimpleChartBoard cardsInfo={cardsInfo}>
-              <Card className="2xl:w-[55%] xl:w-[46%] lg:w-[100%] md:w-[100%] 2xl:h-[450px] xl:h-[370px] pr-10 pt-5 pb-5">
-                <BarChartComparative />
+              <Card className="2xl:w-[55%] xl:w-[58%] lg:w-[100%] md:w-[100%] 2xl:h-[500px] xl:h-[370px] lg:h-[370px] md:h-[370px] pr-10 pt-5 pb-5">
+                <GeneralBarChart
+                  data={charDataComparative}
+                  index="date"
+                  categories={["2022", "2023"]}
+                  colors={["gray", "blue"]}
+                  selectable
+                />
               </Card>
-              <ScrollArea className="2xl:w-[43%] xl:w-[52%] lg:w-[100%] md:w-[100%] rounded-md border">
-                <div className="2xl:w-[100%] xl:w-[100%] 2xl:h-[450px] xl:h-[370px] lg:h-[680px] md:h-[680px]">
-                  <SimpleTable<TableComparativeReservation>
-                    columns={columnsTable3}
-                    data={dataTable3}
-                  />
-                </div>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
+              <TooltipDialog
+                tooltipContent={<SquareArrowOutUpRight size={17} />}
+                tooltipTrigger={
+                  <ScrollArea className="2xl:w-[43%] xl:w-[40%] lg:w-[100%] md:w-[100%] 2xl:h-[500px] xl:h-[370px] lg:h-[680px] md:h-[680px]  rounded-md border">
+                    <SimpleDataTable<TableComparativeReservation>
+                      columns={columnsTable3}
+                      data={dataTable3}
+                    />
+                    <ScrollBar orientation="horizontal" />
+                  </ScrollArea>
+                }
+                tooltipOverlay
+                dialogTitle="Revenue Data"
+                dialogDescription="This is the revenue data for the year 2022"
+                dialogContent={
+                  <ScrollArea className="h-[70vh] px-5">
+                    <SimpleDataTable<TableComparativeReservation>
+                      columns={columnsTable3}
+                      data={dataTable3}
+                    />
+                  </ScrollArea>
+                }
+                dialogCloseText="Close"
+              />
             </SimpleChartBoard>
           </TabsContent>
         </Tabs>
