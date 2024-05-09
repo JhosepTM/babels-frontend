@@ -1,4 +1,9 @@
 import "./App.css";
+import GraphicsPanel from "./pages/GraphicsPanel";
+import Home from "./pages/Home";
+import Menu from "./pages/Menu";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import { BookingPage } from "./pages/BookingPage/BookingPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import Menu from "./pages/MenuPage/MenuPage";
@@ -14,6 +19,9 @@ import ErrorPage from "./pages/utils/ErrorPage";
 import AddRoomPage from "./pages/FormRoomPage/AddRoomPage";
 import PageWithButton from "./pages/FormRoomPage/PageWithButton";
 import EditRoomPage from "./pages/FormRoomPage/EditRoomPage";
+import { BarChartPage } from "./pages/ReservationChartPage";
+import { GraphicsBar } from "./pages/SideBarPage";
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,6 +48,18 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/jodem" element={<GraphicsPanel />} />
+        <Route
+          path="/bookings"
+          element={<GraphicsBar itemActive="bookings" />}
+        />
+        <Route path="/revenue" element={<GraphicsBar itemActive="revenue" />} />
+        <Route path="/occ" element={<GraphicsBar itemActive="occ" />} />
+        <Route path="/adr" element={<GraphicsBar itemActive="adr" />} />
+        <Route path="/revpar" element={<GraphicsBar itemActive="revpar" />} />
+        <Route path="/bar" element={<BarChartPage />} />
         {isAuthenticated && isAdmin ? (
           <>
             <Route path="/madmin" element={<Menu />} />
