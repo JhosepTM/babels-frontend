@@ -1,101 +1,125 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-import axios from 'axios';
-import ModalError from "./ModalError";
-import "@/css/LoginPage/FormularioSesion.css";
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { setAuthHeader } from "@/services/Login/tokenService";
+import { jwtDecode } from "jwt-decode";
+import { CustomJwtPayload } from "@/entities/customJwtPayload";
 
-interface FormState {
-  username: string;
-  contraseña: string;
-}
-
-const Formulario: React.FC = () => {
+const FormInitSesion: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState<FormState>({
-    username: '',
-    contraseña: '',
-  });
-
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = async (event: FormEvent) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!formData.username.trim() || !formData.contraseña.trim()) {
-      setModalOpen(true);
+    if (!login.trim()) {
+      setUsernameError("Usuario vacío");
+    } else {
+      setUsernameError("");
+    }
+
+    if (!password.trim()) {
+      setPasswordError("Contraseña vacía");
+    } else {
+      setPasswordError("");
+    }
+
+    if (!login.trim() || !password.trim()) {
       return;
     }
 
     try {
-      const response = await axios.post('http://192.168.0.6:8081/login', formData);
-      const token = response.data.token;
-      localStorage.setItem('token', token);
+      const response = await fetch("http://localhost:8081/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ login: login, password: password }),
+      });
 
+      if (response.status === 200) {
+        const data = await response.json();
+        setAuthHeader(data.token);
+        const decoded = jwtDecode<CustomJwtPayload>(data.token);
+        if (decoded.role === "ADMIN") {
+          window.location.href = "/madmin";
+        } else {
+          window.location.href = "/muser";
+        }
+      } else {
+        setAuthHeader(null);
+        setUsernameError("Credenciales incorrectas");
+        setPasswordError("Credenciales incorrectas");
+      }
     } catch (error) {
-      console.error('Error de inicio de sesión:', error);
+      console.error("Error:", error);
+      setUsernameError("Error al iniciar sesión");
+      setPasswordError("Error al iniciar sesión");
     }
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
   };
 
   return (
     <div className="items-center">
-      <form onSubmit={handleSubmit} className="form-container">
-        <div className="form-group items-center">
-          <Label htmlFor="username" style={{ fontSize: '150%' }}>Username:</Label>
-          <Input 
-            type='username' 
-            placeholder="Ingresa tu nombre de usuario" 
-            className="border-b border-gray-500 bg-transparent focus:outline-none focus:border-blue-500 w-80"
-            onChange={handleChange}
+      <form onSubmit={onSubmit} className="form-container">
+        <div className="form-group">
+          <Label htmlFor="username" style={{ fontSize: "150%" }}>
+            Username:
+          </Label>
+          <Input
+            type="text"
+            placeholder="Ingresa tu nombre de usuario"
+            className="border-b border-gray-500 bg-transparent focus:outline-none w-80"
+            onChange={(event) => setLogin(event.target.value)}
             name="username"
-            value={formData.username}
+            value={login}
           />
+          {usernameError && (
+            <Label className="text-red-600 font-bold">{usernameError}</Label>
+          )}
         </div>
-        <div className="form-group items-center">
-          <Label htmlFor="contraseña" style={{ fontSize: '150%' }}>Contraseña:</Label>
+        <div className="form-group mt-2">
+          <Label htmlFor="password" style={{ fontSize: "150%" }}>
+            Contraseña:
+          </Label>
           <div className="password-input relative w-80">
-            <Input 
-              type={showPassword ? 'text' : 'password'} 
-              placeholder="Ingresa tu contraseña" 
-              className="border-b border-gray-500 bg-transparent focus:outline-none focus:border-blue-500 w-full pr-10"
-              onChange={handleChange}
-              name="contraseña"
-              value={formData.contraseña}
+            <Input
+              type={showPassword ? "text" : "password"}
+              placeholder="Ingresa tu contraseña"
+              className="border-b border-gray-500 bg-transparent focus:outline-none w-full pr-10"
+              onChange={(event) => setPassword(event.target.value)}
+              name="password"
+              value={password}
             />
             <i
-              className={`absolute right-0 top-1/2 transform -translate-y-1/2 mr-2 fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+              className={`absolute right-0 top-1/2 transform -translate-y-1/2 mr-2 fas ${
+                showPassword ? "fa-eye-slash" : "fa-eye"
+              }`}
               onClick={handleTogglePassword}
             ></i>
           </div>
+          {passwordError && (
+            <Label className="text-red-600 font-bold">{passwordError}</Label>
+          )}
         </div>
-        <div className='But'>
-          <Button className='button bg-zinc-800'> Ingresar</Button>
+        <div className="But mt-4">
+          <Button
+            className="bg-gray-900 w-full h-12 flex items-center justify-center"
+            type="submit"
+          >
+            {" "}
+            Ingresar
+          </Button>
         </div>
       </form>
-      <div className={`ModalError fixed inset-0 flex items-center justify-center ${modalOpen ? 'visible' : 'hidden'}`} onClick={handleCloseModal}>
-        <div className="modal-content">
-          {modalOpen && <ModalError />}
-        </div>
-      </div>
     </div>
   );
 };
 
-export default Formulario;
+export default FormInitSesion;
 
