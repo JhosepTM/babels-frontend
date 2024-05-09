@@ -122,6 +122,7 @@ export default function EditForm({ room }: EditFormPageProps) {
           },
         }
       );
+
     } catch (error) {
       console.error("Error al crear la sala o cargar imágenes:", error);
     }
