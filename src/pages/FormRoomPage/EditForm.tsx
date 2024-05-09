@@ -122,37 +122,6 @@ export default function EditForm({ room }: EditFormPageProps) {
           },
         }
       );
-
-
-      // // Crear un objeto FormData y agregar el ID de la sala
-      // const formData = new FormData();
-      // formData.append("roomId", idRoom);
-
-      // // Agregar las imágenes al objeto FormData
-      // for (let i = 0; i < values.files.length; i++) {
-      //   formData.append("files", values.files[i]);
-      // }
-
-      // // Realizar la solicitud POST para cargar las imágenes
-      // const responseImage = await axios.post(
-      //   "http://localhost:8081/api/images/upload",
-      //   formData,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   }
-      // );
-
-      // console.log("Imágenes cargadas exitosamente:", responseImage.data);
-      // if (
-      //   (responseImage.data === "Imágenes cargadas exitosamente:",
-      //   responseImage.data)
-      // ) {
-      //   // Redirigir a la página "/madmin/rooms"
-      //   window.location.href = "/madmin/rooms";
-      // }
     } catch (error) {
       console.error("Error al crear la sala o cargar imágenes:", error);
     }
