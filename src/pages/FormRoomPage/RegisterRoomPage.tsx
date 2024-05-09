@@ -219,7 +219,7 @@ const formSchema = z.object({
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>Precio de la habitación</FormLabel>
+                    <FormLabel>Precio de la habitación (Por dia)</FormLabel>
                     <FormControl>
                       <Input
                         type="text"

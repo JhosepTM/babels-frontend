@@ -43,6 +43,7 @@ function App() {
         {isAuthenticated && isAdmin ? (
           <>
             <Route path="/madmin" element={<Menu />} />
+            <Route path="/madmin/reservas" element={<BookingPage />} />
             <Route path="/madmin/rooms" element={<RoomsPage />} />
             <Route path="/madmin/rooms/addroom" element={<AddRoomPage />} />
             <Route path="/madmin/rooms/editroom" element={<EditRoomPage />} />           
@@ -57,7 +58,6 @@ function App() {
         ) : (
           <Route path="*" element={<ErrorPage />} />
         )}
-        <Route path="/reservas" element={<BookingPage />} />
         <Route path="/room" element={<FormPage />} />
         <Route path="/boton" element={<PageWithButton />} />
       </Routes>
