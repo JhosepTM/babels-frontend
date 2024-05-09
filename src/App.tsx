@@ -1,9 +1,4 @@
 import "./App.css";
-import GraphicsPanel from "./pages/GraphicsPanel";
-import Home from "./pages/Home";
-import Menu from "./pages/Menu";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
 import { BookingPage } from "./pages/BookingPage/BookingPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import Menu from "./pages/MenuPage/MenuPage";
@@ -21,7 +16,7 @@ import PageWithButton from "./pages/FormRoomPage/PageWithButton";
 import EditRoomPage from "./pages/FormRoomPage/EditRoomPage";
 import { BarChartPage } from "./pages/ReservationChartPage";
 import { GraphicsBar } from "./pages/SideBarPage";
-
+import GraphicsPanel from "./pages/GraphicsPanel";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,8 +43,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/" element={<Home />} />
         <Route path="/jodem" element={<GraphicsPanel />} />
         <Route
           path="/bookings"
@@ -65,7 +58,7 @@ function App() {
             <Route path="/madmin" element={<Menu />} />
             <Route path="/madmin/rooms" element={<RoomsPage />} />
             <Route path="/madmin/rooms/addroom" element={<AddRoomPage />} />
-            <Route path="/madmin/rooms/editroom" element={<EditRoomPage />} />           
+            <Route path="/madmin/rooms/editroom" element={<EditRoomPage />} />
           </>
         ) : null}
         {isAuthenticated && !isAdmin ? (
