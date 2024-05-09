@@ -16,6 +16,7 @@ import { RoomItem } from "./RoomItem"
 import { useEffect, useState } from "react"
 import { listRooms } from "./fake"
 import { RoomModel } from "@/modules/booking/models/room"
+import { getRoomsByStateAndType } from "@/modules/booking/services/booking-service"
 
 export const AvailableRooms = () => {
     const [paginaHabitacion, setPaginaHabitacion] = useState(1)
@@ -33,6 +34,7 @@ export const AvailableRooms = () => {
 
     useEffect(()=>{
         setListRoom(listRooms)
+        getRoomsByStateAndType();
     },[])
     return (
         <ResizablePanelGroup
