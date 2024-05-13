@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-empty-pattern */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as z from "zod";
 import axios from "axios";
@@ -12,76 +14,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  Select,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+import { useEffect, useState } from "react";
+import { AlertEditRoom } from "@/components/AlertEditRoom";
 
 const formSchema = z.object({
   nameRoom: z
     .string()
-    .min(5, { message: "El nombre esta vacio o es muy corto" })
+    .min(5, { message: "El nombre está vacío o es muy corto" })
     .max(50, { message: "El nombre es muy grande" }),
-
-  description: z
-    .string()
-    .min(10, { message: "La descripcion esta vacia o es muy corta" })
-    .max(200, { message: "La descripcion es muy grande" }),
-
-  files: z
-    .any()
+  multipartFiles: z
+    .array(z.string())
     .refine(
-      (file) => file?.length <= 7,
-      "Por favor, asegúrese de cargar no más de 10 imágenes."
+      (files) => files.length <= 6,
+      "Por favor, asegúrese de cargar no más de 6 imágenes."
     )
     .refine(
-      (file) => file[0]?.size <= 5000000,
+      (files) =>
+        files.every((file) => file.length <= 5000000),
       `Asegúrese de cargar al menos una imagen con un tamaño máximo de 5MB.`
     ),
-
-  capacity: z.enum(["1", "2", "3", "4", "5", "6"], {
-    required_error: "Seleccione una opcion",
-  }),
-
-  price: z
-    .string({ required_error: "Ingrese un valor" })
-    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Ingrese un precio",
-    }),
-
-  roomType: z.enum(["Basico", "Medio", "Gold"], {
-    required_error: "Seleccione una opcion",
-  }),
 });
-
-enum RoomCapacity {
-  One = "1",
-  Two = "2",
-  Three = "3",
-  Four = "4",
-  Five = "5",
-  Six = "6",
-}
-
-enum RoomType {
-  Basico = "Basico",
-  Medio = "Medio",
-  Gold = "Gold",
-
-}
 
 interface Room {
   idRoom: number;
   nameRoom: string;
-  description: string;
-  capacity: RoomCapacity;
-  price: number;
-  roomType: RoomType;
   images: string[];
 }
 
@@ -89,31 +45,38 @@ export interface EditFormPageProps {
   room: Room;
 }
 
-
 export default function EditForm({ room }: EditFormPageProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nameRoom: room.nameRoom,
-      description: room.description,
-      capacity: room.capacity as RoomCapacity,
-      price: `${room.price}`,
-      roomType: room.roomType as RoomType,
     },
   });
 
-  const idRoom = new URLSearchParams(location.search).get('idRoom');
+  // Utiliza selectedFiles para mantener el estado de las imágenes seleccionadas
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-  console.log(room);
+  useEffect(() => {
+    const fetchRoomImages = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8081/v1/imagen-room/${room.idRoom}/imagenes`
+        );
+        form.setValue("multipartFiles", response.data); // Actualiza los archivos en el formulario
+      } catch (error) {
+        console.error("Error al obtener las imágenes de la habitación:", error);
+      }
+    };
 
-  console.log(idRoom);
+    fetchRoomImages();
+  }, [room.idRoom, form]);
 
-  const fileRef = form.register("files", { required: true });
+  const idRoom = new URLSearchParams(location.search).get("idRoom");
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const token = localStorage.getItem("auth_token");
-      const responseRoom = await axios.put(
+      await axios.put(
         `http://localhost:8081/v1/rooms/${idRoom}`,
         values,
         {
@@ -122,10 +85,17 @@ export default function EditForm({ room }: EditFormPageProps) {
           },
         }
       );
-
     } catch (error) {
       console.error("Error al crear la sala o cargar imágenes:", error);
     }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    // Elimina la imagen del estado selectedFiles y del formulario
+    const updatedFiles = [...selectedFiles];
+    updatedFiles.splice(index, 1);
+    setSelectedFiles(updatedFiles);
+    form.setValue("multipartFiles", updatedFiles.map(file => file.name));
   };
 
   return (
@@ -141,10 +111,10 @@ export default function EditForm({ room }: EditFormPageProps) {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Nombre de la Habitacion</FormLabel>
+                  <FormLabel>Nombre de la Habitación</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Ingrese el nombre de la habitacion"
+                      placeholder="Ingrese el nombre de la habitación"
                       className="border-b border-gray-500 bg-transparent"
                       type="name"
                       {...field}
@@ -157,130 +127,61 @@ export default function EditForm({ room }: EditFormPageProps) {
           />
           <FormField
             control={form.control}
-            name="description"
-            render={({ field }) => {
+            name="multipartFiles"
+            render={({ }) => {
               return (
                 <FormItem>
-                  <FormLabel>Descripcion</FormLabel>
+                  <FormLabel>Imágenes</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Ingrese la descripcion de la habitacion"
-                      className="border-b border-gray-500 bg-transparent"
-                      {...field}
-                    />
+                    <div className="relative">
+                      <label htmlFor="picture" className="cursor-pointer border-b border-gray-500 bg-transparent py-1 px-3">
+                        Elegir Archivos
+                      </label>
+                      <Input
+                        id="picture"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={(event) => {
+                          const files = event.target.files;
+                          if (files) {
+                            const newFiles = Array.from(files);
+                            setSelectedFiles(prevFiles => [...prevFiles, ...newFiles]);
+
+                            // Actualizar el contador de archivos
+                            const remainingFiles = newFiles.length + selectedFiles.length;
+                            const fileText = remainingFiles === 1 ? "Archivo" : "Archivos";
+                            document.getElementById("file-count")!.innerText = `${remainingFiles} ${fileText}`;
+                          }
+                        }}
+                        className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                      />
+                    </div>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-          <FormField
-            control={form.control}
-            name="files"
-            render={() => {
-              return (
-                <FormItem>
-                  <FormLabel>Imagenes</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      {...fileRef}
-                      className="border-b border-gray-500 bg-transparent"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-          <FormField
-            control={form.control}
-            name="capacity"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Cantidad de personas</FormLabel>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger className="border-b border-gray-500 bg-transparent">
-                      <SelectValue>{field.value}</SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="hover:bg-gray-500 hover:text-black">
-                      <SelectItem value="1">1 persona</SelectItem>
-                      <SelectItem value="2">2 personas</SelectItem>
-                      <SelectItem value="3">3 personas</SelectItem>
-                      <SelectItem value="4">4 personas</SelectItem>
-                      <SelectItem value="5">5 personas</SelectItem>
-                      <SelectItem value="6">6 personas</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Precio de la habitacion</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Ingrese el precio de la habitacion"
-                      className="border-b border-gray-500 bg-transparent"
-                      onKeyDown={(event) => {
-                        // Evita que se ingresen caracteres no numéricos
-                        if (
-                          !(
-                            event.key === "Backspace" || event.key === "Delete"
-                          ) &&
-                          !/\d/.test(event.key)
-                        ) {
-                          event.preventDefault();
-                        }
-                      }}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-          <FormField
-            control={form.control}
-            name="roomType"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Tipo de Habitacion</FormLabel>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger className="border-b border-gray-500 bg-transparent">
-                      <SelectValue>{field.value}</SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="hover:bg-gray-500 hover:text-black">
-                      <SelectItem value="Basico">Basico</SelectItem>
-                      <SelectItem value="Medio">Medio</SelectItem>
-                      <SelectItem value="Gold">Gold</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {selectedFiles.map((file, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt={`Imagen ${index}`}
+                          className="w-20 h-20 object-cover"
+                        />
+                        <button
+                          className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full text-sm"
+                          onClick={() => handleRemoveImage(index)}
+                        >
+                          X
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                   <FormMessage />
                 </FormItem>
               );
             }}
           />
           <div className="flex">
-            <Button type="submit" className="flex-1 mr-2 ">
-              Guardar
-            </Button>
+            <AlertEditRoom />
           </div>
         </form>
       </Form>

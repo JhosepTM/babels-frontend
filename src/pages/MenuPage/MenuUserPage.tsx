@@ -12,20 +12,6 @@ const MenuUserPage = () => {
               className="ml-4 text-center menu-item hover:scale-105"
               style={{ marginBottom: "50px" }}
             >
-              <a href="/ruta-de-reservas">
-                <img
-                  src=".\src\assets\images\Reservas.svg"
-                  alt="Imagen 2"
-                  style={{
-                    width: "300px",
-                    height: "150px",
-                    objectFit: "cover",
-                  }}
-                />
-                <p className="text-white font-bold mt-1">
-                  Reservar Habitaciones
-                </p>
-              </a>
             </div>
           </div>
         </div>

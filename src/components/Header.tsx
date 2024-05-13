@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menubar, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar";
 import { AlertDialogSesion } from "@/components/AlertDialogSesion";
-import { Label } from "@/components/ui/label";
 import {
   FaHome,
   FaBook,
@@ -25,18 +24,6 @@ export function Header() {
     setShowStatsButton(location.pathname !== "/muser");
   }, [location]);
 
-  const getHeaderText = () => {
-    switch (location.pathname) {
-      case "/madmin":
-        return "Pagina Principal";
-      case "/madmin/rooms":
-        return "Editar Habitaciones";
-      case "/madmin/rooms/formrooms":
-        return "Añadir Habitación";
-      default:
-        return "Pagina Principal";
-    }
-  };
 
   return (
     <div className="lg:relative">
@@ -45,7 +32,6 @@ export function Header() {
         {/* Agrega sombreado al menú */}
         <Menubar className="w-full lg:w-auto h-16 flex lg:flex-wrap lg:justify-end py-1">
           <div className="flex items-center lg:items-start lg:flex-col lg:py-5 lg:px-2 lg:absolute lg:inset-y-0 lg:left-4">
-            <Label className="text-xl">{getHeaderText()}</Label>
           </div>
           {/* Renderiza el botón de inicio solo si no se encuentra en la página de usuario */}
           {location.pathname !== "/muser" && (
@@ -58,6 +44,7 @@ export function Header() {
               </MenubarTrigger>
             </MenubarMenu>
           )}
+        {location.pathname !== "/muser" && (
           <MenubarMenu>
             <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
               <Link to="/madmin/reservas">
@@ -66,6 +53,7 @@ export function Header() {
               <Link to="/madmin/reservas">Reservas</Link>
             </MenubarTrigger>
           </MenubarMenu>
+        )}
           {showStatsButton && (
             <MenubarMenu>
               <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
