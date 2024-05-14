@@ -16,34 +16,76 @@ import {
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { AlertEditRoom } from "@/components/AlertEditRoom";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   nameRoom: z
     .string()
-    .min(5, { message: "El nombre está vacío o es muy corto" })
+    .min(5, { message: "El nombre esta vacio o es muy corto" })
     .max(50, { message: "El nombre es muy grande" }),
+
+  description: z
+    .string()
+    .min(10, { message: "La descripcion esta vacia o es muy corta" })
+    .max(200, { message: "La descripcion es muy grande" }),
+
   multipartFiles: z
-    .array(z.string())
+    .any()
     .refine(
-      (files) => files.length <= 6,
-      "Por favor, asegúrese de cargar no más de 6 imágenes."
+      (file) => file?.length <= 6,
+      "Por favor, asegúrese de cargar no más de 10 imágenes."
     )
     .refine(
-      (files) =>
-        files.every((file) => file.length <= 5000000),
+      (file) => file[0]?.size <= 5000000,
       `Asegúrese de cargar al menos una imagen con un tamaño máximo de 5MB.`
     ),
+
+  capacity: z.enum(["1", "2", "3", "4", "5", "6"], {
+    required_error: "Seleccione una opcion",
+  }),
+
+  price: z
+    .string({ required_error: "Ingrese un valor" })
+    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
+      message: "Ingrese un precio",
+    }),
+
+  roomType: z.enum(["Basico", "Medio", "Gold"], {
+    required_error: "Seleccione una opcion",
+  }),
 });
+
+enum RoomCapacity {
+  One = "1",
+  Two = "2",
+  Three = "3",
+  Four = "4",
+  Five = "5",
+  Six = "6",
+}
+
+enum RoomType {
+  Basico = "Basico",
+  Medio = "Medio",
+  Gold = "Gold",
+
+}
 
 interface Room {
   idRoom: number;
   nameRoom: string;
+  description: string;
+  capacity: RoomCapacity;
+  price: number;
+  roomType: RoomType;
   images: string[];
 }
 
 interface SelectedFile {
   url: string;
   id: number;
+  isRemoved?: boolean;
 }
 
 export interface EditFormPageProps {
@@ -55,6 +97,10 @@ export default function EditForm({ room }: EditFormPageProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       nameRoom: room.nameRoom,
+      description: room.description,
+      capacity: room.capacity as RoomCapacity,
+      price: `${room.price}`,
+      roomType: room.roomType as RoomType,
     },
   });
 
@@ -87,45 +133,29 @@ export default function EditForm({ room }: EditFormPageProps) {
 
   const idRoom = new URLSearchParams(location.search).get("idRoom");
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      const newFiles = Array.from(files).map(file => ({
-        file: file,
-        url: URL.createObjectURL(file)
-      }));
 
-      const remainingFiles = newFiles.length + selectedFiles.length;
-      const fileText = remainingFiles === 1 ? "Archivo" : "Archivos";
-      document.getElementById("file-count")!.innerText = `${remainingFiles} ${fileText}`;
-    }
-  };
-
-  const handleRemoveImage = async (index: number, image_id: number) => {
+  const handleRemoveImage = async (index: number) => {
     try {
-    
-      // Realizar la solicitud DELETE al servidor para eliminar la imagen de la base de datos
-      await axios.delete(`http://localhost:8081/v1/imagen-room/imagen/${image_id}`);
-    
-      // Eliminar la imagen del estado local
-      const updatedFiles = [...selectedFiles];
-      updatedFiles.splice(index, 1);
+      const updatedFiles = selectedFiles.map((file, i) => {
+        if (i === index) {
+          // Marcar la imagen como eliminada
+          return { ...file, isRemoved: true };
+        }
+        return file;
+      });
       setSelectedFiles(updatedFiles);
-      console.log("");
-      console.log(updatedFiles);
-  
-      // Actualizar el contador de archivos
-      const remainingFiles = updatedFiles.length;
-      const fileText = remainingFiles === 1 ? "Archivo" : "Archivos";
-      document.getElementById("file-count")!.innerText = `${remainingFiles} ${fileText}`;
+
+      // Actualiza el valor de multipartFiles en el formulario
+      form.setValue("multipartFiles", updatedFiles.filter(file => !file.isRemoved).map(file => file.url));
     } catch (error) {
       console.error("Error al eliminar la imagen:", error);
     }
   };
 
-  
+
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      // Realizar la solicitud PUT para actualizar la habitación
       const token = localStorage.getItem("auth_token");
       await axios.put(
         `http://localhost:8081/v1/rooms/${idRoom}`,
@@ -136,6 +166,13 @@ export default function EditForm({ room }: EditFormPageProps) {
           },
         }
       );
+
+      // Eliminar las imágenes seleccionadas de la base de datos
+      await Promise.all(selectedFiles
+        .filter(file => file.isRemoved) // Filtra solo las imágenes marcadas como eliminadas
+        .map(async (file) => {
+          await axios.delete(`http://localhost:8081/v1/imagen-room/imagen/${file.id}`);
+        }));
     } catch (error) {
       console.error("Error al crear la sala o cargar imágenes:", error);
     }
@@ -170,6 +207,25 @@ export default function EditForm({ room }: EditFormPageProps) {
           />
           <FormField
             control={form.control}
+            name="description"
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Descripción</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Ingrese la descripción de la habitación"
+                      className="border-b border-gray-500 bg-transparent"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+          <FormField
+            control={form.control}
             name="multipartFiles"
             render={({ }) => {
               return (
@@ -177,34 +233,32 @@ export default function EditForm({ room }: EditFormPageProps) {
                   <FormLabel>Imágenes</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <label htmlFor="picture" className="cursor-pointer border-b border-gray-500 bg-transparent py-1 px-3">
-                        Elegir Archivos
-                      </label>
                       <Input
-                        id="picture"
                         type="file"
                         accept="image/*"
                         multiple
-                        onChange={handleFileChange}
-                        className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                        {...form.register("multipartFiles", { required: true })}
+                        className="border-b border-gray-500 bg-transparent"
                       />
                     </div>
                   </FormControl>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {selectedFiles.map((file, index) => (
-                      <div key={index} className="relative">
-                        <img
-                          src={file.url}
-                          alt={`Imagen ${index}`}
-                          className="w-20 h-20 object-cover"
-                        />
-                        <button
-                          className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full text-sm"
-                          onClick={() => handleRemoveImage(index, file.id)}
-                        >
-                          X
-                        </button>
-                      </div>
+                      !file.isRemoved && ( // Asegúrate de no renderizar la imagen si está marcada como eliminada
+                        <div key={index} className="relative">
+                          <img
+                            src={file.url}
+                            alt={`Imagen ${index}`}
+                            className="w-20 h-20 object-cover"
+                          />
+                          <button
+                            className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full text-sm"
+                            onClick={() => handleRemoveImage(index)}
+                          >
+                            X
+                          </button>
+                        </div>
+                      )
                     ))}
                   </div>
                   <FormMessage />
@@ -212,8 +266,90 @@ export default function EditForm({ room }: EditFormPageProps) {
               );
             }}
           />
+          <FormField
+            control={form.control}
+            name="capacity"
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Cantidad de personas</FormLabel>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger className="border-b border-gray-500 bg-transparent">
+                        <SelectValue>{field.value}</SelectValue>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="hover:bg-gray-500 hover:text-black">
+                      <SelectItem value="1">1 persona</SelectItem>
+                      <SelectItem value="2">2 personas</SelectItem>
+                      <SelectItem value="3">3 personas</SelectItem>
+                      <SelectItem value="4">4 personas</SelectItem>
+                      <SelectItem value="5">5 personas</SelectItem>
+                      <SelectItem value="6">6 personas</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Precio de la habitacion</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Ingrese el precio de la habitacion"
+                      className="border-b border-gray-500 bg-transparent"
+                      onKeyDown={(event) => {
+                        // Evita que se ingresen caracteres no numéricos
+                        if (
+                          !(
+                            event.key === "Backspace" || event.key === "Delete"
+                          ) &&
+                          !/\d/.test(event.key)
+                        ) {
+                          event.preventDefault();
+                        }
+                      }}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+          <FormField
+            control={form.control}
+            name="roomType"
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Tipo de Habitacion</FormLabel>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger className="border-b border-gray-500 bg-transparent">
+                        <SelectValue>{field.value}</SelectValue>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="hover:bg-gray-500 hover:text-black">
+                      <SelectItem value="Basico">Basico</SelectItem>
+                      <SelectItem value="Medio">Medio</SelectItem>
+                      <SelectItem value="Gold">Gold</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
           <div className="flex">
-            <AlertEditRoom />
+            <AlertEditRoom onSubmit={() => handleSubmit(form.getValues())} />
           </div>
         </form>
       </Form>
