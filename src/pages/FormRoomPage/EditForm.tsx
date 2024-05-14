@@ -41,6 +41,11 @@ interface Room {
   images: string[];
 }
 
+interface SelectedFile {
+  url: string;
+  id: number;
+}
+
 export interface EditFormPageProps {
   room: Room;
 }
@@ -54,7 +59,7 @@ export default function EditForm({ room }: EditFormPageProps) {
   });
 
   // Utiliza selectedFiles para mantener el estado de las imágenes seleccionadas
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([]);
 
   useEffect(() => {
     const fetchRoomImages = async () => {
@@ -62,7 +67,16 @@ export default function EditForm({ room }: EditFormPageProps) {
         const response = await axios.get(
           `http://localhost:8081/v1/imagen-room/${room.idRoom}/imagenes`
         );
-        form.setValue("multipartFiles", response.data); // Actualiza los archivos en el formulario
+
+        console.log(response.data);
+
+        const files = response.data.map((image: { image_Url: any; id: any; }) => ({
+          file: null,
+          url: image.image_Url,
+          id: image.id
+        }));
+        setSelectedFiles(files);
+        form.setValue("multipartFiles", files.map((file: { name: any; }) => file.name));
       } catch (error) {
         console.error("Error al obtener las imágenes de la habitación:", error);
       }
@@ -73,6 +87,43 @@ export default function EditForm({ room }: EditFormPageProps) {
 
   const idRoom = new URLSearchParams(location.search).get("idRoom");
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const newFiles = Array.from(files).map(file => ({
+        file: file,
+        url: URL.createObjectURL(file)
+      }));
+
+      const remainingFiles = newFiles.length + selectedFiles.length;
+      const fileText = remainingFiles === 1 ? "Archivo" : "Archivos";
+      document.getElementById("file-count")!.innerText = `${remainingFiles} ${fileText}`;
+    }
+  };
+
+  const handleRemoveImage = async (index: number, image_id: number) => {
+    try {
+    
+      // Realizar la solicitud DELETE al servidor para eliminar la imagen de la base de datos
+      await axios.delete(`http://localhost:8081/v1/imagen-room/imagen/${image_id}`);
+    
+      // Eliminar la imagen del estado local
+      const updatedFiles = [...selectedFiles];
+      updatedFiles.splice(index, 1);
+      setSelectedFiles(updatedFiles);
+      console.log("");
+      console.log(updatedFiles);
+  
+      // Actualizar el contador de archivos
+      const remainingFiles = updatedFiles.length;
+      const fileText = remainingFiles === 1 ? "Archivo" : "Archivos";
+      document.getElementById("file-count")!.innerText = `${remainingFiles} ${fileText}`;
+    } catch (error) {
+      console.error("Error al eliminar la imagen:", error);
+    }
+  };
+
+  
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const token = localStorage.getItem("auth_token");
@@ -88,14 +139,6 @@ export default function EditForm({ room }: EditFormPageProps) {
     } catch (error) {
       console.error("Error al crear la sala o cargar imágenes:", error);
     }
-  };
-
-  const handleRemoveImage = (index: number) => {
-    // Elimina la imagen del estado selectedFiles y del formulario
-    const updatedFiles = [...selectedFiles];
-    updatedFiles.splice(index, 1);
-    setSelectedFiles(updatedFiles);
-    form.setValue("multipartFiles", updatedFiles.map(file => file.name));
   };
 
   return (
@@ -142,18 +185,7 @@ export default function EditForm({ room }: EditFormPageProps) {
                         type="file"
                         accept="image/*"
                         multiple
-                        onChange={(event) => {
-                          const files = event.target.files;
-                          if (files) {
-                            const newFiles = Array.from(files);
-                            setSelectedFiles(prevFiles => [...prevFiles, ...newFiles]);
-
-                            // Actualizar el contador de archivos
-                            const remainingFiles = newFiles.length + selectedFiles.length;
-                            const fileText = remainingFiles === 1 ? "Archivo" : "Archivos";
-                            document.getElementById("file-count")!.innerText = `${remainingFiles} ${fileText}`;
-                          }
-                        }}
+                        onChange={handleFileChange}
                         className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                       />
                     </div>
@@ -162,13 +194,13 @@ export default function EditForm({ room }: EditFormPageProps) {
                     {selectedFiles.map((file, index) => (
                       <div key={index} className="relative">
                         <img
-                          src={URL.createObjectURL(file)}
+                          src={file.url}
                           alt={`Imagen ${index}`}
                           className="w-20 h-20 object-cover"
                         />
                         <button
                           className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full text-sm"
-                          onClick={() => handleRemoveImage(index)}
+                          onClick={() => handleRemoveImage(index, file.id)}
                         >
                           X
                         </button>
