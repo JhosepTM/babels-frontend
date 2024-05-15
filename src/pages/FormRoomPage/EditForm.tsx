@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-empty-pattern */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -79,6 +80,7 @@ interface Room {
   capacity: RoomCapacity;
   price: number;
   roomType: RoomType;
+  multipartFiles: any;
   images: string[];
 }
 
@@ -131,7 +133,7 @@ export default function EditForm({ room }: EditFormPageProps) {
     fetchRoomImages();
   }, [room.idRoom, form]);
 
-  const idRoom = new URLSearchParams(location.search).get("idRoom");
+  const idRoom = new URLSearchParams(location.search).get("idRoom") ?? "";
 
 
   const handleRemoveImage = async (index: number) => {
@@ -167,16 +169,52 @@ export default function EditForm({ room }: EditFormPageProps) {
         }
       );
 
-      // Eliminar las imágenes seleccionadas de la base de datos
       await Promise.all(selectedFiles
         .filter(file => file.isRemoved) // Filtra solo las imágenes marcadas como eliminadas
         .map(async (file) => {
           await axios.delete(`http://localhost:8081/v1/imagen-room/imagen/${file.id}`);
         }));
-    } catch (error) {
-      console.error("Error al crear la sala o cargar imágenes:", error);
+
+      // Actualizar selectedFiles eliminando las imágenes marcadas como eliminadas
+      setSelectedFiles(selectedFiles.filter(file => !file.isRemoved));
+
+      //seee
+      const formData = new FormData();
+      formData.append("idRoom", idRoom);
+
+      const files: File[] = [];
+
+      // Iterar sobre el FileList y agregar cada archivo al array files
+      for (let i = 0; i < values.multipartFiles.length; i++) {
+          const file = values.multipartFiles[i];
+          files.push(file);
+      }
+      
+      // Agregar cada archivo al FormData
+      for (let i = 0; i < files.length; i++) {
+          formData.append("multipartFiles", files[i]);
+      }
+
+      if (values.multipartFiles && values.multipartFiles.length > 0) {
+      await axios.post(
+        "http://localhost:8081/v1/imagen-room",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+     }
+      //seee
+
+      // Eliminar las imágenes seleccionadas de la base de datos
+
+    } catch (e) {
     }
   };
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
