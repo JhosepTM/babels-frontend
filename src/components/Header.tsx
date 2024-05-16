@@ -36,61 +36,59 @@ export function Header() {
           {/* Renderiza el botón de inicio solo si no se encuentra en la página de usuario */}
           {location.pathname !== "/muser" && (
             <MenubarMenu>
-              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
-                <Link to="/madmin">
+              <Link to="/madmin">
+                <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
                   <FaHome />
-                </Link>
-                <Link to="/madmin">Inicio</Link>
-              </MenubarTrigger>
+                  Inicio
+                </MenubarTrigger>
+              </Link>
             </MenubarMenu>
           )}
-        {location.pathname !== "/muser" && (
-          <MenubarMenu>
-            <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
+          {location.pathname !== "/muser" && (
+            <MenubarMenu>
               <Link to="/madmin/reservas">
-                <FaBook />
+                <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
+                  <FaBook />
+                  Reservas
+                </MenubarTrigger>
               </Link>
-              <Link to="/madmin/reservas">Reservas</Link>
-            </MenubarTrigger>
-          </MenubarMenu>
-        )}
+            </MenubarMenu>
+          )}
           {showStatsButton && (
             <MenubarMenu>
-              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
-                <Link to="/madmin/rooms">
+              <Link to="/madmin/rooms">
+                <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
                   <FaEdit />
-                </Link>
-                <Link to="/madmin/rooms">Habitaciones</Link>
-              </MenubarTrigger>
+                  Habitaciones
+                </MenubarTrigger>
+              </Link>
             </MenubarMenu>
           )}
           {showAddRoomButton && (
             <MenubarMenu>
-              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
-                <Link to="/madmin/rooms/addroom">
-                  <FaPlus />
-                </Link>
-                <Link to="/madmin/rooms/addroom">Añadir Habitación</Link>
-              </MenubarTrigger>
+              <Link to="/madmin/rooms/addroom">
+                <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
+                  <FaPlus className="mr-2" />
+                  Añadir Habitación
+                </MenubarTrigger>
+              </Link>
             </MenubarMenu>
           )}
           {showStatsButton && (
             <MenubarMenu>
-              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
-                <Link to="">
-                  <FaChartBar />
-                </Link>
-                <Link to="">Estadísticas</Link>
-              </MenubarTrigger>
+              <Link to="" >
+                <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
+                  <FaChartBar className="mr-2" />
+                  Estadísticas
+                </MenubarTrigger>
+              </Link>
             </MenubarMenu>
           )}
           <MenubarMenu>
-            <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
-              <Link to="">
-                <FaSignOutAlt />
-              </Link>
-              <AlertDialogSesion />
-            </MenubarTrigger>
+              <MenubarTrigger className="py-3 px-6 text-lg hover:bg-gray-900 hover:text-white">
+                <FaSignOutAlt className="mr-2" />
+                <AlertDialogSesion/>
+              </MenubarTrigger>
           </MenubarMenu>
         </Menubar>
       </div>

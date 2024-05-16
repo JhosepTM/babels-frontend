@@ -33,11 +33,18 @@ const formSchema = z.object({
       .min(5, { message: "La descripción está vacía o es muy corta" })
       .max(200, { message: "La descripción es muy grande" }),
   
-    multipartFiles: z
+      multipartFiles: z
       .any()
       .refine(
-        (file) => file?.length <= 6,
-        "Por favor, asegúrese de cargar no más de 6 imágenes."
+        (file) => {
+          // Verifica si file es null, undefined o tiene longitud 0
+          if (!file || file.length === 0) {
+            return false; // No cumple la condición de tener al menos una imagen
+          }
+          // Verifica si hay como máximo 6 imágenes
+          return file.length <= 6;
+        },
+        "Por favor, asegúrese de cargar al menos una imagen y no más de 6 imágenes.",
       ),
   
     capacity: z.enum(["1", "2", "3", "4", "5", "6"], {

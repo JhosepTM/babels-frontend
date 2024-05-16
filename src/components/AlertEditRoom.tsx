@@ -20,7 +20,7 @@ export function AlertEditRoom({ onSubmit }: { onSubmit: () => void }) {
 
     setTimeout(() => {
       navigate("/madmin/rooms");
-    }, 2000);
+    }, 4000);
   };
 
   return (
