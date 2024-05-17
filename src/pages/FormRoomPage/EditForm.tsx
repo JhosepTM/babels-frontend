@@ -23,8 +23,9 @@ import { Textarea } from "@/components/ui/textarea";
 const formSchema = z.object({
   nameRoom: z
     .string()
-    .min(5, { message: "El nombre esta vacio o es muy corto" })
-    .max(50, { message: "El nombre es muy grande" }),
+    .min(1, { message: "El nombre esta vacio" })
+    .max(50, { message: "El nombre es muy grande" })
+    .refine(val => val.length >= 1 && val.length <= 50, "File is required"),
 
   description: z
     .string()
@@ -48,7 +49,7 @@ const formSchema = z.object({
 
   price: z
     .string({ required_error: "Ingrese un valor" })
-    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
+    .refine((val) => !Number.isNaN(parseInt(val, 7)), {
       message: "Ingrese un precio",
     }),
 
@@ -109,6 +110,8 @@ export default function EditForm({ room }: EditFormPageProps) {
   // Utiliza selectedFiles para mantener el estado de las imágenes seleccionadas
   const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([]);
 
+  const [numberOfImages, setNumberOfImages] = useState(0);
+
   useEffect(() => {
     const fetchRoomImages = async () => {
       try {
@@ -117,6 +120,7 @@ export default function EditForm({ room }: EditFormPageProps) {
         );
 
         console.log(response.data);
+        setNumberOfImages(response.data.length);
 
         const files = response.data.map((image: { image_Url: any; id: any; }) => ({
           file: null,
@@ -157,6 +161,47 @@ export default function EditForm({ room }: EditFormPageProps) {
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+
+      const isNameEmpty = values.nameRoom.trim() === "";
+      const isDescriptionEmpty = values.description.trim() === "";
+  
+      // Si ambos campos están vacíos, no realices la solicitud PUT y sal de la función
+      if (isNameEmpty || isDescriptionEmpty) {
+        console.log("Los campos de nombre y descripción están vacíos.");
+        return;
+      }
+
+      const Images = numberOfImages;
+
+      const hasImages = values.multipartFiles && values.multipartFiles.length > 0;
+  
+      const removedImages = selectedFiles.filter(file => file.isRemoved);
+  
+      // Obtener el número total de imágenes después de agregar y eliminar
+      const addImages = values.multipartFiles.length;
+      const aux = Images - removedImages.length;
+  
+      console.log("Imágenes de la habitación:", Images);
+      console.log("Imágenes añadidas a la habitación:", addImages);
+      console.log("Imágenes eliminadas de la habitación:", removedImages);
+      console.log("Auxiliar:", aux);
+  
+      let totalImagenesRoomGuardar;
+  
+      if (aux === addImages) {
+        totalImagenesRoomGuardar = addImages;
+      } else {
+        totalImagenesRoomGuardar = Images + addImages - removedImages.length;
+      }
+  
+      console.log("Total imágenes para guardar:", totalImagenesRoomGuardar);
+  
+      // Validar que haya al menos una imagen y no más de 6 imágenes
+      if (!hasImages || totalImagenesRoomGuardar === 0 || totalImagenesRoomGuardar > 6) {
+        console.log("Una habitación debe tener al menos 1 imagen y no más de 6 imágenes.");
+        return;
+      }
+
       // Realizar la solicitud PUT para actualizar la habitación
       const token = localStorage.getItem("auth_token");
       await axios.put(
@@ -211,7 +256,8 @@ export default function EditForm({ room }: EditFormPageProps) {
 
       // Eliminar las imágenes seleccionadas de la base de datos
 
-    } catch (e) {
+    } catch (error) {
+      console.error("Error al editar la habitacion", error)
     }
   };
 
@@ -238,7 +284,7 @@ export default function EditForm({ room }: EditFormPageProps) {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage/>
                 </FormItem>
               );
             }}
@@ -246,6 +292,7 @@ export default function EditForm({ room }: EditFormPageProps) {
           <FormField
             control={form.control}
             name="description"
+            rules={{ required: 'La descripción es obligatoria' }}
             render={({ field }) => {
               return (
                 <FormItem>

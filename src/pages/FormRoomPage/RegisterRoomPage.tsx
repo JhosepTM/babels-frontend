@@ -25,7 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 const formSchema = z.object({
     nameRoom: z
       .string()
-      .min(5, { message: "El nombre está vacío o es muy corto" })
+      .min(1, { message: "El nombre está vacío" })
       .max(50, { message: "El nombre es muy grande" }),
   
     description: z
@@ -45,6 +45,10 @@ const formSchema = z.object({
           return file.length <= 6;
         },
         "Por favor, asegúrese de cargar al menos una imagen y no más de 6 imágenes.",
+      )
+      .refine(
+        (file) => file[0]?.size <= 5000000,
+        `Asegúrese de cargar al menos una imagen con un tamaño máximo de 5MB.`
       ),
   
     capacity: z.enum(["1", "2", "3", "4", "5", "6"], {

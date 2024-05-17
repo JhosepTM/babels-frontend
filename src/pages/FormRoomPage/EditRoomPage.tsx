@@ -35,6 +35,7 @@ interface Room {
   price: number;
   roomType: RoomType;
   images: string[];
+  multipartFiles: any;
 }
 
 
@@ -42,7 +43,6 @@ const EditRoomPage = () => {
   const [room, setRoom] = useState<Room>();
 
   const idRoom = new URLSearchParams(location.search).get('idRoom');
-  console.log(idRoom);
 
   useEffect(() => {
     const getRooms = async () => {

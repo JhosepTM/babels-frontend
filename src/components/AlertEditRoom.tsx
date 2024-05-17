@@ -1,26 +1,31 @@
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
 
-export function AlertEditRoom({ onSubmit }: { onSubmit: () => void }) {
+export function AlertEditRoom({ onSubmit }: { onSubmit: () => Promise<void> }) {
   const navigate = useNavigate();
 
-  const handleSaveAndRedirect = () => {
-    onSubmit();
+  const handleSaveAndRedirect = async () => {
+    try {
+      // Ejecutar la función onSubmit, que debería enviar los cambios al backend
+      await onSubmit();
 
-    setTimeout(() => {
+      // Después de que onSubmit se complete con éxito, redirigir al usuario
       navigate("/madmin/rooms");
-    }, 4000);
+    } catch (error) {
+      console.error("Error al guardar los cambios:", error);
+      // Manejar errores si ocurren durante el proceso de guardar
+    }
   };
 
   return (
