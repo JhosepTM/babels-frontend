@@ -53,11 +53,22 @@ function App() {
           <Route path="/muser" element={<MenuUser />} />
         ) : null}
 
+{isAuthenticated && !isAdmin ? (
+          <Route path="/muser" element={<MenuUser />} />
+        ) : null}
+
         {!isAuthenticated ? (
-          <Route path="/login" element={<LoginPage />} />
+          <>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<ErrorPage />} />
+            {/* Redirect to error page if a non-authenticated user tries to access restricted routes */}
+            <Route path="/madmin/*" element={<ErrorPage />} />
+            <Route path="/muser/*" element={<ErrorPage />} />
+          </>
         ) : (
           <Route path="*" element={<ErrorPage />} />
         )}
+        
         <Route path="/room" element={<FormPage />} />
         <Route path="/boton" element={<PageWithButton />} />
       </Routes>
