@@ -20,14 +20,13 @@ export default function NotFound() {
           <CardTitle className="lg:text-7xl text-4xl">404</CardTitle>
           <CardDescription className="text-lg mt-4">
             Lo sentimos, la página que estás buscando no ha sido encontrada.
-            Puede que la URL esté mal escrita o que la página haya sido
-            eliminada.
+            Puede que la URL esté mal escrita o que no tenga permisos para esta pagina
           </CardDescription>
         </CardHeader>
         <CardFooter className="flex justify-center">
           <Button asChild>
             <Link to="javascript:void(0)" onClick={goBack}>
-              Go Back
+              Regresar
             </Link>
           </Button>
         </CardFooter>

@@ -52,7 +52,7 @@ const MenuPage = () => {
                     <Card className="border-none rounded-lg h-5/6 w-full">
                       <div className="flex flex-col items-start justify-center h-full p-6">
                         <CardTitle className="text-3xl mb-4">
-                          Editar Habitaciones
+                         Habitaciones
                         </CardTitle>
                         <CardDescription className="text-lg mb-8">
                           La función 'Editar Habitación' te brinda el control
