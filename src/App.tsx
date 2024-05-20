@@ -14,6 +14,9 @@ import ErrorPage from "./pages/utils/ErrorPage";
 import AddRoomPage from "./pages/FormRoomPage/AddRoomPage";
 import PageWithButton from "./pages/FormRoomPage/PageWithButton";
 import EditRoomPage from "./pages/FormRoomPage/EditRoomPage";
+import { BarChartPage } from "./pages/ReservationChartPage";
+import { GraphicsBar } from "./pages/SideBarPage";
+import GraphicsPanel from "./pages/GraphicsPanel";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,13 +43,23 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/jodem" element={<GraphicsPanel />} />
+        <Route
+          path="/bookings"
+          element={<GraphicsBar itemActive="bookings" />}
+        />
+        <Route path="/revenue" element={<GraphicsBar itemActive="revenue" />} />
+        <Route path="/occ" element={<GraphicsBar itemActive="occ" />} />
+        <Route path="/adr" element={<GraphicsBar itemActive="adr" />} />
+        <Route path="/revpar" element={<GraphicsBar itemActive="revpar" />} />
+        <Route path="/bar" element={<BarChartPage />} />
         {isAuthenticated && isAdmin ? (
           <>
             <Route path="/madmin" element={<Menu />} />
             <Route path="/madmin/reservas" element={<BookingPage />} />
             <Route path="/madmin/rooms" element={<RoomsPage />} />
             <Route path="/madmin/rooms/addroom" element={<AddRoomPage />} />
-            <Route path="/madmin/rooms/editroom" element={<EditRoomPage />} />           
+            <Route path="/madmin/rooms/editroom" element={<EditRoomPage />} />
           </>
         ) : null}
         {isAuthenticated && !isAdmin ? (
