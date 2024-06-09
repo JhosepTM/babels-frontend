@@ -43,111 +43,64 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
-const data: Payment[] = [
+import { getAllBookingDetailRecord, getAllBookingDetailReserved } from "@/modules/booking/services/booking-service"
+import { BookingDetailDialog } from "./BookingDetailDialog"
+import { typeBookingDetail } from "@/modules/booking/enums/booking-enum"
+import { BookingDetailModel } from "@/modules/booking/models/booking"
+const data: RecordData[] = [
     {
-        id: "m5gr84i9",
-        bookingCode: "dwimcle",
-        name: "Jose Luis Paredes",
-        room: "#12",
-        dateStart: "01/10/24",
-        dateFinish: "01/10/24",
-        amount: 316,
-        status: "success",
-        email: "ken99@yahoo.com",
+        code: "DSLDF-D",
+        name: "Maria magdalena",
+        ci: "4343434",
+        createdAt: "23-04-24"
     },
     {
-        id: "3u1reuv4",
-        bookingCode: "dwimcle",
-        name: "Jose Luis Paredes",
-        room: "#12",
-        dateStart: "01/10/24",
-        dateFinish: "01/10/24",
-        amount: 242,
-        status: "success",
-        email: "Abe45@gmail.com",
-    },
-    {
-        id: "derv1ws0",
-        bookingCode: "dwimcle",
-        name: "Jose Luis Paredes",
-        room: "#12",
-        dateStart: "01/10/24",
-        dateFinish: "01/10/24",
-        amount: 837,
-        status: "processing",
-        email: "Monserrat44@gmail.com",
-    },
-    {
-        id: "5kma53ae",
-        bookingCode: "dwimcle",
-        name: "Jose Luis Paredes",
-        room: "#12",
-        dateStart: "01/10/24",
-        dateFinish: "01/10/24",
-        amount: 874,
-        status: "success",
-        email: "Silas22@gmail.com",
-    },
-    {
-        id: "bhqecj4p",
-        bookingCode: "dwimcle",
-        name: "Jose Luis Paredes",
-        room: "#12",
-        dateStart: "01/10/24",
-        dateFinish: "01/10/24",
-        amount: 721,
-        status: "failed",
-        email: "carmella@hotmail.com",
+        code: "DSLDF-D",
+        name: "Maria magdalena",
+        ci: "4343434",
+        createdAt: "23-04-24"
     },
 ]
 
-export type Payment = {
-    id: string
-    bookingCode: string
-    name: string
-    room: string
-    dateStart: string
-    dateFinish: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
-}
+// export type Payment = {
+//     id: string
+//     bookingCode: string
+//     name: string
+//     room: string
+//     dateStart: string
+//     dateFinish: string
+//     amount: number
+//     status: "pending" | "processing" | "success" | "failed"
+//     email: string
+// }
 
-export const columns: ColumnDef<Payment>[] = [
+export type RecordData = { code: string, name: string, ci: string, createdAt: string, amount: string, bookingDetailModel: BookingDetailModel}
+
+export const columns: ColumnDef<RecordData>[] = [
     {
         accessorKey: "name",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Nombre huésped
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
+        header: "Nombre huésped",
         cell: ({ row }) => <div>{row.getValue("name")}</div>,
     },
     {
-        accessorKey: "room",
-        header: "N° Habitación(es)",
+        accessorKey: "code",
+        header: "Código de la reserva",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("room")}</div>
+            <div className="capitalize">{row.getValue("code")}</div>
         ),
     },
     {
-        accessorKey: "dateStart",
-        header: "Fecha de Entrada",
+        accessorKey: "ci",
+        header: "CI / Passport",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("dateStart")}</div>
+            <div className="capitalize">{row.getValue("ci")}</div>
         ),
     },
     {
-        accessorKey: "dateFinish",
-        header: "Fecha de Salida",
+        accessorKey: "createdAt",
+        header: "Fecha de Creación",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("dateFinish")}</div>
+            <div className="capitalize">{row.getValue("createdAt")}</div>
         ),
     },
     {
@@ -166,33 +119,12 @@ export const columns: ColumnDef<Payment>[] = [
         },
     },
     {
-        id: "actions",
+        accessorKey: "bookingDetailModel",
         enableHiding: false,
+        header: () => <div className="text-center">Acciones</div>,
         cell: ({ row }) => {
-            const payment = row.original
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <ViewIcon className="h-4 w-4" />
-
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
-                        >
-                            Copy payment ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
+            const detail = row.getValue("bookingDetailModel") as BookingDetailModel
+            return <div className="text-center"><BookingDetailDialog bookingDetailModel={detail} type={typeBookingDetail.FINALIZADO} idBooking={0} recargarLista={()=>null}/></div>
         },
     },
 ]
@@ -205,9 +137,10 @@ export function BookingRecord() {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
+    const [listBooking, setListBooking] = React.useState<RecordData[]>([])
 
-    const table = useReactTable({
-        data,
+    const table = useReactTable<RecordData>({
+        data: listBooking,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -224,16 +157,40 @@ export function BookingRecord() {
             rowSelection,
         },
     })
+
     const [date, setDate] = React.useState<Date>()
+
+    React.useEffect(() => {
+        cargarHabitaciones()
+    }, [])
+
+    const cargarHabitaciones = async () => {
+        const lista = await getAllBookingDetailRecord("")
+        const res: RecordData[] = []
+        lista.forEach((e) => {
+            const aux: RecordData = {
+                code: e.code,
+                name: e.customerBooking.firstName,
+                ci: e.customerBooking.ci,
+                createdAt: e.createdAt.toString(),
+                amount: e.code,
+                bookingDetailModel: e
+            }
+
+            res.push(aux)
+        })
+        setListBooking(res);
+    }
+
     return (
         <div className="w-full mx-10">
             <h2 className="font-bold mt-6 mb-4 text-2xl">Historial de reservas</h2>
             <div className="flex items-center py-4 gap-2">
                 <Input
                     placeholder="Filtrar por nombre de huésped o #habitación"
-                    value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+                    value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("email")?.setFilterValue(event.target.value)
+                        table.getColumn("name")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
