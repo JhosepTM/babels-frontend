@@ -11,15 +11,10 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal, ViewIcon } from "lucide-react"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
@@ -31,9 +26,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Label } from "@/components/ui/label"
 import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar as CalendarIcon, ChevronDown } from "lucide-react"
  
 import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
@@ -43,36 +37,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
-import { getAllBookingDetailRecord, getAllBookingDetailReserved } from "@/modules/booking/services/booking-service"
+import { getAllBookingDetailRecord } from "@/modules/booking/services/booking-service"
 import { BookingDetailDialog } from "./BookingDetailDialog"
 import { typeBookingDetail } from "@/modules/booking/enums/booking-enum"
 import { BookingDetailModel } from "@/modules/booking/models/booking"
-const data: RecordData[] = [
-    {
-        code: "DSLDF-D",
-        name: "Maria magdalena",
-        ci: "4343434",
-        createdAt: "23-04-24"
-    },
-    {
-        code: "DSLDF-D",
-        name: "Maria magdalena",
-        ci: "4343434",
-        createdAt: "23-04-24"
-    },
-]
 
-// export type Payment = {
-//     id: string
-//     bookingCode: string
-//     name: string
-//     room: string
-//     dateStart: string
-//     dateFinish: string
-//     amount: number
-//     status: "pending" | "processing" | "success" | "failed"
-//     email: string
-// }
 
 export type RecordData = { code: string, name: string, ci: string, createdAt: string, amount: string, bookingDetailModel: BookingDetailModel}
 

@@ -38,7 +38,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
 import { CalendarIcon } from "lucide-react"
-import { createBooking } from "@/modules/booking/services/booking-service"
 import generateTicket from "@/modules/booking/utils/Ticket"
 import { EmailModel } from "@/modules/booking/models/email"
 import { sendEmailCustomer } from "@/modules/booking/services/send-email-service"
@@ -67,7 +66,7 @@ export const BookingRoomDialog = ({disabled = false, listRooms, deleteRoom, gene
     const [base64, setBase64] = useState('')
     const [message, setMessage] = useState('')
 
-    const onGenerateTicket = async (output) => {
+    const onGenerateTicket = async (output: string) => {
         setMessage('');
     
         const response = await generateTicket(output, assingCustomersRoom);
@@ -135,6 +134,7 @@ export const BookingRoomDialog = ({disabled = false, listRooms, deleteRoom, gene
         //         console.log(room.nameRoom)
         //     }
         // })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[listRooms])
 
     return <Dialog open={open} onOpenChange={(e)=>{

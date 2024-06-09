@@ -1,13 +1,10 @@
-import { Button } from "@/components/ui/button"
 import {
     ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import { useEffect, useState } from "react"
-import { RoomModel } from "@/modules/booking/models/room"
-import { RoomCheckout } from "./RoomCheckout"
-import { getAllBookingDetailReserved, getRoomsByStateAndType } from "@/modules/booking/services/booking-service"
+import { getAllBookingDetailReserved } from "@/modules/booking/services/booking-service"
 import { RowRoomItem } from "./RowRoomItem"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"

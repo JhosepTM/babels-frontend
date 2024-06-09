@@ -9,7 +9,7 @@ import { RoomItem } from "./RoomItem"
 import { useEffect, useState } from "react"
 import { RoomModel } from "@/modules/booking/models/room"
 import { getRoomsByStateAndType } from "@/modules/booking/services/booking-service"
-import { CustomerModel, CustomerRoomModel } from "@/modules/booking/models/customer"
+import { CustomerRoomModel } from "@/modules/booking/models/customer"
 
 export const AvailableRooms = () => {
     const [paginaHabitacion, setPaginaHabitacion] = useState(1)
