@@ -56,6 +56,7 @@ function App() {
         {isAuthenticated && isAdmin ? (
           <>
             <Route path="/madmin" element={<Menu />} />
+            <Route path="/madmin/reservas" element={<BookingPage />} />
             <Route path="/madmin/rooms" element={<RoomsPage />} />
             <Route path="/madmin/rooms/addroom" element={<AddRoomPage />} />
             <Route path="/madmin/rooms/editroom" element={<EditRoomPage />} />
@@ -65,12 +66,22 @@ function App() {
           <Route path="/muser" element={<MenuUser />} />
         ) : null}
 
+{isAuthenticated && !isAdmin ? (
+          <Route path="/muser" element={<MenuUser />} />
+        ) : null}
+
         {!isAuthenticated ? (
-          <Route path="/login" element={<LoginPage />} />
+          <>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<ErrorPage />} />
+            {/* Redirect to error page if a non-authenticated user tries to access restricted routes */}
+            <Route path="/madmin/*" element={<ErrorPage />} />
+            <Route path="/muser/*" element={<ErrorPage />} />
+          </>
         ) : (
           <Route path="*" element={<ErrorPage />} />
         )}
-        <Route path="/reservas" element={<BookingPage />} />
+        
         <Route path="/room" element={<FormPage />} />
         <Route path="/boton" element={<PageWithButton />} />
       </Routes>
