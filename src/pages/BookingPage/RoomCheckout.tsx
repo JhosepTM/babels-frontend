@@ -9,7 +9,7 @@ export const RoomCheckout = ({room}: RoomCheckoutProps) => {
     return (
         <Card className={`w-auto p-2 hover:scale-105`}>
             <CardHeader>
-                <CardTitle>Habitación #{room.numberRoom}</CardTitle>
+                <CardTitle>Habitación {room.nameRoom}</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="flex flex-col justify-between">

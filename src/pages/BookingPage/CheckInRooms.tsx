@@ -4,14 +4,14 @@ import {
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import { useEffect, useState } from "react"
-import { getAllBookingDetailOccupied} from "@/modules/booking/services/booking-service"
+import { getAllBookingDetailReserved } from "@/modules/booking/services/booking-service"
 import { RowRoomItem } from "./RowRoomItem"
-import { BookingDetailModel } from "@/modules/booking/models/booking"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
+import { BookingDetailModel } from "@/modules/booking/models/booking"
 import { typeBookingDetail } from "@/modules/booking/enums/booking-enum"
 
-export const OccupiedRooms = () => {
+export const CheckInRooms = () => {
     const [listRoom, setListRoom] = useState<BookingDetailModel[]>([])
     const [valueSearch, setValueSearch] = useState('')
 
@@ -22,7 +22,7 @@ export const OccupiedRooms = () => {
     },[valueSearch])
 
     const cargarHabitaciones = async ()=>{
-        const lista = await getAllBookingDetailOccupied(valueSearch)
+        const lista = await getAllBookingDetailReserved(valueSearch)
         setListRoom(lista);
     }
     return (
@@ -33,13 +33,13 @@ export const OccupiedRooms = () => {
         >
             <ResizablePanel defaultSize={10} minSize={10} maxSize={10}>
                 <div className="flex h-full items-center justify-center p-6 bg-black">
-                    <span className="font-semibold text-white">Habitaciones Ocupadas</span>
+                    <span className="font-semibold text-white">Marcar Entrada</span>
                 </div>
             </ResizablePanel>
             <ResizableHandle />
             <ResizablePanel defaultSize={90} minSize={90} maxSize={90}>
                 <ResizablePanelGroup direction="vertical">
-                <ResizablePanel defaultSize={12} minSize={12} maxSize={12}>
+                    <ResizablePanel defaultSize={12} minSize={12} maxSize={12}>
                         <div className="flex gap-2 pt-3 p-5">
                             <h2 className="mb-2 text-lg font-semibold tracking-tight">Buscar reserva</h2>
                             <div className="relative">
@@ -61,11 +61,16 @@ export const OccupiedRooms = () => {
                                 <div className="h-full md:p-1 xl:p-2 overflow-auto">
                                     {
                                         listRoom.length > 0
-                                        ? listRoom.map((e, i)=><RowRoomItem key={`row-item-${i}`} bookingDetailModel={e} type={typeBookingDetail.OCUPADO} idBooking={e.idBooking} recargarLista={async ()=>{
-                                            setListRoom([])
-                                            await cargarHabitaciones()
-                                        }}/>)
-                                        : <p className="text-center">No hay elementos para mostrar</p>
+                                        ? listRoom.map((e, i)=><RowRoomItem 
+                                                key={`row-item-${i}`} 
+                                                bookingDetailModel={e} 
+                                                type={typeBookingDetail.RESERVADO}
+                                                idBooking={e.idBooking}
+                                                recargarLista={async ()=>{
+                                                    setListRoom([])
+                                                    await cargarHabitaciones()
+                                                }}/>)
+                                        : <p className="text-center">No hay elmentos para mostrar</p>
                                     }
                                 </div>
                             </ResizablePanel>
