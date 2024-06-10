@@ -97,6 +97,7 @@ function App() {
         <Route path="/boton" element={<PageWithButton />} />
       </Routes>
     </Router>
+    </QueryClientProvider>
   );
 }
 
