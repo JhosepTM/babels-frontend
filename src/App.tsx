@@ -14,9 +14,12 @@ import ErrorPage from "./pages/utils/ErrorPage";
 import AddRoomPage from "./pages/FormRoomPage/AddRoomPage";
 import PageWithButton from "./pages/FormRoomPage/PageWithButton";
 import EditRoomPage from "./pages/FormRoomPage/EditRoomPage";
-import { BarChartPage } from "./pages/ReservationChartPage";
-import { GraphicsBar } from "./pages/SideBarPage";
+import { SideBar } from "./pages/SideBarPage";
 import GraphicsPanel from "./pages/GraphicsPanel";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/sonner";
+
+const queryClient = new QueryClient();
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -41,34 +44,42 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/jodem" element={<GraphicsPanel />} />
-        <Route
-          path="/bookings"
-          element={<GraphicsBar itemActive="bookings" />}
-        />
-        <Route path="/revenue" element={<GraphicsBar itemActive="revenue" />} />
-        <Route path="/occ" element={<GraphicsBar itemActive="occ" />} />
-        <Route path="/adr" element={<GraphicsBar itemActive="adr" />} />
-        <Route path="/revpar" element={<GraphicsBar itemActive="revpar" />} />
-        <Route path="/bar" element={<BarChartPage />} />
-        {isAuthenticated && isAdmin ? (
-          <>
-            <Route path="/madmin" element={<Menu />} />
-            <Route path="/madmin/reservas" element={<BookingPage />} />
-            <Route path="/madmin/rooms" element={<RoomsPage />} />
-            <Route path="/madmin/rooms/addroom" element={<AddRoomPage />} />
-            <Route path="/madmin/rooms/editroom" element={<EditRoomPage />} />
-          </>
-        ) : null}
-        {isAuthenticated && !isAdmin ? (
-          <Route path="/muser" element={<MenuUser />} />
-        ) : null}
-
-{isAuthenticated && !isAdmin ? (
-          <Route path="/muser" element={<MenuUser />} />
-        ) : null}
+    <QueryClientProvider client={queryClient}>
+      <Toaster theme="light" />
+      <Router>
+        <Routes>
+          <Route path="/charts" element={<GraphicsPanel />} />
+          <Route path="/bookings" element={<SideBar itemActive="bookings" />} />
+          <Route path="/revenue" element={<SideBar itemActive="revenue" />} />
+          <Route path="/occ" element={<SideBar itemActive="occ" />} />
+          <Route path="/adr" element={<SideBar itemActive="adr" />} />
+          <Route
+            path="/revpar-trevpar"
+            element={<SideBar itemActive="revpar-trevpar" />}
+          />
+          <Route path="/goppar" element={<SideBar itemActive="goppar" />} />
+          <Route path="/bar" element={<SideBar itemActive="bar" />} />
+          <Route
+            path="/revenueAll"
+            element={<SideBar itemActive="revenueAll" />}
+          />
+          <Route
+            path="/expenseAll"
+            element={<SideBar itemActive="expenseAll" />}
+          />
+          <Route path="/report" element={<SideBar itemActive="report" />} />
+          {isAuthenticated && isAdmin ? (
+            <>
+              <Route path="/madmin" element={<Menu />} />
+              <Route path="/madmin/reservas" element={<BookingPage />} />
+              <Route path="/madmin/rooms" element={<RoomsPage />} />
+              <Route path="/madmin/rooms/addroom" element={<AddRoomPage />} />
+              <Route path="/madmin/rooms/editroom" element={<EditRoomPage />} />
+            </>
+          ) : null}
+          {isAuthenticated && !isAdmin ? (
+            <Route path="/muser" element={<MenuUser />} />
+          ) : null}
 
         {!isAuthenticated ? (
           <>

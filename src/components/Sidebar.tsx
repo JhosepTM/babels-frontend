@@ -1,5 +1,6 @@
 import { useSidebarStore } from "@/stores/useSidebarStore";
 import { ChevronFirst, ChevronLast } from "lucide-react";
+import logo from "../assets/images/logo.png";
 
 interface SidebarProps {
   children?: React.ReactNode;
@@ -13,7 +14,7 @@ export const Sidebar = ({ children = null }: SidebarProps) => {
       <nav className="h-full flex flex-col bg-white dark:bg-dark-tremor-background-subtle border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <img
-            src="https://img.logoipsum.com/243.svg"
+            src={logo}
             className={`overflow-hidden transition-all ${
               isExpanded ? "w-32" : "w-0"
             }`}

@@ -1,7 +1,7 @@
 import { Sidebar } from "../components/Sidebar";
 import { SidebarItem } from "../components/SidebarItem";
 import { useSidebarStore } from "../stores/useSidebarStore";
-import { BarChartPage } from "./ReservationChartPage";
+import { ReservationChartPage } from "./ReservationChartPage";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   LifeBuoy,
@@ -16,11 +16,22 @@ import {
   TicketPercent,
   CalendarRange,
   TrendingUp,
+  LineChart,
+  PieChart,
+  DollarSign,
+  Download,
+  BookDown,
 } from "lucide-react";
 import { RevenueChartPage } from "./RevenueChartPage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { OccupancyRatePage } from "./OccupancyRatePage";
+import { AvailableDailyRatePage } from "./AvailableDailyRatePage";
+import { RevenueAvailablePage } from "./RevenueAvailableRage";
+import { GrossOperatingPage } from "./GrossOperatingPage";
+import { RevenuePage } from "./RevenuePage";
+import { ExpensePage } from "./ExpensePage";
+import { ExportPage } from "./ExportPage";
 
 interface SidebarItem {
   value: string;
@@ -45,81 +56,69 @@ const sidebarItems: SidebarItem[][] = [
       icon: <CalendarRange size={20} />,
       text: "ADR",
       alert: false,
-      child: <h1>Average Daily Rate</h1>,
+      child: <AvailableDailyRatePage />,
     },
     {
-      value: "revpar",
+      value: "revpar-trevpar",
       icon: <TrendingUp size={20} />,
       text: "RevPAR",
       alert: false,
-      child: <h1>Revenue Per Available Room</h1>,
+      child: <RevenueAvailablePage />,
+    },
+    {
+      value: "goppar",
+      icon: <PieChart size={20} />,
+      text: "GopPAR",
+      alert: false,
+      child: <GrossOperatingPage />,
     },
     {
       value: "bookings",
       icon: <BarChart3 size={20} />,
-      text: "Bookings",
+      text: "Reservas",
       alert: false,
-      child: <BarChartPage />,
+      child: <ReservationChartPage />,
     },
     {
       value: "revenue",
       icon: <CircleDollarSign size={20} />,
-      text: "Revenue",
+      text: "Reservas",
       alert: false,
       child: <RevenueChartPage />,
     },
   ],
   [
     {
-      value: "dashboard",
-      icon: <LayoutDashboard size={20} />,
-      text: "Dashboard",
-      alert: true,
-      child: <h1>DashBoard</h1>,
-    },
-    {
-      value: "analytics",
-      icon: <BarChart3 size={20} />,
-      text: "Analytics",
+      value: "revenueAll",
+      icon: <DollarSign size={20} />,
+      text: "Ingresos",
       alert: false,
-      child: <h1>Analytics</h1>,
+      child: <RevenuePage />,
     },
     {
-      value: "customers",
-      icon: <UserCircle size={20} />,
-      text: "Customers",
-      alert: false,
-      child: <h1>Customers</h1>,
-    },
-    {
-      value: "inventory",
-      icon: <Boxes size={20} />,
-      text: "Inventory",
-      alert: false,
-      child: <h1>Inventory</h1>,
-    },
-    {
-      value: "orders",
-      icon: <Package size={20} />,
-      text: "Orders",
-      alert: false,
-      child: <h1>Orders</h1>,
-    },
-    {
-      value: "billings",
+      value: "expenseAll",
       icon: <Receipt size={20} />,
-      text: "Billings",
+      text: "Gastos",
       alert: false,
-      child: <h1>Billings</h1>,
+      child: <ExpensePage />,
+    },
+  ],
+  [
+    {
+      value: "report",
+      icon: <BookDown size={20} />,
+      text: "Reporte",
+      alert: false,
+      child: <ExportPage />,
     },
   ],
 ];
 
-interface GraphicsBarProps {
+interface SideBarProps {
   itemActive?: string;
 }
 
-export const GraphicsBar: React.FC<GraphicsBarProps> = ({
+export const SideBar: React.FC<SideBarProps> = ({
   itemActive = "bookings",
 }) => {
   const searchChild = (value: string) => {

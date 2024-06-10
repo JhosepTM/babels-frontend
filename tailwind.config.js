@@ -23,6 +23,9 @@ module.exports = {
     transparent: "transparent",
     current: "currentColor",
     extend: {
+      animation: {
+        spin: 'spin 1s linear infinite',
+      },
       colors: {
         // light mode
         tremor: {
