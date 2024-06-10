@@ -1,11 +1,7 @@
-import { ComponentType } from "react";
-
-interface Component {
-  className?: string;
-}
+import { ReactNode } from "react";
 
 export interface ToolItem {
   title: string;
-  img: ComponentType<Component>;
+  img: ReactNode;
   onClick: () => void;
 }

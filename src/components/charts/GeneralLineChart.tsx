@@ -7,12 +7,14 @@ interface GeneralLineChartProps {
   index: string;
   stacked?: boolean;
   categories: string[];
-  colors: string[];
+  colors: string[] | string;
   showLegend?: boolean;
+  showAnimation?: boolean;
   curveType?: "step" | "linear" | "natural" | "monotone";
   yAxisWidth?: number;
   valueFormatter?: (number: number) => string;
   selectable?: boolean;
+  customTooltip?: any;
 }
 
 export const GeneralLineChart = ({
@@ -22,34 +24,38 @@ export const GeneralLineChart = ({
   categories,
   colors,
   showLegend = true,
+  showAnimation,
   curveType = "linear",
   yAxisWidth,
   valueFormatter,
   selectable,
+  customTooltip,
 }: GeneralLineChartProps) => {
   const [value, setValue] = useState<EventProps>(null);
 
   return (
     <>
       {title && (
-        <h3 className="2xl:text-tremor-title text-tremor-content-strong xl:text-tremor-title lg:text-tremor-title md:text-tremor-label">
+        <h3 className="2xl:text-md text-md font-semibold xl:text-lg lg:text-lg md:text-sm">
           {title}
         </h3>
       )}
       <LineChart
         className={`w-full ${title ? "h-[90%]" : "h-full"} ${
-          !showLegend ? "mt-2 h-[85%]" : ""
+          !showLegend ? "mt-4 h-[85%]" : ""
         }`}
         data={data}
         index={index}
         categories={categories}
-        colors={colors}
+        colors={Array.isArray(colors) ? colors : [colors]}
         showLegend={showLegend}
+        showAnimation={showAnimation}
         curveType={curveType}
         yAxisWidth={yAxisWidth}
         valueFormatter={valueFormatter}
         onValueChange={selectable ? (value) => setValue(value) : undefined}
         intervalType="preserveStartEnd"
+        customTooltip={customTooltip}
       />
     </>
   );

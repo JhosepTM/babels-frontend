@@ -1,5 +1,7 @@
-import { DonutChart, List, ListItem } from "@tremor/react";
+import { DonutChart } from "@tremor/react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { badgeColor } from "@/utils/General";
+import { Separator } from "@/components/ui/separator";
 
 interface DonutChartVerticalProps {
   title?: string;
@@ -8,23 +10,12 @@ interface DonutChartVerticalProps {
   data: any[];
   index: string;
   category: string;
-  colors: string[];
+  colors: string[] | string;
   valueFormatter?: (number: number) => string;
+  formatList?: boolean;
   selectable?: boolean;
+  showAnimation?: boolean;
 }
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
-const currencyFormatter = (number: number) => {
-  const formatted = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(number);
-
-  return formatted;
-};
 
 export const DonutChartVertical = ({
   title,
@@ -35,12 +26,14 @@ export const DonutChartVertical = ({
   category,
   colors,
   valueFormatter,
+  formatList,
   selectable,
+  showAnimation,
 }: DonutChartVerticalProps) => {
   return (
     <div className="w-full h-full flex flex-col justify-between">
       {title && (
-        <h3 className="2xl:text-tremor-title text-tremor-content-strong xl:text-tremor-title lg:text-tremor-title md:text-tremor-label text-tremor-content dark:text-dark-tremor-content">
+        <h3 className="2xl:text-md text-md font-semibold xl:text-lg lg:text-lg md:text-sm">
           {title}
         </h3>
       )}
@@ -51,43 +44,51 @@ export const DonutChartVertical = ({
           category={category}
           index={index}
           valueFormatter={valueFormatter}
-          colors={colors}
+          colors={Array.isArray(colors) ? colors : [colors]}
           onValueChange={selectable ? (value) => console.log(value) : undefined}
+          showAnimation={showAnimation}
         />
       </div>
-      <div>
+      <div className="px-5">
         <p className="mt-3 flex items-center justify-between text-tremor-label text-tremor-content dark:text-dark-tremor-content">
           <span className="w-[140px] overflow-hidden text-overflow-ellipsis whitespace-nowrap">
             {listTitle}
           </span>
-          <span className="w-[140px] overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+          <span className="w-[55px] overflow-hidden text-overflow-ellipsis whitespace-nowrap">
             {listValue}
           </span>
         </p>
-        <ScrollArea className="2xl:h-[180px] xl:h-[160px] lg:h-[120px] md:h-[90px]">
-          <List className="mt-2">
-            {data.map((item) => (
-              <ListItem key={item.type} className="space-x-6">
-                <div className="flex items-center space-x-2.5 truncate">
-                  <span
-                    className={classNames(
-                      item.color,
-                      "h-2.5 w-2.5 shrink-0 rounded-sm"
-                    )}
-                    aria-hidden={true}
-                  />
-                  <span className="truncate dark:text-dark-tremor-content-emphasis">
-                    {item.type}
-                  </span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="font-medium tabular-nums text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                    {currencyFormatter(item.revenue)}
-                  </span>
-                </div>
-              </ListItem>
-            ))}
-          </List>
+        <ScrollArea className="2xl:h-[130px] xl:h-[120px] lg:h-[120px] md:h-[90px]">
+          <div className="my-4 mx-2">
+            {data.map((item, keyV) => {
+              return (
+                <>
+                  <div
+                    key={keyV}
+                    className="flex items-center justify-between mt-2 text-tremor-label text-tremor-content dark:text-dark-tremor-content"
+                  >
+                    <div className="flex space-x-3">
+                      <span
+                        className={`bg-${colors[keyV]} ${badgeColor(
+                          "rounded"
+                        )}`}
+                        aria-hidden={true}
+                      />
+                      <p className="text-sm 2xl:w-[100px] xl:w-[80px] lg:w-[90px] md:w-[70px] overflow-hidden text-overflow-ellipsis whitespace-nowrap">
+                        {item[index]}
+                      </p>
+                    </div>
+                    <p className="text-sm ">
+                      {formatList && valueFormatter
+                        ? valueFormatter(item[category])
+                        : item[category]}
+                    </p>
+                  </div>
+                  <Separator />
+                </>
+              );
+            })}
+          </div>
         </ScrollArea>
       </div>
     </div>

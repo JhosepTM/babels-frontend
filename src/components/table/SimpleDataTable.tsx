@@ -46,7 +46,11 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className="text-center">
+                  <TableHead
+                    key={header.id}
+                    className="text-center"
+                    colSpan={header.colSpan}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -91,6 +95,9 @@ interface SimpleDataTableProps<T> {
   data: T[];
 }
 
-export const SimpleDataTable = <T,>({ columns, data }: SimpleDataTableProps<T>) => {
+export const SimpleDataTable = <T,>({
+  columns,
+  data,
+}: SimpleDataTableProps<T>) => {
   return <DataTable columns={columns} data={data} />;
 };
